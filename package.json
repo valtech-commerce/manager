@@ -1,6 +1,6 @@
 {
   "name": "@absolunet/manager",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Manager for Node.js projects",
   "definition": "",
   "homepage": "https://github.com/absolunet/node-manager",
