@@ -18,7 +18,7 @@ $ npm install @absolunet/manager
 
 ## Usage for multi-packages repository
 
-In a `scripts.js` file
+In a `manager.js` file
 ```js
 const manager = require('@absolunet/manager');
 
@@ -28,9 +28,10 @@ manager.multiScriptsRunner();
 In your `package.json` file
 ```json
 "scripts": {
-	"install": "rm -rf packages/*/package-lock.json; lerna clean --yes; lerna bootstrap --no-ci",
-	"bump":    "node scripts.js --task=bump",
-	"publish": "node scripts.js --task=publish"
+  "postinstall": "rm -rf packages/*/package-lock.json; lerna clean --yes; lerna bootstrap --no-ci",
+  "outdated": "node manager.js --task=outdated",
+  "build": "node manager.js --task=build",
+  "deploy": "node manager.js --task=deploy"
 }
 ```
 
