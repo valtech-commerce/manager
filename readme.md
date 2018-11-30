@@ -38,10 +38,32 @@ In your `package.json` file
 
 ## API
 
-### multiScriptsRunner()
+### version
+
+Main project version (from `lerna.json` for multi-packages)
+
+
+### multiScriptsRunner(*[options]*)
 
 Bootstraps the CLI runner.
 
+####  options.tasks
+
+Type: `Object` <br>
+List of scripts name with `preRun` and `postRun` hooks to call before and after the script
+
+Example:
+```
+{
+	build: {
+		postRun: async () => {}
+	},
+	deploy: {
+		preRun:  async () => {},
+		postRun: async () => {}
+	}
+}
+```
 
 
 

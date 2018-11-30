@@ -8,8 +8,12 @@ const multi = require('./lib/multi');
 
 class Manager {
 
-	async multiScriptsRunner() {
-		await multi.scriptsRunner();
+	get version() {
+		return multi.version;
+	}
+
+	async multiScriptsRunner(options) {
+		await multi.scriptsRunner(options);
 	}
 
 }
