@@ -28,7 +28,7 @@ manager.multiScriptsRunner();
 In your `package.json` file
 ```json
 "scripts": {
-  "postinstall": "rm -rf packages/*/package-lock.json; lerna clean --yes; lerna bootstrap --no-ci",
+  "postinstall": "rm -rf packages/*/package-lock.json; lerna clean --yes; lerna bootstrap --no-ci; node manager.js --task=install",
   "outdated": "node manager.js --task=outdated",
   "build": "node manager.js --task=build",
   "deploy": "node manager.js --task=deploy"
@@ -43,7 +43,10 @@ In your `package.json` file
 Main project version (from `lerna.json` for multi-packages)
 
 
-### multiScriptsRunner(*[options]*)
+
+<br>
+
+### multiScriptsRunner(*[options]*) *async*
 
 Bootstraps the CLI runner.
 
@@ -66,6 +69,44 @@ Example:
 ```
 
 
+
+<br>
+
+### updatePackageMeta(*[options]*) *async*
+Updates Node version and license
+
+####  options.path
+Type: `String` <br>
+Path where the `package.json` and `license` files are
+
+
+
+<br>
+
+### testOutdated(*[options]*) *async*
+Lists outdated packages
+
+####  options.path
+Type: `String` <br>
+Path where the `package.json` file is
+
+
+
+<br>
+
+### installPackage(*[options]*) *async*
+Reinstall packages
+
+####  options.path
+Type: `String` <br>
+Path where the `package.json` file is
+
+
+
+
+
+
+<br><br>
 
 ## License
 
