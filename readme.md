@@ -28,7 +28,7 @@ manager.singleScriptsRunner();
 In your `package.json` file
 ```json
 "scripts": {
-  "postinstall": "node manager.js --task=install",
+  "installer": "node manager.js --task=install",
   "outdated": "node manager.js --task=outdated",
   "build": "node manager.js --task=build",
   "deploy": "node manager.js --task=deploy"

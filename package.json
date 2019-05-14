@@ -1,6 +1,6 @@
 {
   "name": "@absolunet/manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manager for Node.js projects",
   "definition": "",
   "homepage": "https://github.com/absolunet/node-manager",
@@ -26,7 +26,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ava test",
-    "postinstall": "node manager.js --task=install",
+    "installer": "node manager.js --task=install",
     "outdated": "node manager.js --task=outdated",
     "build": "node manager.js --task=build",
     "deploy": "node manager.js --task=deploy"
