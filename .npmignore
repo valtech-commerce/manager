@@ -3,4 +3,5 @@
 .eslintrc.yaml
 .gitignore
 .travis.yml
+manager.js
 test

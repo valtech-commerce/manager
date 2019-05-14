@@ -3,32 +3,48 @@
 //--------------------------------------------------------
 'use strict';
 
+const { terminal } = require('@absolunet/terminal');
+const { chalk }    = terminal;
+
 const helper = require('./lib/helper');
 const multi  = require('./lib/multi');
+const single = require('./lib/single');
 
 
 class Manager {
 
+	constructor() {
+		terminal.setDefault({
+			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
+			textColor:    chalk.hex('#765432'),
+			bgColor:      chalk.bgHex('#654321')
+		});
+	}
+
 	get version() {
-		return multi.version;
+		return multi.version || single.version;
 	}
 
 	// eslint-disable-next-line require-await
-	async updatePackageMeta(options) {
-		helper.updateNodeVersion(options);
-		helper.updateLicense(options);
+	async updatePackageMeta(...parameters) {
+		helper.updateNodeVersion(...parameters);
+		helper.updateLicense(...parameters);
 	}
 
-	async testOutdated(options) {
-		await helper.npmOutdated(options);
+	async testOutdated(...parameters) {
+		await helper.npmOutdated(...parameters);
 	}
 
-	async installPackage(options) {
-		await helper.npmInstall(options);
+	async installPackage(...parameters) {
+		await helper.npmInstall(...parameters);
 	}
 
-	async multiScriptsRunner(options) {
-		await multi.scriptsRunner(options);
+	async singleScriptsRunner(...parameters) {
+		await single.scriptsRunner(...parameters);
+	}
+
+	async multiScriptsRunner(...parameters) {
+		await multi.scriptsRunner(...parameters);
 	}
 
 }

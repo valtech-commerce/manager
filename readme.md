@@ -16,6 +16,26 @@ $ npm install @absolunet/manager
 ```
 
 
+## Usage for single-package repository
+
+In a `manager.js` file
+```js
+const manager = require('@absolunet/manager');
+
+manager.singleScriptsRunner();
+```
+
+In your `package.json` file
+```json
+"scripts": {
+  "postinstall": "node manager.js --task=install",
+  "outdated": "node manager.js --task=outdated",
+  "build": "node manager.js --task=build",
+  "deploy": "node manager.js --task=deploy"
+}
+```
+
+
 ## Usage for multi-packages repository
 
 In a `manager.js` file
@@ -40,30 +60,45 @@ In your `package.json` file
 
 ### version
 
-Main project version (from `lerna.json` for multi-packages)
+Main project version
+- Single-package uses `package.json`
+- Multi-packages uses `lerna.json`
 
 
 
 <br>
 
-### multiScriptsRunner(*[options]*) *async*
+### singleScriptsRunner(*[options]*) *async*
+Bootstraps the CLI runner for single-package repository.
 
-Bootstraps the CLI runner.
+####  options.restricted
+Type: `Boolean` <br>
+_Default: false_<br>
+When publishing, tell the registry the package should be published restricted instead of public.
+
+####  options.useOTP
+Type: `Boolean` <br>
+_Default: true_<br>
+When publishing, use the two-factor authentication if enabled.
 
 ####  options.tasks
 
 Type: `Object` <br>
-List of scripts name with `preRun` and `postRun` hooks to call before and after the script
+List of tasks (install, outdated, build, deploy) with `preRun` and `postRun` hooks to call before and after
+
+Hooks receive a reference to the [terminal](https://github.com/absolunet/node-terminal) instance
 
 Example:
-```
+```js
 {
 	build: {
 		postRun: async () => {}
 	},
 	deploy: {
 		preRun:  async () => {},
-		postRun: async () => {}
+		postRun: async ({ terminal }) => {
+			terminal.print('Enjoy');
+		}
 	}
 }
 ```
@@ -72,10 +107,20 @@ Example:
 
 <br>
 
-### updatePackageMeta(*[options]*) *async*
+### multiScriptsRunner(*[options]*) *async*
+Bootstraps the CLI runner for multi-packages repository.
+
+####  options
+_Options are identical to `singleScriptsRunner`_<br>
+
+
+
+<br>
+
+### updatePackageMeta(*[root]*) *async*
 Updates Node version and license
 
-####  options.path
+####  root
 Type: `String` <br>
 Path where the `package.json` and `license` files are
 
@@ -83,10 +128,10 @@ Path where the `package.json` and `license` files are
 
 <br>
 
-### testOutdated(*[options]*) *async*
+### testOutdated(*[root]*) *async*
 Lists outdated packages
 
-####  options.path
+####  root
 Type: `String` <br>
 Path where the `package.json` file is
 
@@ -94,10 +139,10 @@ Path where the `package.json` file is
 
 <br>
 
-### installPackage(*[options]*) *async*
+### installPackage(*[root]*) *async*
 Reinstall packages
 
-####  options.path
+####  root
 Type: `String` <br>
 Path where the `package.json` file is
 
