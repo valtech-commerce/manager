@@ -28,7 +28,7 @@ manager.singleScriptsRunner();
 In your `package.json` file
 ```json
 "scripts": {
-  "installer": "node manager.js --task=install",
+  "installer": "node manager.js --task=installer",
   "outdated": "node manager.js --task=outdated",
   "build": "node manager.js --task=build",
   "deploy": "node manager.js --task=deploy"
@@ -48,7 +48,7 @@ manager.multiScriptsRunner();
 In your `package.json` file
 ```json
 "scripts": {
-  "postinstall": "rm -rf packages/*/package-lock.json; lerna clean --yes; lerna bootstrap --no-ci; node manager.js --task=install",
+  "postinstall": "node manager.js --task=postinstall",
   "outdated": "node manager.js --task=outdated",
   "build": "node manager.js --task=build",
   "deploy": "node manager.js --task=deploy"
@@ -84,7 +84,7 @@ When publishing, use the two-factor authentication if enabled.
 ####  options.tasks
 
 Type: `Object` <br>
-List of tasks (install, outdated, build, deploy) with `preRun` and `postRun` hooks to call before and after
+List of tasks (installer/postinstall, outdated, build, deploy) with `preRun` and `postRun` hooks to call before and after
 
 Hooks receive a reference to the [terminal](https://github.com/absolunet/node-terminal) instance
 
