@@ -31,6 +31,7 @@
     "outdated": "node manager.js --task=outdated",
     "build": "node manager.js --task=build",
     "watch": "node manager.js --task=watch",
+    "prepare": "node manager.js --task=prepare",
     "deploy": "node manager.js --task=deploy"
   },
   "devDependencies": {
