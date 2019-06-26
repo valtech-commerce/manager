@@ -10,7 +10,8 @@
   },
   "keywords": [
     "lerna",
-    "publish"
+    "publish",
+    "webpack"
   ],
   "license": "MIT",
   "repository": {
@@ -21,7 +22,7 @@
     "url": "https://github.com/absolunet/node-manager/issues"
   },
   "engines": {
-    "node": ">= 12.1.0"
+    "node": ">= 12.4.0"
   },
   "main": "index.js",
   "scripts": {
@@ -29,6 +30,7 @@
     "installer": "node manager.js --task=installer",
     "outdated": "node manager.js --task=outdated",
     "build": "node manager.js --task=build",
+    "watch": "node manager.js --task=watch",
     "deploy": "node manager.js --task=deploy"
   },
   "devDependencies": {
@@ -39,14 +41,18 @@
     "@absolunet/fss": "^1.6.1",
     "@absolunet/terminal": "^2.0.0",
     "figures": "^3.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "glob": "^7.1.4",
     "inquirer": "^6.3.1",
     "lodash.kebabcase": "^4.1.1",
+    "lodash.merge": "^4.6.1",
     "minimist": "^1.2.0",
     "npm-check": "^5.9.0",
     "semver": "^6.0.0",
     "string-length": "^3.1.0",
     "text-table": "^0.2.0",
-    "tmp": "^0.1.0"
+    "tmp": "^0.1.0",
+    "webpack": "^4.35.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }
