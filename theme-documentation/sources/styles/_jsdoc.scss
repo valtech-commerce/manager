@@ -1,21 +1,19 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
-
 * {
   box-sizing: border-box
 }
 
 html, body {
-  height: 100%;
   width: 100%;
 }
 
 body {
-  color: #4d4e53;
-  background-color: white;
+  color: $grey1-color;
+  background-color: $grey1-color;
   margin: 0 auto;
-  padding: 0 20px;
-  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  padding: 0;
+  font-family: $base-font;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
 }
 
 img {
@@ -24,21 +22,24 @@ img {
 
 a,
 a:active {
-  color: #606;
+  color: $primary-color;
   text-decoration: none;
+  transition: 100ms;
 }
 
 a:hover {
-  text-decoration: none;
+  color: $primary-dark-color;
 }
 
 article a {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid currentColor;
 }
 
+/*
 article a:hover, article a:active {
-  border-bottom-color: #222;
+  border-bottom-color: $grey1-color;
 }
+*/
 
 article .description a {
     word-break: break-word;
@@ -50,24 +51,22 @@ p, ul, ol, blockquote {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $title-font;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #000;
-  font-weight: 400;
+  color: $grey1-color;
+  font-weight: 700;
   margin: 0;
 }
 
 h1 {
-  font-weight: 300;
   font-size: 48px;
-  margin: 1em 0 .5em;
+  margin: 0 0 .5em;
 }
 
 h1.page-title {
   font-size: 48px;
-  margin: 1em 30px;
   line-height: 100%;
   word-wrap: break-word;
 }
@@ -79,37 +78,35 @@ h2 {
 
 h3 {
   font-size: 24px;
-  margin: 1.2em 0 .3em;
+  margin: 3em 0 .3em;
 }
 
 h4 {
   font-size: 18px;
   margin: 1em 0 .2em;
-  color: #4d4e53;
+  color: $grey1-color;
 }
 
 h4.name {
-  color: #fff;
-  background: #6d426d;
-  box-shadow: 0 .25em .5em #d3d3d3;
-  border-top: 1px solid #d3d3d3;
-  border-bottom: 1px solid #d3d3d3;
+  background: $grey7-color;
   margin: 1.5em 0 0.5em;
   padding: .75em 0 .75em 10px;
 }
 
+/*
 h4.name a {
-  color: #fc83ff;
+  color: $grey6-color;
 }
+*/
 
 h4.name a:hover {
-  border-bottom-color: #fc83ff;
+  border-bottom-color: $primary-color;
 }
 
 h5, .container-overview .subsection-title {
   font-size: 120%;
   letter-spacing: -0.01em;
-  margin: 8px 0 3px 0;
+  margin: 2em 0 .1em 0;
 }
 
 h6 {
@@ -120,8 +117,8 @@ h6 {
 }
 
 tt, code, kbd, samp {
-  font-family: Consolas, Monaco, 'Andale Mono', monospace;
-  background: #f4f4f4;
+  font-family: $code-font;
+  background: $grey7-color;
   padding: 1px 5px;
 }
 
@@ -137,19 +134,96 @@ tt, code, kbd, samp {
 }
 
 #main {
-  float: right;
-  min-width: 360px;
-  width: calc(100% - 240px);
+  width: calc(75% - 1.25rem);
+  margin-right: .625rem;
+  margin-left: .625rem;
+  max-width: 80em;
+  min-height: calc(100vh - 7em);
+  padding: 3em 1em;
+  margin: 0 auto;
+}
+
+#main > .package {
+  display: none;
 }
 
 header {
-  display: block
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 3.5em;
+  padding: 1em;
+  background-color: $grey8-color
+}
+
+header .package {
+  display: inline;
+  margin: 0;
+  line-height: 1.3
+}
+
+header .package a {
+  font-family: $title-font;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: $grey3-color;
+}
+
+header .package a:hover {
+  color: $grey2-color;
+}
+
+header .package .version {
+  position: relative;
+  top: -.1em;
+  padding: 0 0 0 .5em;
+  font-family: $code-font;
+  font-size: .9em
+}
+
+header .github {
+  position: relative;
+  float: right;
+  color: $github1-color
+}
+
+header .github:before {
+  @include inline-image-styles('github', $github1-color);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -2em;
+  width: 1.5em;
+  height: 1.5em;
+  transition: background-image,.1s
+}
+
+header .github:hover {
+  color: $github2-color
+}
+
+header .github:hover:before {
+  @include inline-image-styles('github', $github2-color);
+}
+
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 3.5em 0 0;
+  background-color: $grey9-color;
 }
 
 section {
   display: block;
-  background-color: #fff;
-  padding: 0 0 0 30px;
+  padding: 0;
+}
+
+.member + .member,
+.method + .method {
+  margin-top: 6em;
 }
 
 .variation {
@@ -158,21 +232,25 @@ section {
 
 .signature-attributes {
   font-size: 60%;
-  color: #eee;
+  color: $grey4-color;
   font-style: italic;
-  font-weight: lighter;
 }
 
 nav {
-  float: left;
-  display: block;
-  width: 250px;
-  background: #fff;
-  overflow: auto;
-  position: fixed;
-  height: 100%;
+  width: calc(25% - 1.25rem);
+  margin-right: .625rem;
+  margin-left: .625rem;
+  margin-left: 0;
+  background-color: $grey7-color;
 }
 
+nav > div {
+  overflow: auto;
+  position: fixed;
+  width: calc(25% - 1.25rem);
+  height: calc(100vh - 3.5em);
+  padding: 1em;
+}
 nav #nav-search{
     width: 210px;
     height: 30px;
@@ -190,18 +268,15 @@ nav.wrap a{
 
 nav h3 {
   margin-top: 12px;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 24px;
   margin: 15px 0 10px;
   padding: 0;
-  color: #000;
+  color: $grey1-color;
 }
 
 nav ul {
-  font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
   font-size: 100%;
   line-height: 17px;
   padding: 0;
@@ -211,30 +286,28 @@ nav ul {
 
 nav ul a,
 nav ul a:active {
-  font-family: 'Montserrat', sans-serif;
+  font-family: $base-font;
   line-height: 18px;
   padding: 0;
   display: block;
-  font-size: 12px;
 }
 
-nav a:hover,
-nav a:active {
-  color: #606;
-}
-
-nav > ul {
+nav > div > ul {
   padding: 0 10px;
 }
 
-nav > ul > li > a {
-  color: #606;
+nav > div > ul > li > a {
   margin-top: 10px;
+  font-weight: bold;
 }
 
 nav ul ul a {
-  color: hsl(207, 1%, 60%);
-  border-left: 1px solid hsl(207, 10%, 86%);
+  margin-top: 3px;
+  color: $grey3-color;
+}
+
+nav ul ul a:hover {
+  color: $grey2-color;
 }
 
 nav ul ul a,
@@ -248,26 +321,59 @@ nav h2 {
    padding: 0;
 }
 
-nav > h2 > a {
-   margin: 10px 0 -10px;
-   color: #606 !important;
+nav > div > h2 > a {
+  margin: 10px 0 -10px;
+  font-family: $base-font;
+  font-size: 16px;
 }
+
 
 footer {
-  color: hsl(0, 0%, 28%);
-  margin-left: 250px;
-  display: block;
-  padding: 15px;
-  font-style: italic;
-  font-size: 90%;
+  position: relative;
+  z-index: 2;
+  background-color: $grey1-color;
+  padding: .5em 1em 1em;
+  text-align: center
 }
 
+footer,footer a {
+  color: $grey9-color
+}
+
+footer a:hover {
+  color: $brand-color
+}
+
+footer .made:before {
+  content: "•";
+  margin: 0 1em
+}
+
+footer .made .adjective {
+  margin: 0 .2em;
+  color: $brand-color
+}
+
+footer .made a:before {
+  @include inline-image-styles('absolunet', $brand-color);
+  content: "";
+  position: relative;
+  top: .4em;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0 .4em 0 .6em;
+  background-color: $grey9-color
+}
+
+
+
 .ancestors {
-  color: #999
+  color: $grey5-color
 }
 
 .ancestors a {
-   color: #999 !important;
+   color: $grey5-color !important;
 }
 
 .clear {
@@ -276,54 +382,61 @@ footer {
 
 .important {
   font-weight: bold;
-  color: #950B02;
+  color: $important-color;
 }
 
 .yes-def {
-  text-indent: -1000px
+  text-indent: -12px
 }
 
 .type-signature {
-  color: #CA79CA
+  color: $grey4-color;
+  font-style: italic;
 }
 
 .type-signature:last-child {
-  color: #eee;
+  color: $grey4-color;
+  font-style: normal;
 }
 
 .name, .signature {
-  font-family: Consolas, Monaco, 'Andale Mono', monospace
+  font-family: $code-font;
+  font-weight: normal;
 }
 
 .signature {
-    color: #fc83ff;
+    color: $grey3-color;
 }
 
 .details {
-  margin-top: 6px;
-  border-left: 2px solid #DDD;
+  margin-top: -10px;
+  margin-bottom: -1.5em;
   line-height: 20px;
-  font-size: 14px;
+  font-size: 12px;
+  text-align: right;
 }
 
 .details dt {
    width: auto;
-   float: left;
+   display: inline;
    padding-left: 10px;
 }
 
 .details dd {
-   margin-left: 70px;
+   display: inline;
+   margin-left: 0;
    margin-top: 6px;
    margin-bottom: 6px;
 }
 
 .details ul {
-   margin: 0
+   margin: 0;
+   padding: 0 0 0 5px;
+   display: inline;
+   list-style-type: none;
 }
-
-.details ul {
-   list-style-type: none
+.details ul li {
+  display: inline;
 }
 
 .details pre.prettyprint {
@@ -345,75 +458,13 @@ footer {
   margin: 0;
 }
 
-.prettyprint {
-  font-size: 14px;
-  overflow: auto;
-}
 
-.prettyprint.source {
-  width: inherit;
-  line-height: 18px;
-  display: block;
-  background-color: #0d152a;
-  color: #aeaeae;
-}
-
-.prettyprint code {
-  line-height: 18px;
-  display: block;
-  background-color: #0d152a;
-  color: #4D4E53;
-}
-
-.prettyprint > code {
-  padding: 15px;
-}
-
-.prettyprint .linenums code {
-  padding: 0 15px
-}
-
-.prettyprint .linenums li:first-of-type code {
-  padding-top: 15px
-}
-
-.prettyprint code span.line {
-  display: inline-block
-}
-
-.prettyprint.linenums {
-  padding-left: 70px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.prettyprint.linenums ol {
-   padding-left: 0
-}
-
-.prettyprint.linenums li {
-   border-left: 3px #34446B solid;
-}
-
-.prettyprint.linenums li.selected, .prettyprint.linenums li.selected * {
-   background-color: #34446B;
-}
-
-.prettyprint.linenums li * {
-   -webkit-user-select: text;
-   -moz-user-select: text;
-   -ms-user-select: text;
-   user-select: text;
-}
 
 table {
   border-spacing: 0;
-  border: 1px solid #ddd;
+  border: 1px solid $grey6-color;
   border-collapse: collapse;
   border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   width: 100%;
   font-size: 14px;
   margin: 1em 0;
@@ -428,9 +479,10 @@ td, th {
 }
 
 thead tr, thead tr {
-   background-color: #fff;
    font-weight: bold;
-   border-bottom: 1px solid #ddd;
+   color: $grey2-color;
+   font-family: $title-font;
+   border-bottom: 1px solid $grey6-color;
 }
 
 .params .type {
@@ -442,13 +494,12 @@ thead tr, thead tr {
 }
 
 .params td, .params .name, .props .name, .name code {
-   color: #4D4E53;
-   font-family: Consolas, Monaco, 'Andale Mono', monospace;
+   color: $grey1-color;
    font-size: 100%;
 }
 
 .params td {
-   border-top: 1px solid #eee
+   border-top: 1px solid $grey7-color;
 }
 
 .params td.description > p:first-child, .props td.description > p:first-child {
@@ -462,8 +513,8 @@ thead tr, thead tr {
 }
 
 span.param-type, .params td .param-type, .param-type dd {
-   color: #606;
-  font-family: Consolas, Monaco, 'Andale Mono', monospace
+  color: $grey4-color;
+  font-family: $code-font
 }
 
 .param-type dt, .param-type dd {
@@ -475,186 +526,19 @@ span.param-type, .params td .param-type, .param-type dd {
 }
 
 .disabled {
-  color: #454545
-}
-
-/* navicon button */
-.navicon-button {
-  display: none;
-  position: relative;
-  padding: 2.0625rem 1.5rem;
-  transition: 0.25s;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  opacity: .8;
-}
-.navicon-button .navicon:before, .navicon-button .navicon:after {
-  transition: 0.25s;
-}
-.navicon-button:hover {
-  transition: 0.5s;
-  opacity: 1;
-}
-.navicon-button:hover .navicon:before, .navicon-button:hover .navicon:after {
-  transition: 0.25s;
-}
-.navicon-button:hover .navicon:before {
-  top: .825rem;
-}
-.navicon-button:hover .navicon:after {
-  top: -.825rem;
-}
-
-/* navicon */
-.navicon {
-  position: relative;
-  width: 2.5em;
-  height: .3125rem;
-  background: #000;
-  transition: 0.3s;
-  border-radius: 2.5rem;
-}
-.navicon:before, .navicon:after {
-  display: block;
-  content: "";
-  height: .3125rem;
-  width: 2.5rem;
-  background: #000;
-  position: absolute;
-  z-index: -1;
-  transition: 0.3s 0.25s;
-  border-radius: 1rem;
-}
-.navicon:before {
-  top: .625rem;
-}
-.navicon:after {
-  top: -.625rem;
-}
-
-/* open */
-.nav-trigger:checked + label:not(.steps) .navicon:before,
-.nav-trigger:checked + label:not(.steps) .navicon:after {
-  top: 0 !important;
-}
-
-.nav-trigger:checked + label .navicon:before,
-.nav-trigger:checked + label .navicon:after {
-  transition: 0.5s;
-}
-
-/* Minus */
-.nav-trigger:checked + label {
-  -webkit-transform: scale(0.75);
-          transform: scale(0.75);
-}
-
-/* × and + */
-.nav-trigger:checked + label.plus .navicon,
-.nav-trigger:checked + label.x .navicon {
-  background: transparent;
-}
-
-.nav-trigger:checked + label.plus .navicon:before,
-.nav-trigger:checked + label.x .navicon:before {
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-  background: #FFF;
-}
-
-.nav-trigger:checked + label.plus .navicon:after,
-.nav-trigger:checked + label.x .navicon:after {
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-  background: #FFF;
-}
-
-.nav-trigger:checked + label.plus {
-  -webkit-transform: scale(0.75) rotate(45deg);
-          transform: scale(0.75) rotate(45deg);
-}
-
-.nav-trigger:checked ~ nav {
-  left: 0 !important;
-}
-
-.nav-trigger:checked ~ .overlay {
-  display: block;
-}
-
-.nav-trigger {
-  position: fixed;
-  top: 0;
-  clip: rect(0, 0, 0, 0);
-}
-
-.overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: hsla(0, 0%, 0%, 0.5);
-  z-index: 1;
-}
-
-/* nav level */
-.level-hide {
-    display: none;
-}
-html[data-search-mode] .level-hide {
-    display: block;
+  color: $grey3-color
 }
 
 
-@media only screen and (min-width: 320px) and (max-width: 680px) {
-  body {
-    overflow-x: hidden;
-  }
 
+
+@media only screen and (max-width: 750px) {
   nav {
-    background: #FFF;
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: -250px;
-    z-index: 3;
-    padding: 0 10px;
-    transition: left 0.2s;
-  }
-
-  .navicon-button {
-    display: inline-block;
-    position: fixed;
-    top: 1.5em;
-    right: 0;
-    z-index: 2;
+    display: none;
   }
 
   #main {
     width: 100%;
-    min-width: 360px;
-  }
-
-  #main h1.page-title {
-    margin: 1em 0;
-  }
-
-  #main section {
-    padding: 0;
-  }
-
-  footer {
-    margin-left: 0;
   }
 }
 
@@ -664,8 +548,4 @@ html[data-search-mode] .level-hide {
   display: inline-block;
   margin-left: -14px;
   margin-right: 5px;
-}
-
-#disqus_thread{
-    margin-left: 30px;
 }

@@ -1,0 +1,1563 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Single - @absolunet/manager API documentation</title>
+
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta http-equiv="cleartype" content="on">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon"    href="../common/icons/favicon.ico">
+	<link rel="apple-touch-icon" href="../common/icons/touch-57.png">
+	<link rel="apple-touch-icon" href="../common/icons/touch-72.png"  sizes="72x72">
+	<link rel="apple-touch-icon" href="../common/icons/touch-76.png"  sizes="76x76">
+	<link rel="apple-touch-icon" href="../common/icons/touch-114.png" sizes="114x114">
+	<link rel="apple-touch-icon" href="../common/icons/touch-120.png" sizes="120x120">
+	<link rel="apple-touch-icon" href="../common/icons/touch-144.png" sizes="144x144">
+	<link rel="apple-touch-icon" href="../common/icons/touch-152.png" sizes="152x152">
+	<link rel="apple-touch-icon" href="../common/icons/touch-167.png" sizes="167x167">
+	<link rel="apple-touch-icon" href="../common/icons/touch-180.png" sizes="180x180">
+	<link rel="image_src"        href="../common/icons/touch-512.png">
+	<link rel="icon"             href="../common/icons/icon-64.png"  sizes="64x64">
+	<link rel="icon"             href="../common/icons/icon-96.png"  sizes="96x96">
+	<link rel="icon"             href="../common/icons/icon-192.png" sizes="192x192">
+	<link rel="icon"             href="../common/icons/icon-195.png" sizes="195x195">
+	<link rel="icon"             href="../common/icons/icon-196.png" sizes="196x196">
+	<link rel="icon"             href="../common/icons/icon-228.png" sizes="228x228">
+
+	<meta name="application-name"                content="@absolunet/manager">
+	<meta name="msapplication-TileColor"         content="#2b2d3c">
+	<meta name="msapplication-square70x70logo"   content="../common/icons/tile-small.png">
+	<meta name="msapplication-square150x150logo" content="../common/icons/tile-medium.png">
+	<meta name="msapplication-wide310x150logo"   content="../common/icons/tile-wide.png">
+	<meta name="msapplication-square310x310logo" content="../common/icons/tile-large.png">
+
+	<link href="../common/main.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700|Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+	
+	<!-- @absolunet/manager@1.1.0 (c) 2011-2019 Absolunet -->
+</head>
+<body>
+	
+
+	<header>
+		<p class="package"><a href="../"> @absolunet/manager</a><span class="version">1.1.0</span></p>
+		<a href="https://github.com/absolunet/node-manager" class="github" data-external="external">View on GitHub</a>
+	</header>
+
+	<div class="container">
+		<nav><div>
+			<h2><a href="index.html">API Home</a></h2><h3>Modules</h3><ul><li><a href="module-@absolunet_manager.html">@absolunet/manager</a><ul class='members'></ul></li></ul><h3>Classes</h3><ul><li><a href="Manager.html">Manager</a><ul class='members'><li data-type='member'><a href="Manager.html#version">version</a></li></ul><ul class='methods'><li data-type='method'><a href="Manager.html#updatePackageMeta">updatePackageMeta</a></li><li data-type='method'><a href="Manager.html#testOutdated">testOutdated</a></li><li data-type='method'><a href="Manager.html#installPackage">installPackage</a></li><li data-type='method'><a href="Manager.html#singleScriptsRunner">singleScriptsRunner</a></li><li data-type='method'><a href="Manager.html#multiScriptsRunner">multiScriptsRunner</a></li></ul></li><li><a href="AssembleDocumentation.html">AssembleDocumentation</a><ul class='members'><li data-type='member'><a href="AssembleDocumentation.html#theme">theme</a></li></ul><ul class='methods'><li data-type='method'><a href="AssembleDocumentation.html#generateCommon">generateCommon</a></li><li data-type='method'><a href="AssembleDocumentation.html#generateAPI">generateAPI</a></li></ul></li><li><a href="Assemble.html">Assemble</a><ul class='members'><li data-type='member'><a href="Assemble.html#documentation">documentation</a></li></ul></li><li><a href="Build.html">Build</a><ul class='members'></ul><ul class='methods'><li data-type='method'><a href="Build.html#run">run</a></li><li data-type='method'><a href="Build.html#watch">watch</a></li><li data-type='method'><a href="Build.html#documentationTheme">documentationTheme</a></li></ul></li><li><a href="Helper.html">Helper</a><ul class='members'></ul><ul class='methods'><li data-type='method'><a href="Helper.html#preRunner">preRunner</a></li><li data-type='method'><a href="Helper.html#postRunner">postRunner</a></li><li data-type='method'><a href="Helper.html#updateNodeVersion">updateNodeVersion</a></li><li data-type='method'><a href="Helper.html#updateLicense">updateLicense</a></li><li data-type='method'><a href="Helper.html#npmOutdated">npmOutdated</a></li><li data-type='method'><a href="Helper.html#npmInstall">npmInstall</a></li><li data-type='method'><a href="Helper.html#npmPack">npmPack</a></li><li data-type='method'><a href="Helper.html#npmPublish">npmPublish</a></li><li data-type='method'><a href="Helper.html#getTag">getTag</a></li><li data-type='method'><a href="Helper.html#getOTP">getOTP</a></li></ul></li><li><a href="Multi.html">Multi</a><ul class='members'><li data-type='member'><a href="Multi.html#version">version</a></li><li data-type='member'><a href="Multi.html#topologicalPackagesPaths">topologicalPackagesPaths</a></li></ul><ul class='methods'><li data-type='method'><a href="Multi.html#postinstall">postinstall</a></li><li data-type='method'><a href="Multi.html#outdated">outdated</a></li><li data-type='method'><a href="Multi.html#build">build</a></li><li data-type='method'><a href="Multi.html#watch">watch</a></li><li data-type='method'><a href="Multi.html#assemble">assemble</a></li><li data-type='method'><a href="Multi.html#deploy">deploy</a></li><li data-type='method'><a href="Multi.html#scriptsRunner">scriptsRunner</a></li></ul></li><li><a href="Single.html">Single</a><ul class='members'><li data-type='member'><a href="Single.html#version">version</a></li></ul><ul class='methods'><li data-type='method'><a href="Single.html#installer">installer</a></li><li data-type='method'><a href="Single.html#outdated">outdated</a></li><li data-type='method'><a href="Single.html#build">build</a></li><li data-type='method'><a href="Single.html#watch">watch</a></li><li data-type='method'><a href="Single.html#assemble">assemble</a></li><li data-type='method'><a href="Single.html#deploy">deploy</a></li><li data-type='method'><a href="Single.html#scriptsRunner">scriptsRunner</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#TaskHooks">TaskHooks</a></li><li><a href="global.html#RunnerOptions">RunnerOptions</a></li><li><a href="global.html#DistributionOptions">DistributionOptions</a></li></ul>
+		</div></nav>
+
+		<div id="main">
+		
+			<h1 class="page-title">Single</h1>
+		
+
+			
+
+
+
+
+<section>
+
+<div>
+    
+        </h2>
+        
+            <div class="class-description">Single package manager.</div>
+        
+    
+</div>
+
+<article>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="member">
+<h4 class="name" id="version"><span class="type-signature"></span>version<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-26">lib/single.js:26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Current package version.
+</div>
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="installer"><span class="type-signature">(async) </span>installer<span class="signature">(hooks<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-48">lib/single.js:48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Installer task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hooks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Custom hooks.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="outdated"><span class="type-signature">(async) </span>outdated<span class="signature">(hooks<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-62">lib/single.js:62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Outdated task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hooks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Custom hooks.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="build"><span class="type-signature">(async) </span>build<span class="signature">(hooks<span class="signature-attributes">opt</span>, dist<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-80">lib/single.js:80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Build task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hooks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Custom hooks.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dist</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#DistributionOptions">DistributionOptions</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distribution options.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="watch"><span class="type-signature">(async) </span>watch<span class="signature">(hooks<span class="signature-attributes">opt</span>, dist<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-100">lib/single.js:100</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Watch task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hooks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Custom hooks.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dist</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#DistributionOptions">DistributionOptions</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Distribution options.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="assemble"><span class="type-signature">(async) </span>assemble<span class="signature">(hooks<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-119">lib/single.js:119</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Assemble task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hooks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Custom hooks.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="deploy"><span class="type-signature">(async) </span>deploy<span class="signature">(hooks<span class="signature-attributes">opt</span>, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-141">lib/single.js:141</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Deploy task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hooks</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Custom hooks.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>restricted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">When publishing, tell the registry the package should be published restricted instead of public.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>useOTP</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">When publishing, use the two-factor authentication if enabled.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="scriptsRunner"><span class="type-signature">(async) </span>scriptsRunner<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_single.js.html#line-168">lib/single.js:168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Bootstrapper.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RunnerOptions">RunnerOptions</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Options to customize the runner.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<footer>
+		MIT © 2011-2019 <span class="made">Made with <span class="adjective" data-component="adjective">&#x2764;</span> by <a href="https://absolunet.com" data-external="external">Absolunet</a></span>
+	</footer>
+
+	<script src="../common/main.js"></script>
+
+</body>
+</html>

@@ -11,12 +11,28 @@
 
 ## Install
 
-```sh
+```bash
 $ npm install @absolunet/manager
 ```
 
 
-## Usage for single-package repository
+## Usage
+
+In your `package.json` file add
+```json
+{
+	"scripts": {
+		"installer": "node manager.js --task=installer",      // For single-package repository
+		"postinstall": "node manager.js --task=postinstall",  // For multi-package repository
+		"outdated": "node manager.js --task=outdated",
+		"build": "node manager.js --task=build",
+		"watch": "node manager.js --task=watch",
+		"assemble": "node manager.js --task=assemble",
+		"deploy": "node manager.js --task=deploy"
+	}
+}
+```
+
 
 In a `manager.js` file
 ```js
@@ -25,126 +41,19 @@ const manager = require('@absolunet/manager');
 manager.singleScriptsRunner();
 ```
 
-In your `package.json` file
-```json
-"scripts": {
-  "installer": "node manager.js --task=installer",
-  "outdated": "node manager.js --task=outdated",
-  "build": "node manager.js --task=build",
-  "deploy": "node manager.js --task=deploy"
-}
-```
+or
 
 
-## Usage for multi-packages repository
-
-In a `manager.js` file
 ```js
 const manager = require('@absolunet/manager');
 
 manager.multiScriptsRunner();
 ```
 
-In your `package.json` file
-```json
-"scripts": {
-  "postinstall": "node manager.js --task=postinstall",
-  "outdated": "node manager.js --task=outdated",
-  "build": "node manager.js --task=build",
-  "deploy": "node manager.js --task=deploy"
-}
-```
-
 
 ## API
 
-### version
-
-Main project version
-- Single-package uses `package.json`
-- Multi-packages uses `lerna.json`
-
-
-
-<br>
-
-### singleScriptsRunner(*[options]*) *async*
-Bootstraps the CLI runner for single-package repository.
-
-####  options.restricted
-Type: `Boolean` <br>
-_Default: false_<br>
-When publishing, tell the registry the package should be published restricted instead of public.
-
-####  options.useOTP
-Type: `Boolean` <br>
-_Default: true_<br>
-When publishing, use the two-factor authentication if enabled.
-
-####  options.tasks
-
-Type: `Object` <br>
-List of tasks (installer/postinstall, outdated, build, deploy) with `preRun` and `postRun` hooks to call before and after
-
-Hooks receive a reference to the [terminal](https://github.com/absolunet/node-terminal) instance
-
-Example:
-```js
-{
-	build: {
-		postRun: async () => {}
-	},
-	deploy: {
-		preRun:  async () => {},
-		postRun: async ({ terminal }) => {
-			terminal.print('Enjoy');
-		}
-	}
-}
-```
-
-
-
-<br>
-
-### multiScriptsRunner(*[options]*) *async*
-Bootstraps the CLI runner for multi-packages repository.
-
-####  options
-_Options are identical to `singleScriptsRunner`_<br>
-
-
-
-<br>
-
-### updatePackageMeta(*[root]*) *async*
-Updates Node version and license
-
-####  root
-Type: `String` <br>
-Path where the `package.json` and `license` files are
-
-
-
-<br>
-
-### testOutdated(*[root]*) *async*
-Lists outdated packages
-
-####  root
-Type: `String` <br>
-Path where the `package.json` file is
-
-
-
-<br>
-
-### installPackage(*[root]*) *async*
-Reinstall packages
-
-####  root
-Type: `String` <br>
-Path where the `package.json` file is
+View [API documentation](https://absolunet.github.io/absolunet/node-manager)
 
 
 
