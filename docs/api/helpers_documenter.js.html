@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>index.js - @absolunet/manager API documentation</title>
+	<title>helpers/documenter.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,7 +54,7 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">index.js</h1>
+			<h1 class="page-title">helpers/documenter.js</h1>
 		
 
 			
@@ -65,155 +65,77 @@
     <section>
         <article>
             <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
-//-- Manager
+//-- Documenter
 //--------------------------------------------------------
+import resolvePkg   from 'resolve-pkg';
+import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
-import util         from './helpers/util';
-import multi        from './multi';
-import single       from './single';
-const { chalk } = terminal;
+import paths        from './paths';
 
 
 /**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object&lt;TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
-
-/**
- * Absolunet's npm packages manager.
+ * Documentation builder.
  *
  * @hideconstructor
  */
-class Manager {
-
-	// eslint-disable-next-line jsdoc/require-jsdoc
-	constructor() {
-		terminal.setDefault({
-			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
-			textColor:    chalk.hex('#765432'),
-			bgColor:      chalk.bgHex('#654321')
-		});
-	}
-
+class Documenter {
 
 	/**
-	 * Current package or multi-package version.
+	 * Documentation theme paths.
 	 *
-	 * @type {string}
+	 * @type {object}
 	 */
-	get version() {
-		return multi.version || single.version;
+	get theme() {
+		return {
+			output:  `${paths.documentationTheme}/build`,
+			images:  `${paths.documentationTheme}/sources/images`,
+			scripts: `${paths.documentationTheme}/sources/scripts`,
+			styles:  `${paths.documentationTheme}/sources/styles`
+		};
 	}
 
 
 	/**
-	 * Update package meta.
+	 * Copy documentation common assets to output directory.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
-	 * @returns {Promise} When method completed.
+	 * @param {string} [root={@link PackagePaths}.documentation] - Path to generated documentation root.
 	 */
-	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		util.updateNodeVersion(...parameters);
-		util.updateLicense(...parameters);
+	generateCommonAssets(root = paths.package.documentation) {
+		terminal.println('Copy documentation common assets');
+
+		const commonPath = `${root}/common`;
+		fss.remove(root);
+		fss.ensureDir(commonPath);
+
+		fss.copy(`${paths.documentationTheme}/build`, commonPath);
+
+		// Temporarily redirect main url to API docs
+		fss.copy(`${paths.documentationTheme}/redirect/index.html`, `${root}/index.html`);
 	}
 
 
 	/**
-	 * Lists outdated packages.
+	 * Build API documentation via JSDoc.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
-	 * @returns {Promise} When method completed.
+	 * @param {object} [options] - Options.
+	 * @param {string} [options.root={@link PackagePaths}.documentation] - Path to generated documentation root.
+	 * @param {string} [options.sub] - Name of subpackage.
 	 */
-	async testOutdated(...parameters) {
-		await util.npmOutdated(...parameters);
-	}
+	generateAPI({ root = paths.package.documentation, sub = '' } = {}) {
+		terminal.println('Build API documentation');
 
+		const output = `${root}${sub ? `/${sub}` : ''}/api`;
+		fss.remove(output);
+		fss.ensureDir(output);
 
-	/**
-	 * Reinstall packages.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
-	 * @returns {Promise} When method completed.
-	 */
-	async installPackage(...parameters) {
-		await util.npmInstall(...parameters);
-	}
-
-	/**
-	 * Bootstrap the CLI runner for single-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.singleScriptsRunner({
-	 * 	tasks: {
-	 *		build: {
-	 *			postRun: async () => {}
-	 * 		},
-	 *
-	 * 		deploy: {
-	 * 			preRun:  async () => {},
-	 * 			postRun: async ({ terminal }) => {
-	 * 				terminal.print('Enjoy');
-	 * 			}
-	 * 		}
-	 * 	}
-	 * });
-	 */
-	async singleScriptsRunner(...parameters) {
-		await single.scriptsRunner(...parameters);
-	}
-
-	/**
-	 * Bootstrap the CLI runner for multi-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.multiScriptsRunner({
-		* tasks: {
-		*		build: {
-		*			postRun: async () => {}
-		* 		},
-		*
-		* 		deploy: {
-		* 			preRun:  async () => {},
-		* 			postRun: async ({ terminal }) => {
-		* 				terminal.print('Enjoy');
-		* 			}
-		* 		}
-		* 	}
-		* });
-		*/
-	async multiScriptsRunner(...parameters) {
-		await multi.scriptsRunner(...parameters);
+		const jsdocBin = `${resolvePkg('jsdoc', { cwd: __dirname })}/jsdoc.js`;
+		terminal.run(`node ${jsdocBin} --configure ${paths.documentationTheme}/jsdoc/config.js --destination ${output}`);
 	}
 
 }
 
-/**
- * Exports an instance of {@link Manager}.
- *
- * @module @absolunet/manager
- */
-export default new Manager();
+
+export default new Documenter();
 </code></pre>
         </article>
     </section>

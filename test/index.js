@@ -5,13 +5,7 @@
 
 const tester = require('@absolunet/tester');
 
-tester.npmPackage.validate({
-	js: tester.all.js.concat([
-		'!docs/**',
-		'!theme-documentation/build/**',
-		'!theme-documentation/jsdoc/publish.js'
-	])
-});
+tester.npmPackage.validate();
 
 
 //		const data = [

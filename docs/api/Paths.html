@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>index.js - @absolunet/manager API documentation</title>
+	<title>Paths - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,169 +54,379 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">index.js</h1>
+			<h1 class="page-title">Paths</h1>
 		
 
 			
 
 
 
+
+<section>
+
+<div>
     
-    <section>
-        <article>
-            <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
-//-- Manager
-//--------------------------------------------------------
-import { terminal } from '@absolunet/terminal';
-import util         from './helpers/util';
-import multi        from './multi';
-import single       from './single';
-const { chalk } = terminal;
+        </h2>
+        
+            <div class="class-description">Paths.</div>
+        
+    
+</div>
+
+<article>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="member">
+<h4 class="name" id="root"><span class="type-signature"></span>root<span class="type-signature"> :string</span></h4>
 
 
-/**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object&lt;TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
-
-/**
- * Absolunet's npm packages manager.
- *
- * @hideconstructor
- */
-class Manager {
-
-	// eslint-disable-next-line jsdoc/require-jsdoc
-	constructor() {
-		terminal.setDefault({
-			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
-			textColor:    chalk.hex('#765432'),
-			bgColor:      chalk.bgHex('#654321')
-		});
-	}
 
 
-	/**
-	 * Current package or multi-package version.
-	 *
-	 * @type {string}
-	 */
-	get version() {
-		return multi.version || single.version;
-	}
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_paths.js.html#line-29">helpers/paths.js:29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
-	/**
-	 * Update package meta.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
-	 * @returns {Promise} When method completed.
-	 */
-	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		util.updateNodeVersion(...parameters);
-		util.updateLicense(...parameters);
-	}
 
 
-	/**
-	 * Lists outdated packages.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
-	 * @returns {Promise} When method completed.
-	 */
-	async testOutdated(...parameters) {
-		await util.npmOutdated(...parameters);
-	}
+
+<div class="description">
+    Manager root.
+</div>
 
 
-	/**
-	 * Reinstall packages.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
-	 * @returns {Promise} When method completed.
-	 */
-	async installPackage(...parameters) {
-		await util.npmInstall(...parameters);
-	}
 
-	/**
-	 * Bootstrap the CLI runner for single-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.singleScriptsRunner({
-	 * 	tasks: {
-	 *		build: {
-	 *			postRun: async () => {}
-	 * 		},
-	 *
-	 * 		deploy: {
-	 * 			preRun:  async () => {},
-	 * 			postRun: async ({ terminal }) => {
-	 * 				terminal.print('Enjoy');
-	 * 			}
-	 * 		}
-	 * 	}
-	 * });
-	 */
-	async singleScriptsRunner(...parameters) {
-		await single.scriptsRunner(...parameters);
-	}
 
-	/**
-	 * Bootstrap the CLI runner for multi-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.multiScriptsRunner({
-		* tasks: {
-		*		build: {
-		*			postRun: async () => {}
-		* 		},
-		*
-		* 		deploy: {
-		* 			preRun:  async () => {},
-		* 			postRun: async ({ terminal }) => {
-		* 				terminal.print('Enjoy');
-		* 			}
-		* 		}
-		* 	}
-		* });
-		*/
-	async multiScriptsRunner(...parameters) {
-		await multi.scriptsRunner(...parameters);
-	}
 
-}
 
-/**
- * Exports an instance of {@link Manager}.
- *
- * @module @absolunet/manager
- */
-export default new Manager();
-</code></pre>
-        </article>
-    </section>
+
+</div>
+
+        
+            
+<div class="member">
+<h4 class="name" id="ressources"><span class="type-signature"></span>ressources<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_paths.js.html#line-38">helpers/paths.js:38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Manager ressources.
+</div>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="member">
+<h4 class="name" id="documentationTheme"><span class="type-signature"></span>documentationTheme<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_paths.js.html#line-47">helpers/paths.js:47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Manager documentation theme.
+</div>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="member">
+<h4 class="name" id="webpackEntryPoints"><span class="type-signature"></span>webpackEntryPoints<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_paths.js.html#line-56">helpers/paths.js:56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Manager webpack entry points.
+</div>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="member">
+<h4 class="name" id="package"><span class="type-signature"></span>package<span class="type-signature"> :<a href="global.html#PackagePaths">PackagePaths</a></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_paths.js.html#line-75">helpers/paths.js:75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Current package paths.
+</div>
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

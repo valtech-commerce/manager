@@ -6,7 +6,7 @@
 [![Travis CI](https://api.travis-ci.org/absolunet/node-manager.svg?branch=master)](https://travis-ci.org/absolunet/node-manager/builds)
 [![Code style](https://img.shields.io/badge/code_style-@absolunet/node-659d32.svg)](https://github.com/absolunet/eslint-config)
 
-> Manager for Node.js projects
+> Manager for single/multi packages JavaScript projects
 
 
 ## Install
@@ -18,27 +18,31 @@ $ npm install @absolunet/manager
 
 ## Usage
 
-In your `package.json` file add
+In your `./package.json` file add
 ```json
 {
 	"scripts": {
-		"installer": "node manager.js --task=installer",      // For single-package repository
-		"postinstall": "node manager.js --task=postinstall",  // For multi-package repository
-		"outdated": "node manager.js --task=outdated",
-		"build": "node manager.js --task=build",
-		"watch": "node manager.js --task=watch",
-		"assemble": "node manager.js --task=assemble",
-		"deploy": "node manager.js --task=deploy"
+		"install": "npm run manager:install",  // For multi-package repository
+    	"manager:install": "node manager.js --task=install",
+    	"manager:outdated": "node manager.js --task=outdated",
+    	"manager:build": "node manager.js --task=build",
+    	"manager:watch": "node manager.js --task=watch",
+    	"manager:documentation": "node manager.js --task=documentation",
+    	"manager:prepare": "node manager.js --task=prepare",
+    	"manager:rebuild": "node manager.js --task=rebuild",
+    	"manager:publish": "node manager.js --task=publish",
+    	"manager:publish:unsafe": "node manager.js --task=publish:unsafe"
+
 	}
 }
 ```
 
 
-In a `manager.js` file
+In a `./manager.js` file
 ```js
 const manager = require('@absolunet/manager');
 
-manager.singleScriptsRunner();
+manager.singleScriptsRunner(options);
 ```
 
 or
@@ -47,7 +51,7 @@ or
 ```js
 const manager = require('@absolunet/manager');
 
-manager.multiScriptsRunner();
+manager.multiScriptsRunner(options);
 ```
 
 

@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>helpers/util.js - @absolunet/manager API documentation</title>
+
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta http-equiv="cleartype" content="on">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon"    href="../common/icons/favicon.ico">
+	<link rel="apple-touch-icon" href="../common/icons/touch-57.png">
+	<link rel="apple-touch-icon" href="../common/icons/touch-72.png"  sizes="72x72">
+	<link rel="apple-touch-icon" href="../common/icons/touch-76.png"  sizes="76x76">
+	<link rel="apple-touch-icon" href="../common/icons/touch-114.png" sizes="114x114">
+	<link rel="apple-touch-icon" href="../common/icons/touch-120.png" sizes="120x120">
+	<link rel="apple-touch-icon" href="../common/icons/touch-144.png" sizes="144x144">
+	<link rel="apple-touch-icon" href="../common/icons/touch-152.png" sizes="152x152">
+	<link rel="apple-touch-icon" href="../common/icons/touch-167.png" sizes="167x167">
+	<link rel="apple-touch-icon" href="../common/icons/touch-180.png" sizes="180x180">
+	<link rel="image_src"        href="../common/icons/touch-512.png">
+	<link rel="icon"             href="../common/icons/icon-64.png"  sizes="64x64">
+	<link rel="icon"             href="../common/icons/icon-96.png"  sizes="96x96">
+	<link rel="icon"             href="../common/icons/icon-192.png" sizes="192x192">
+	<link rel="icon"             href="../common/icons/icon-195.png" sizes="195x195">
+	<link rel="icon"             href="../common/icons/icon-196.png" sizes="196x196">
+	<link rel="icon"             href="../common/icons/icon-228.png" sizes="228x228">
+
+	<meta name="application-name"                content="@absolunet/manager">
+	<meta name="msapplication-TileColor"         content="#2b2d3c">
+	<meta name="msapplication-square70x70logo"   content="../common/icons/tile-small.png">
+	<meta name="msapplication-square150x150logo" content="../common/icons/tile-medium.png">
+	<meta name="msapplication-wide310x150logo"   content="../common/icons/tile-wide.png">
+	<meta name="msapplication-square310x310logo" content="../common/icons/tile-large.png">
+
+	<link href="../common/main.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700|Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+	
+	<!-- @absolunet/manager@1.1.0 (c) 2011-2019 Absolunet -->
+</head>
+<body>
+	
+
+	<header>
+		<p class="package"><a href="../"> @absolunet/manager</a><span class="version">1.1.0</span></p>
+		<a href="https://github.com/absolunet/node-manager" class="github" data-external="external">View on GitHub</a>
+	</header>
+
+	<div class="container">
+		<nav><div>
+			<h2><a href="index.html">API Home</a></h2><h3>Modules</h3><ul><li><a href="module-@absolunet_manager.html">@absolunet/manager</a><ul class='members'></ul></li></ul><h3>Classes</h3><ul><li><a href="Builder.html">Builder</a><ul class='members'></ul><ul class='methods'><li data-type='method'><a href="Builder.html#run">run</a></li><li data-type='method'><a href="Builder.html#watch">watch</a></li><li data-type='method'><a href="Builder.html#documentationTheme">documentationTheme</a></li></ul></li><li><a href="Documenter.html">Documenter</a><ul class='members'><li data-type='member'><a href="Documenter.html#theme">theme</a></li></ul><ul class='methods'><li data-type='method'><a href="Documenter.html#generateCommonAssets">generateCommonAssets</a></li><li data-type='method'><a href="Documenter.html#generateAPI">generateAPI</a></li></ul></li><li><a href="Paths.html">Paths</a><ul class='members'><li data-type='member'><a href="Paths.html#root">root</a></li><li data-type='member'><a href="Paths.html#ressources">ressources</a></li><li data-type='member'><a href="Paths.html#documentationTheme">documentationTheme</a></li><li data-type='member'><a href="Paths.html#webpackEntryPoints">webpackEntryPoints</a></li><li data-type='member'><a href="Paths.html#package">package</a></li></ul></li><li><a href="Util.html">Util</a><ul class='members'></ul><ul class='methods'><li data-type='method'><a href="Util.html#relativizePath">relativizePath</a></li><li data-type='method'><a href="Util.html#getTask">getTask</a></li><li data-type='method'><a href="Util.html#taskRunner">taskRunner</a></li><li data-type='method'><a href="Util.html#updateNodeVersion">updateNodeVersion</a></li><li data-type='method'><a href="Util.html#updateLicense">updateLicense</a></li><li data-type='method'><a href="Util.html#npmOutdated">npmOutdated</a></li><li data-type='method'><a href="Util.html#npmInstall">npmInstall</a></li><li data-type='method'><a href="Util.html#npmPack">npmPack</a></li><li data-type='method'><a href="Util.html#npmPublish">npmPublish</a></li><li data-type='method'><a href="Util.html#getTag">getTag</a></li><li data-type='method'><a href="Util.html#getOTP">getOTP</a></li><li data-type='method'><a href="Util.html#confirmUnsafePublish">confirmUnsafePublish</a></li></ul></li><li><a href="Manager.html">Manager</a><ul class='members'><li data-type='member'><a href="Manager.html#version">version</a></li></ul><ul class='methods'><li data-type='method'><a href="Manager.html#updatePackageMeta">updatePackageMeta</a></li><li data-type='method'><a href="Manager.html#testOutdated">testOutdated</a></li><li data-type='method'><a href="Manager.html#installPackage">installPackage</a></li><li data-type='method'><a href="Manager.html#singleScriptsRunner">singleScriptsRunner</a></li><li data-type='method'><a href="Manager.html#multiScriptsRunner">multiScriptsRunner</a></li></ul></li><li><a href="Multi.html">Multi</a><ul class='members'><li data-type='member'><a href="Multi.html#version">version</a></li><li data-type='member'><a href="Multi.html#topologicalPackagesPaths">topologicalPackagesPaths</a></li></ul><ul class='methods'><li data-type='method'><a href="Multi.html#postinstall">postinstall</a></li><li data-type='method'><a href="Multi.html#outdated">outdated</a></li><li data-type='method'><a href="Multi.html#build">build</a></li><li data-type='method'><a href="Multi.html#watch">watch</a></li><li data-type='method'><a href="Multi.html#assemble">assemble</a></li><li data-type='method'><a href="Multi.html#deploy">deploy</a></li><li data-type='method'><a href="Multi.html#scriptsRunner">scriptsRunner</a></li></ul></li><li><a href="Single.html">Single</a><ul class='members'><li data-type='member'><a href="Single.html#version">version</a></li></ul><ul class='methods'><li data-type='method'><a href="Single.html#scriptsRunner">scriptsRunner</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#DistributionOptions">DistributionOptions</a></li><li><a href="global.html#PackagePaths">PackagePaths</a></li><li><a href="global.html#TaskHooks">TaskHooks</a></li><li><a href="global.html#ManagerOptions">ManagerOptions</a></li></ul>
+		</div></nav>
+
+		<div id="main">
+		
+			<h1 class="page-title">helpers/util.js</h1>
+		
+
+			
+
+
+
+    
+    <section>
+        <article>
+            <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
+//-- Util
+//--------------------------------------------------------
+import figures      from 'figures';
+import inquirer     from 'inquirer';
+import kebabcase    from 'lodash.kebabcase';
+import minimist     from 'minimist';
+import npmCheck     from 'npm-check';
+import path         from 'path';
+import semver       from 'semver';
+import stringLength from 'string-length';
+import textTable    from 'text-table';
+import tmp          from 'tmp';
+import fsp          from '@absolunet/fsp';
+import fss          from '@absolunet/fss';
+import { terminal } from '@absolunet/terminal';
+import paths        from './paths';
+const { chalk } = terminal;
+
+
+const getTemporaryDirectory = (id = 'tmp') => {
+	tmp.setGracefulCleanup();
+
+	return new Promise((resolve) => {
+		tmp.dir({ prefix: `absolunetmanager-${id}-`, unsafeCleanup: true }, (error, temporaryPath) => {
+			if (error) {
+				terminal.error(error);
+				terminal.exit();
+			}
+
+			resolve(temporaryPath);
+		});
+	});
+};
+
+
+
+
+
+/**
+ * Manager utils.
+ *
+ * @hideconstructor
+ */
+class Util {
+
+	/**
+	 * Relativize path from package root.
+	 *
+	 * @param {string} absolutePath - Absolute package path.
+	 * @returns {string} Relativized path.
+	 */
+	relativizePath(absolutePath) {
+		return absolutePath.replace(paths.package.root, '.');
+	}
+
+
+	/**
+	 * Post-runner wrapper.
+	 *
+	 * @returns {string} Task fetch from terminal.
+	 */
+	getTask() {
+		return minimist(process.argv.slice(2)).task;
+	}
+
+
+	/**
+	 * Task runner.
+	 *
+	 * @async
+	 * @param {object} options - Options.
+	 * @param {string} options.name - Task name.
+	 * @param {string} options.banner - Task banner.
+	 * @param {TaskHooks} [options.hooks] - Custom hooks.
+	 * @param {boolean} [options.subTask=false] - Options.
+	 * @param {Function} main - Main runner.
+	 * @returns {Promise} When post-runner completed.
+	 */
+	async taskRunner({ name, banner, hooks = {}, subTask = false }, main) {
+
+		// Banner
+		if (subTask) {
+			terminal.infoBox(`${name}: ${banner}`);
+		} else {
+			terminal.titleBox(`Manager: ${banner}`);
+		}
+
+		// Pre-runner
+		if (hooks.preRun) {
+			terminal.infoBox(`${name}: Custom pre-runner`);
+			await hooks.preRun({ terminal });
+			terminal.infoBox(`${name}: Generic runner`);
+		} else {
+			terminal.echo(`${figures.pointer} ${name}: No custom pre-runner\n\n`);
+		}
+
+		// Generic runner
+		await main();
+
+		// Post-runner
+		if (hooks.postRun) {
+			terminal.infoBox(`${name}: Custom post-runner`);
+			await hooks.postRun({ terminal });
+		} else {
+			terminal.echo(`\n${figures.pointer} ${name}: No custom post-runner`);
+		}
+
+		// Completion banner
+		if (subTask) {
+			terminal.infoBox(`${name}: ${figures.tick} Completed`);
+		}
+	}
+
+
+
+
+	/**
+	 * Update Node.js engine version in package.json.
+	 *
+	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
+	 */
+	updateNodeVersion(root = paths.package.root) {
+		const FILE = `${root}/package.json`;
+		terminal.println(`Update Node version in ${chalk.underline(this.relativizePath(FILE))}`);
+
+		const data = fss.readJson(FILE);
+		data.engines.node = `>= ${process.versions.node}`;
+		fss.writeJson(FILE, data, { space: 2 });
+	}
+
+
+	/**
+	 * Copy license file from project root to sub-package root.
+	 *
+	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the sub-package licence.
+	 */
+	updateLicense(root = paths.package.root) {
+		const LICENSE = `${root}/license`;
+		terminal.println(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`);
+		fss.copy(`${paths.package.root}/license`, LICENSE);
+	}
+
+
+
+
+	/**
+	 * Check for outdated packages.
+	 *
+	 * @async
+	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
+	 * @param {boolean} [verbose=false] - Verbose mode.
+	 * @returns {Promise} When method completed.
+	 */
+	async npmOutdated(root = paths.package.root, verbose = false) {
+		terminal.println(`Checking ${chalk.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`);
+
+		// Dependencies
+		const currentState = await npmCheck({ cwd: root });
+
+		const results = [];
+		for (const { moduleName: name, isInstalled, packageJson: wantedRaw, installed, latest: latestRaw } of currentState.get('packages')) {
+			const latest = latestRaw === undefined || latestRaw === null ? 'NOT FOUND' : latestRaw;
+
+			if (wantedRaw) {
+				const wanted = semver.coerce(wantedRaw).version;
+
+				if (isInstalled) {
+
+					if (semver.coerce(latest) &amp;&amp; semver.lte(installed, latest) &amp;&amp; semver.lte(wanted, latest)) {
+
+						if (installed === latest &amp;&amp; wanted === latest) {
+
+							// All is good
+							if (verbose) {
+								results.push([name, chalk.green(installed), chalk.green(wantedRaw), chalk.green(latest)]);
+							}
+
+						// Mismatch between versions
+						} else {
+							results.push([
+								chalk.yellow(name),
+								installed === latest ? installed : chalk.yellow(installed),
+								wanted === latest ? wantedRaw : chalk.red(wantedRaw),
+								chalk.magenta(latest)
+							]);
+						}
+
+					// Current or wanted greater than latest (wut?)
+					} else {
+						results.push([chalk.red(name), chalk.red(installed), chalk.red(wantedRaw), chalk.red(latest)]);
+					}
+
+				// Not installed
+				} else {
+					results.push([chalk.red(name), chalk.red('NOT INSTALLED'), chalk.red(wantedRaw), chalk.red(latest)]);
+				}
+			}
+		}
+
+		if (results.length !== 0) {
+			results.unshift([chalk.underline('Package'), ` ${chalk.underline('Current')}`, ` ${chalk.underline('Wanted')}`, ` ${chalk.underline('Latest')}`]);
+			terminal.echoIndent(textTable(results, {
+				align: ['l', 'r', 'r', 'r'],
+				stringLength: (text) => { return stringLength(text); }
+			}));
+			terminal.spacer();
+		} else {
+			terminal.success(`All is good`);
+		}
+
+		terminal.spacer();
+	}
+
+
+	/**
+	 * Install npm packages.
+	 *
+	 * @async
+	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
+	 * @returns {Promise} When method completed.
+	 */
+	async npmInstall(root = paths.package.root) {
+		terminal.println(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`);
+		await fsp.remove(`${root}/node_modules`);
+		await fsp.remove(`${root}/package-lock.json`);
+		terminal.run(`cd ${root} &amp;&amp; npm install --no-audit`);
+		terminal.spacer();
+	}
+
+
+	/**
+	 * Pack directory and return tarball path.
+	 *
+	 * @async
+	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
+	 * @returns {Promise&lt;object&lt;{tarball: string, version: string}>>} Tarball path and version used.
+	 */
+	async npmPack(root = paths.package.root) {
+		terminal.println(`Pack package in ${chalk.underline(this.relativizePath(root))}`);
+
+		const directory = await getTemporaryDirectory('package-tarball');
+
+		terminal.run(`
+			cd ${directory}
+			npm pack ${fss.realpath(root)}
+		`);
+		terminal.spacer();
+
+		const { name, version } = fss.readJson(`${root}/package.json`);
+		const tarball = `${directory}/${kebabcase(name)}-${version}.tgz`;
+
+		if (fss.exists(tarball)) {
+			return { tarball, version };
+		}
+
+		throw new Error(`Tarball name mismatch '${tarball}'`);
+	}
+
+
+	/**
+	 * Publish package.
+	 *
+	 * @async
+	 * @param {object} parameters - Parameters.
+	 * @param {string} parameters.tarball - Tarball path.
+	 * @param {string} parameters.tag - Tag to use.
+	 * @param {boolean} parameters.restricted - Tell the registry the package should be published restricted instead of public.
+	 * @param {boolean} parameters.otp - Use the two-factor authentication if enabled.
+	 * @returns {Promise} When method completed.
+	 */
+	async npmPublish({ tarball, tag, restricted, otp }) {  	// eslint-disable-line require-await
+		terminal.println(`Publish tarball ${chalk.underline(path.basename(tarball))}`);
+
+		terminal.run(`
+			npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}
+		`);
+		terminal.spacer();
+	}
+
+
+
+
+	/**
+	 * Get publish tag depending on version.
+	 *
+	 * @param {string} version - Version to check.
+	 * @returns {string} Tag.
+	 */
+	getTag(version) {
+		return semver.prerelease(version) === null ? 'latest' : 'next';
+	}
+
+
+	/**
+	 * Ask user for npm's one-time password or confirm publication.
+	 *
+	 * @async
+	 * @param {boolean} useOTP - Get one-time password or confirm publication.
+	 * @returns {Promise&lt;string|undefined>} User's one-time password.
+	 */
+	async getOTP(useOTP) {
+		const { otp, confirm } = await inquirer.prompt([
+			{
+				name:     'otp',
+				message:  `Please write your npm OTP:`,
+				type:     'input',
+				when:     () => { return useOTP; },
+				validate: (value) => {
+					return (/^\d{6}$/u).test(value) ? true : `Your OTP isn't valid`;
+				}
+			},
+			{
+				name:     'confirm',
+				message:  `Are you sure you want to publish?`,
+				type:     'confirm',
+				when:     () => { return !useOTP; }
+			}
+		]);
+
+		if (!(otp || confirm)) {
+			terminal.exit('Publication cancelled');
+		}
+
+		terminal.spacer();
+
+		return otp;
+	}
+
+
+	/**
+	 * Ask user for consent for unsafe publishing.
+	 *
+	 * @async
+	 * @returns {Promise} Completes if user consents.
+	 */
+	async confirmUnsafePublish() {
+		const { confirm } = await inquirer.prompt([{
+			name:     'confirm',
+			message:  `Are you sure you want to publish without any safeguards?`,
+			type:     'confirm'
+		}]);
+
+		if (!confirm) {
+			terminal.exit('Publication cancelled');
+		}
+
+		terminal.spacer();
+	}
+
+}
+
+
+export default new Util();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+		</div>
+	</div>
+
+	<footer>
+		MIT © 2011-2019 <span class="made">Made with <span class="adjective" data-component="adjective">&#x2764;</span> by <a href="https://absolunet.com" data-external="external">Absolunet</a></span>
+	</footer>
+
+	<script src="../common/main.js"></script>
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>index.js - @absolunet/manager API documentation</title>
+	<title>helpers/paths.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,7 +54,7 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">index.js</h1>
+			<h1 class="page-title">helpers/paths.js</h1>
 		
 
 			
@@ -65,155 +65,93 @@
     <section>
         <article>
             <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
-//-- Manager
+//-- Paths
 //--------------------------------------------------------
-import { terminal } from '@absolunet/terminal';
-import util         from './helpers/util';
-import multi        from './multi';
-import single       from './single';
-const { chalk } = terminal;
+import fss from '@absolunet/fss';
 
 
-/**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object&lt;TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
+const __ = {
+	root:        fss.realpath(`${__dirname}/../../..`),
+	packageRoot: fss.realpath(`.`)
+};
 
-/**
- * Absolunet's npm packages manager.
- *
- * @hideconstructor
- */
-class Manager {
 
-	// eslint-disable-next-line jsdoc/require-jsdoc
-	constructor() {
-		terminal.setDefault({
-			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
-			textColor:    chalk.hex('#765432'),
-			bgColor:      chalk.bgHex('#654321')
-		});
-	}
 
+
+
+
+ /**
+  * Paths.
+  *
+  * @hideconstructor
+  */
+class Paths {
 
 	/**
-	 * Current package or multi-package version.
+	 * Manager root.
 	 *
 	 * @type {string}
 	 */
-	get version() {
-		return multi.version || single.version;
+	get root() {
+		return __.root;
 	}
 
-
 	/**
-	 * Update package meta.
+	 * Manager ressources.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
-	 * @returns {Promise} When method completed.
+	 * @type {string}
 	 */
-	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		util.updateNodeVersion(...parameters);
-		util.updateLicense(...parameters);
+	get ressources() {
+		return `${this.root}/ressources`;
 	}
 
-
 	/**
-	 * Lists outdated packages.
+	 * Manager documentation theme.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
-	 * @returns {Promise} When method completed.
+	 * @type {string}
 	 */
-	async testOutdated(...parameters) {
-		await util.npmOutdated(...parameters);
+	get documentationTheme() {
+		return `${this.ressources}/documentation-theme`;
 	}
 
-
 	/**
-	 * Reinstall packages.
+	 * Manager webpack entry points.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
-	 * @returns {Promise} When method completed.
+	 * @type {string}
 	 */
-	async installPackage(...parameters) {
-		await util.npmInstall(...parameters);
+	get webpackEntryPoints() {
+		return `${this.ressources}/webpack-entry-points`;
 	}
 
 	/**
-	 * Bootstrap the CLI runner for single-package repository.
+	 * Current package paths.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.singleScriptsRunner({
-	 * 	tasks: {
-	 *		build: {
-	 *			postRun: async () => {}
-	 * 		},
-	 *
-	 * 		deploy: {
-	 * 			preRun:  async () => {},
-	 * 			postRun: async ({ terminal }) => {
-	 * 				terminal.print('Enjoy');
-	 * 			}
-	 * 		}
-	 * 	}
-	 * });
+	 * @typedef {object} PackagePaths
+	 * @property {string} root - Package root.
+	 * @property {string} config - Package package.json.
+	 * @property {string} distributions - Package distributions.
+	 * @property {string} documentation - Package documentation.
+	 * @property {string} sources - Package sources.
 	 */
-	async singleScriptsRunner(...parameters) {
-		await single.scriptsRunner(...parameters);
-	}
-
 	/**
-	 * Bootstrap the CLI runner for multi-package repository.
+	 * Current package paths.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.multiScriptsRunner({
-		* tasks: {
-		*		build: {
-		*			postRun: async () => {}
-		* 		},
-		*
-		* 		deploy: {
-		* 			preRun:  async () => {},
-		* 			postRun: async ({ terminal }) => {
-		* 				terminal.print('Enjoy');
-		* 			}
-		* 		}
-		* 	}
-		* });
-		*/
-	async multiScriptsRunner(...parameters) {
-		await multi.scriptsRunner(...parameters);
+	 * @type {PackagePaths}
+	 */
+	get package() {
+		return {
+			root:          __.packageRoot,
+			config:        `${__.packageRoot}/package.json`,
+			distributions: `${__.packageRoot}/dist`,
+			documentation: `${__.packageRoot}/docs`,
+			sources:       `${__.packageRoot}/src`
+		};
 	}
 
 }
 
-/**
- * Exports an instance of {@link Manager}.
- *
- * @module @absolunet/manager
- */
-export default new Manager();
+
+export default new Paths();
 </code></pre>
         </article>
     </section>

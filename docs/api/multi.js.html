@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>index.js - @absolunet/manager API documentation</title>
+	<title>multi.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,7 +54,7 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">index.js</h1>
+			<h1 class="page-title">multi.js</h1>
 		
 
 			
@@ -65,155 +65,237 @@
     <section>
         <article>
             <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
-//-- Manager
+//-- Multi
 //--------------------------------------------------------
+import minimist     from 'minimist';
+import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
+import paths        from './helpers/paths';
 import util         from './helpers/util';
-import multi        from './multi';
-import single       from './single';
-const { chalk } = terminal;
+
+let subPackagesList = [];
+
+
+
+
 
 
 /**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object&lt;TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
-
-/**
- * Absolunet's npm packages manager.
+ * Multi-package manager.
  *
  * @hideconstructor
  */
-class Manager {
-
-	// eslint-disable-next-line jsdoc/require-jsdoc
-	constructor() {
-		terminal.setDefault({
-			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
-			textColor:    chalk.hex('#765432'),
-			bgColor:      chalk.bgHex('#654321')
-		});
-	}
-
+class Multi {
 
 	/**
-	 * Current package or multi-package version.
+	 * Current multi-package version.
 	 *
 	 * @type {string}
 	 */
 	get version() {
-		return multi.version || single.version;
+		const FILE = `${paths.package.root}/lerna.json`;
+
+		if (fss.exists(FILE)) {
+			const { version } = fss.readJson(FILE);
+
+			return version;
+		}
+
+		return undefined;
 	}
 
 
 	/**
-	 * Update package meta.
+	 * List of subpackages root directory.
 	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
-	 * @returns {Promise} When method completed.
+	 * @type {Array&lt;string>}
 	 */
-	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		util.updateNodeVersion(...parameters);
-		util.updateLicense(...parameters);
+	get topologicalPackagesPaths() {
+		if (subPackagesList.length === 0) {
+			const rawList = terminal.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+			const list    = rawList.replace(/^(?&lt;header>info cli.+\n)(?&lt;path>[\s\S]+)/u, '$&lt;path>').split('\n');
+
+			subPackagesList = list
+				.filter((item) => { return Boolean(item); })
+				.map((item) => { return util.relativizePath(item); });
+		}
+
+		return subPackagesList;
 	}
 
 
+
+
+
+
 	/**
-	 * Lists outdated packages.
+	 * Post-install task.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
-	 * @returns {Promise} When method completed.
+	 * @param {TaskHooks} [hooks] - Custom hooks.
+	 * @returns {Promise} When task completed.
 	 */
-	async testOutdated(...parameters) {
-		await util.npmOutdated(...parameters);
+	async postinstall({ preRun, postRun } = {}) {
+		terminal.titleBox('Manager: Install dependencies');
+		await util.preRunner(preRun);
+
+		terminal.println('Install packages dependencies and link siblings');
+		fss.removePattern(`${paths.package.root}/packages/*/package-lock.json`);
+		terminal.run(`
+			lerna clean --yes
+			lerna bootstrap --no-ci
+		`);
+
+		await util.postRunner(postRun);
 	}
 
 
 	/**
-	 * Reinstall packages.
+	 * Outdated task.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
-	 * @returns {Promise} When method completed.
+	 * @param {TaskHooks} [hooks] - Custom hooks.
+	 * @returns {Promise} When task completed.
 	 */
-	async installPackage(...parameters) {
-		await util.npmInstall(...parameters);
+	async outdated({ preRun, postRun } = {}) {
+		terminal.titleBox('Manager: Check for outdated dependencies');
+		await util.preRunner(preRun);
+
+		await util.npmOutdated();
+		for (const path of this.topologicalPackagesPaths) {
+			await util.npmOutdated(path);  // eslint-disable-line no-await-in-loop
+		}
+
+		await util.postRunner(postRun);
 	}
 
+
 	/**
-	 * Bootstrap the CLI runner for single-package repository.
+	 * Build task.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.singleScriptsRunner({
-	 * 	tasks: {
-	 *		build: {
-	 *			postRun: async () => {}
-	 * 		},
-	 *
-	 * 		deploy: {
-	 * 			preRun:  async () => {},
-	 * 			postRun: async ({ terminal }) => {
-	 * 				terminal.print('Enjoy');
-	 * 			}
-	 * 		}
-	 * 	}
-	 * });
+	 * @param {TaskHooks} [hooks] - Custom hooks.
+	 * @param {DistributionOptions} [dist] - Distribution options.
+	 * @returns {Promise} When task completed.
 	 */
-	async singleScriptsRunner(...parameters) {
-		await single.scriptsRunner(...parameters);
+	async build({ preRun, postRun } = {}/* , dist */) {
+		terminal.titleBox('Manager: Build project');
+		await util.preRunner(preRun);
+
+		for (const path of this.topologicalPackagesPaths) {
+			util.updateLicense(path);
+			util.updateNodeVersion(path);
+		}
+
+		terminal.run(`
+			lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes
+		`);
+
+		await util.postRunner(postRun);
 	}
 
+
 	/**
-	 * Bootstrap the CLI runner for multi-package repository.
+	 * Watch task.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.multiScriptsRunner({
-		* tasks: {
-		*		build: {
-		*			postRun: async () => {}
-		* 		},
-		*
-		* 		deploy: {
-		* 			preRun:  async () => {},
-		* 			postRun: async ({ terminal }) => {
-		* 				terminal.print('Enjoy');
-		* 			}
-		* 		}
-		* 	}
-		* });
-		*/
-	async multiScriptsRunner(...parameters) {
-		await multi.scriptsRunner(...parameters);
+	 * @param {TaskHooks} [hooks] - Custom hooks.
+	 * @param {DistributionOptions} [dist] - Distribution options.
+	 * @returns {Promise} When task completed.
+	 */
+	async watch(/* { preRun, postRun } = {}, dist */) {
+		//
+	}
+
+
+	/**
+	 * Assemble task.
+	 *
+	 * @async
+	 * @param {TaskHooks} [hooks] - Custom hooks.
+	 * @returns {Promise} When task completed.
+	 */
+	async assemble(/* { preRun, postRun } = {} */) {
+		//
+	}
+
+
+	/**
+	 * Deploy task.
+	 *
+	 * @async
+	 * @param {TaskHooks} [hooks] - Custom hooks.
+	 * @param {object} [options] - Options.
+	 * @param {boolean} options.restricted - When publishing, tell the registry the package should be published restricted instead of public.
+	 * @param {boolean} options.useOTP - When publishing, use the two-factor authentication if enabled.
+	 * @returns {Promise} When task completed.
+	 */
+	async deploy({ preRun, postRun } = {}, { restricted, useOTP } = {}) {
+		terminal.titleBox('Manager: Deploy package');
+		await util.preRunner(preRun);
+
+		const tarballs = [];
+		for (const path of this.topologicalPackagesPaths) {
+			const { tarball } = await util.npmPack(path);  // eslint-disable-line no-await-in-loop
+			tarballs.push(tarball);
+		}
+
+		const tag = util.getTag(this.version);
+		const otp = await util.getOTP(useOTP);
+
+		for (const tarball of tarballs) {
+			await util.npmPublish({ tarball, tag, restricted, otp });  // eslint-disable-line no-await-in-loop
+		}
+
+		await util.postRunner(postRun);
+	}
+
+
+
+
+
+
+	/**
+	 * Bootstrapper.
+	 *
+	 * @async
+	 * @param {ManagerOptions} [options] - Options to customize the runner.
+	 * @returns {Promise} When task completed.
+	 */
+	async scriptsRunner({ tasks = {}, restricted = false, useOTP = true } = {}) {
+		const { task } = minimist(process.argv.slice(2));
+
+		//-- Tasks
+		switch (task) {
+
+			case 'postinstall':
+				await this.postinstall(tasks.postinstall);
+				break;
+
+			case 'outdated':
+				await this.outdated(tasks.outdated);
+				break;
+
+			case 'build':
+				await this.build(tasks.build);
+				break;
+
+			case 'deploy':
+				await this.deploy(tasks.deploy, { restricted, useOTP });
+				break;
+
+			default:
+				throw new Error('Task not defined');
+
+		}
+
+		terminal.completionBox('Completed');
 	}
 
 }
 
-/**
- * Exports an instance of {@link Manager}.
- *
- * @module @absolunet/manager
- */
-export default new Manager();
+
+export default new Multi();
 </code></pre>
         </article>
     </section>

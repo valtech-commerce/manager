@@ -4,5 +4,7 @@
 .gitignore
 .travis.yml
 manager.js
+docs
+src
 test
-theme/sources
+ressources/documentation-theme/sources

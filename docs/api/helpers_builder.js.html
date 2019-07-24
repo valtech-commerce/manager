@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>index.js - @absolunet/manager API documentation</title>
+	<title>helpers/builder.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,7 +54,7 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">index.js</h1>
+			<h1 class="page-title">helpers/builder.js</h1>
 		
 
 			
@@ -65,155 +65,306 @@
     <section>
         <article>
             <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
-//-- Manager
+//-- Builder
 //--------------------------------------------------------
-import { terminal } from '@absolunet/terminal';
-import util         from './helpers/util';
-import multi        from './multi';
-import single       from './single';
-const { chalk } = terminal;
+import babelAddModuleExports from 'babel-plugin-add-module-exports';
+import WebpackCopy           from 'copy-webpack-plugin';
+import WebpackDisableOutput  from 'disable-output-webpack-plugin';
+import figures               from 'figures';
+import WebpackFriendlyErrors from 'friendly-errors-webpack-plugin';
+import path                  from 'path';
+import webpack               from 'webpack';
+import merge                 from 'webpack-merge';
+import fss                   from '@absolunet/fss';
+import { terminal }          from '@absolunet/terminal';
+import { transformAsync }    from '@babel/core';
+import babelTransformModules from '@babel/plugin-transform-modules-commonjs';
+import paths                 from './paths';
 
 
-/**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object&lt;TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
+//-- Common
+const COMMON_CONFIG = {
+	mode:    'none',
+	devtool: ''
+};
 
-/**
- * Absolunet's npm packages manager.
- *
- * @hideconstructor
- */
-class Manager {
 
-	// eslint-disable-next-line jsdoc/require-jsdoc
-	constructor() {
-		terminal.setDefault({
-			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
-			textColor:    chalk.hex('#765432'),
-			bgColor:      chalk.bgHex('#654321')
+//-- Node.js
+const NODE_CONFIG = merge(COMMON_CONFIG, {
+	target: 'node',
+	entry:  `${paths.webpackEntryPoints}/node.js`,
+	plugins: [
+		new WebpackDisableOutput(),
+		new WebpackCopy([{
+			context: paths.package.sources,
+			from: '**/*.js',
+			to: '',
+			cache: true,
+			transform: (content) => {
+				return transformAsync(content, {
+					plugins: [
+						[babelTransformModules, { strict: true }],
+						[babelAddModuleExports, { addDefaultProperty: true }]
+					]
+				})
+					.then(({ code }) => { return code; })
+				;
+			}
+		}])
+
+	]
+
+});
+
+
+//-- Browser
+const BROWSER_CONFIG = merge(COMMON_CONFIG, {
+	target: 'web',
+	entry:  `${paths.webpackEntryPoints}/browser.js`,
+	output: {
+		filename: 'browser.js'
+	}
+});
+
+
+//-- Browser ES5
+const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
+	output: {
+		filename: 'browser-es5.js'
+	},
+	module: {
+		rules: [
+			{
+				test: /\.js$/u,
+				exclude: /node_modules/u,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: [[
+							'@babel/env',
+							{
+								targets: '> 0.25%, not dead',
+								useBuiltIns: 'usage',
+								corejs: '3'
+							}
+						]]
+					}
+				}
+			}
+		]
+	}
+});
+
+
+//-- kafe
+const KAFE_CONFIG = merge(BROWSER_CONFIG, {
+	entry:  `${paths.webpackEntryPoints}/kafe.js`,
+	output: {
+		filename: 'kafe.js'
+	}
+});
+
+
+//-- kafe ES5
+const KAFE_ES5_CONFIG = merge(BROWSER_ES5_CONFIG, {
+	entry:  `${paths.webpackEntryPoints}/kafe.js`,
+	output: {
+		filename: 'kafe-es5.js'
+	}
+});
+
+
+
+
+
+
+//-- Generate a specific distribution config
+const getConfig = (mainConfig, { source = paths.package.sources, destination = paths.package.distributions, name = '', externals = {} } = {}) => {
+	const targetedDestination = `${destination}/${mainConfig.target}`;
+	fss.ensureDir(targetedDestination);
+
+	const finalSource      = fss.realpath(source);
+	const finalDestination = fss.realpath(targetedDestination);
+
+	if (mainConfig.output &amp;&amp; mainConfig.output.filename) {
+		fss.remove(`${finalDestination}/${mainConfig.output.filename}`);
+	} else {
+		fss.remove(finalDestination);
+	}
+
+	const config = merge(mainConfig, {
+		output: {
+			path: finalDestination
+		},
+		plugins: [
+			new webpack.DefinePlugin({
+				'process.env.__PACKAGE_NAME__': JSON.stringify(name),
+				'process.env.__PACKAGE_ROOT__': JSON.stringify(finalSource)
+			}),
+			new WebpackFriendlyErrors({ clearConsole: false })
+		],
+		externals: externals
+	});
+
+	return config;
+};
+
+
+//-- Generate all distributions configs
+const getConfigs = ({ node, web = {}, ...options } = {}) => {
+	const configs = [];
+
+	const types = web.types || [];
+	if (node) {
+		types.push('node');
+	}
+
+	const webOptions = merge(web, options);
+
+	types.forEach((id) => {
+		switch (id) {
+
+			case 'node':
+				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
+				configs.push(getConfig(NODE_CONFIG, options));
+				break;
+
+			case 'browser':
+				terminal.print(`${figures.pointerSmall} Add browser distribution`);
+				configs.push(getConfig(BROWSER_CONFIG, webOptions));
+				break;
+
+			case 'browserES5':
+				terminal.print(`${figures.pointerSmall} Add browser ES5 distribution`);
+				configs.push(getConfig(BROWSER_ES5_CONFIG, webOptions));
+				break;
+
+			case 'kafe':
+				terminal.print(`${figures.pointerSmall} Add kafe distribution`);
+				configs.push(getConfig(KAFE_CONFIG, webOptions));
+				break;
+
+			case 'kafeES5':
+				terminal.print(`${figures.pointerSmall} Add kafe ES5 distribution`);
+				configs.push(getConfig(KAFE_ES5_CONFIG, webOptions));
+				break;
+
+			default: break;
+
+		}
+	});
+
+	terminal.spacer();
+
+	return configs;
+};
+
+
+
+
+
+
+//-- webpack run wrapper
+const webpackRunner = (configs) => {
+	return new Promise((resolve) => {
+		webpack(configs).run((error, stats) => {
+			terminal.echo(stats.toString({ colors: true }));
+			resolve();
 		});
-	}
+	});
+};
 
+
+//-- webpack watch wrapper
+const webpackWatcher = (configs, output) => {
+	return new Promise((resolve) => {
+		webpack(configs).watch({
+			ignored: [output],
+			poll: 2000
+		}, (/* error, stats */) => {
+			resolve();
+		});
+	});
+};
+
+
+
+
+
+
+/**
+ * Distribution options.
+ *
+ * @typedef {object} DistributionOptions
+ * @property {string} [source={@link PackagePaths}.sources] - Package source path.
+ * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
+ * @property {boolean} [node] - Add a Node.js distribution.
+ * @property {object} [web] - Web distributions options.
+ * @property {Array&lt;string>} web.types - List of web distributions (browser, browerES5, kafe, kafe, kafeES5).
+ * @property {string} web.name - Public exposed name of package.
+ * @property {object&lt;string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
+ */
+
+ /**
+  * Distribution builder.
+  *
+  * @hideconstructor
+  */
+class Builder {
 
 	/**
-	 * Current package or multi-package version.
-	 *
-	 * @type {string}
-	 */
-	get version() {
-		return multi.version || single.version;
-	}
-
-
-	/**
-	 * Update package meta.
+	 * Build distributions.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
-	 * @returns {Promise} When method completed.
+	 * @param {DistributionOptions} options - Options.
+	 * @returns {Promise} When runner completed.
 	 */
-	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		util.updateNodeVersion(...parameters);
-		util.updateLicense(...parameters);
+	run(options) {
+		terminal.print('Build distributions');
+
+		return webpackRunner(getConfigs(options));
 	}
 
 
 	/**
-	 * Lists outdated packages.
+	 * Watch distributions builds.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
-	 * @returns {Promise} When method completed.
+	 * @param {DistributionOptions} options - Options.
+	 * @returns {Promise} When watcher completed.
 	 */
-	async testOutdated(...parameters) {
-		await util.npmOutdated(...parameters);
+	watch(options) {
+		terminal.print('Start watching distributions');
+
+		return webpackWatcher(getConfigs(options));
 	}
 
 
 	/**
-	 * Reinstall packages.
+	 * Build documentation theme scripts.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
-	 * @returns {Promise} When method completed.
+	 * @param {object} options - Options.
+	 * @param {string} options.source - Path to documentation source scripts.
+	 * @param {string} options.destination - Path to documentation build script file.
+	 * @returns {Promise} When builder completed.
 	 */
-	async installPackage(...parameters) {
-		await util.npmInstall(...parameters);
-	}
+	documentationTheme({ source, destination }) {
+		const [config] = getConfigs({ web: { types: ['browserES5'] }, source: source });
 
-	/**
-	 * Bootstrap the CLI runner for single-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.singleScriptsRunner({
-	 * 	tasks: {
-	 *		build: {
-	 *			postRun: async () => {}
-	 * 		},
-	 *
-	 * 		deploy: {
-	 * 			preRun:  async () => {},
-	 * 			postRun: async ({ terminal }) => {
-	 * 				terminal.print('Enjoy');
-	 * 			}
-	 * 		}
-	 * 	}
-	 * });
-	 */
-	async singleScriptsRunner(...parameters) {
-		await single.scriptsRunner(...parameters);
-	}
-
-	/**
-	 * Bootstrap the CLI runner for multi-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.multiScriptsRunner({
-		* tasks: {
-		*		build: {
-		*			postRun: async () => {}
-		* 		},
-		*
-		* 		deploy: {
-		* 			preRun:  async () => {},
-		* 			postRun: async ({ terminal }) => {
-		* 				terminal.print('Enjoy');
-		* 			}
-		* 		}
-		* 	}
-		* });
-		*/
-	async multiScriptsRunner(...parameters) {
-		await multi.scriptsRunner(...parameters);
+		return webpackRunner([merge(config, {
+			mode: 'production',
+			output: {
+				filename: path.basename(destination),
+				path:     path.dirname(destination)
+			}
+		})]);
 	}
 
 }
 
-/**
- * Exports an instance of {@link Manager}.
- *
- * @module @absolunet/manager
- */
-export default new Manager();
+
+export default new Builder();
 </code></pre>
         </article>
     </section>

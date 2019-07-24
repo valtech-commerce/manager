@@ -1,0 +1,38 @@
+//--------------------------------------------------
+//-- Configuration
+//--------------------------------------------------
+@import '../../../../node_modules/@absolunet/nwayo-toolbox/styles/config';
+
+
+$brand-color:         #ff5252;
+$primary-color:       #4ea4e7;
+$primary-light-color: #b6d8ee;
+$primary-dark-color:  #365f91;
+
+$grey1-color: #2b2d3c;
+$grey2-color: #3c475d;
+$grey3-color: #5c7480;
+$grey4-color: #798f9a;
+$grey5-color: #96aab4;
+$grey6-color: #b1c0c7;
+$grey7-color: #d6dfe4;
+$grey8-color: #e2e9ed;
+$grey9-color: #f2f6f7;
+
+$code1-color: #71aa68;
+$code2-color: #1aabb6;
+
+$github1-color: #0366d6;
+$github2-color: #24292e;
+
+$important-color: #e5133c;
+
+
+$base-font:  Lato, Helvetica, Arial, Verdana, sans-serif;
+$title-font: Poppins, Helvetica, Arial, Verdana, sans-serif;
+$code-font:  'Fira Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', Courier, monospace;
+
+
+@mixin inline-image-styles($file, $color) {
+	background-image: #{nwayo-svg-data-uri(nwayo-color-replace(dart-read-file($file + '.svg'), $nwayo-svg-replacement-1-color, $color))};
+}

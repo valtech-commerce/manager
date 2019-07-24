@@ -1,14 +1,11 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-'use strict';
-
-const { terminal } = require('@absolunet/terminal');
-const { chalk }    = terminal;
-
-const helper = require('./lib/helper');
-const multi  = require('./lib/multi');
-const single = require('./lib/single');
+import { terminal } from '@absolunet/terminal';
+import util         from './helpers/util';
+import multi        from './multi';
+import single       from './single';
+const { chalk } = terminal;
 
 
 /**
@@ -18,11 +15,10 @@ const single = require('./lib/single');
  * @property {Function} preRun - Pre-run hook.
  * @property {Function} postRun - Post-run hook.
  */
-
 /**
- * Runner options.
+ * Manager options.
  *
- * @typedef {object} RunnerOptions
+ * @typedef {object} ManagerOptions
  * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
  * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
  * @property {DistributionOptions} dist - Distribution options.
@@ -60,12 +56,12 @@ class Manager {
 	 * Update package meta.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Helper#updateNodeVersion} and {@link Helper#updateLicense}.
+	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
 	 * @returns {Promise} When method completed.
 	 */
 	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		helper.updateNodeVersion(...parameters);
-		helper.updateLicense(...parameters);
+		util.updateNodeVersion(...parameters);
+		util.updateLicense(...parameters);
 	}
 
 
@@ -73,11 +69,11 @@ class Manager {
 	 * Lists outdated packages.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Helper#npmOutdated}.
+	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
 	 * @returns {Promise} When method completed.
 	 */
 	async testOutdated(...parameters) {
-		await helper.npmOutdated(...parameters);
+		await util.npmOutdated(...parameters);
 	}
 
 
@@ -85,11 +81,11 @@ class Manager {
 	 * Reinstall packages.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Helper#npmInstall}.
+	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
 	 * @returns {Promise} When method completed.
 	 */
 	async installPackage(...parameters) {
-		await helper.npmInstall(...parameters);
+		await util.npmInstall(...parameters);
 	}
 
 	/**
@@ -126,7 +122,7 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 * @example
 	 * manager.multiScriptsRunner({
-		* 	tasks: {
+		* tasks: {
 		*		build: {
 		*			postRun: async () => {}
 		* 		},
@@ -151,4 +147,4 @@ class Manager {
  *
  * @module @absolunet/manager
  */
-module.exports = new Manager();
+export default new Manager();
