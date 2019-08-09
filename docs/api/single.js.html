@@ -85,7 +85,7 @@ const install = async ({ subTask } = {}) => {
 		name:   'Install',
 		banner: 'Install extra stuff',
 		hooks:  __.tasks.install,
-		subTask: subTask
+		subTask
 	}, async () => {  // eslint-disable-line require-await
 
 		// Symlink if self-reference
@@ -106,7 +106,7 @@ const outdated = async ({ subTask } = {}) => {
 		name:   'Outdated',
 		banner: 'Check for outdated package dependencies',
 		hooks:  __.tasks.outdated,
-		subTask: subTask
+		subTask
 	}, async () => {
 
 		await util.npmOutdated();
@@ -120,7 +120,7 @@ const build = async ({ subTask } = {}) => {
 		name:   'Build',
 		banner: 'Generate package distributions',
 		hooks:  __.tasks.build,
-		subTask: subTask
+		subTask
 	}, async () => {
 
 		if (__.dist) {
@@ -136,7 +136,7 @@ const watch = async ({ subTask } = {}) => {
 		name:   'Watch',
 		banner: 'Watch changes in sources',
 		hooks:  __.tasks.watch,
-		subTask: subTask
+		subTask
 	}, async () => {
 
 		if (__.dist) {
@@ -152,7 +152,7 @@ const documentation = async ({ subTask } = {}) => {
 		name:   'Documentation',
 		banner: 'Generate documentation',
 		hooks:  __.tasks.documentation,
-		subTask: subTask
+		subTask
 	}, async () => {
 
 		await documenter.generateCommonAssets();
@@ -167,7 +167,7 @@ const prepare = async ({ subTask } = {}) => {
 		name:   'Prepare',
 		banner: 'Prepare package for publication',
 		hooks:  __.tasks.prepare,
-		subTask: subTask
+		subTask
 	}, async () => {  // eslint-disable-line require-await
 
 		util.updateNodeVersion();
@@ -189,7 +189,7 @@ const rebuild = async ({ subTask } = {}) => {
 		name:   'Rebuild',
 		banner: 'Rebuild package',
 		hooks:  __.tasks.rebuild,
-		subTask: subTask
+		subTask
 	}, async () => {
 
 		await build({ subTask: true });
@@ -205,7 +205,7 @@ const publish = async ({ subTask, unsafe = false } = {}) => {
 		name:   'Publish',
 		banner: `Publish package${unsafe ? ' (unsafe)' : ''}`,
 		hooks:  __.tasks.publish,
-		subTask: subTask
+		subTask
 	}, async () => {
 
 		if (!unsafe) {
@@ -217,7 +217,7 @@ const publish = async ({ subTask, unsafe = false } = {}) => {
 		const { tarball, version } = await util.npmPack();
 
 		await util.npmPublish({
-			tarball:    tarball,
+			tarball,
 			tag:        util.getTag(version),
 			restricted: __.publish.restricted,
 			otp:        await util.getOTP(__.publish.useOTP)

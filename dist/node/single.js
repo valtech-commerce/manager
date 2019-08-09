@@ -31,7 +31,7 @@ const install = async ({
     name: 'Install',
     banner: 'Install extra stuff',
     hooks: __.tasks.install,
-    subTask: subTask
+    subTask
   }, async () => {
     // eslint-disable-line require-await
     // Symlink if self-reference
@@ -57,7 +57,7 @@ const outdated = async ({
     name: 'Outdated',
     banner: 'Check for outdated package dependencies',
     hooks: __.tasks.outdated,
-    subTask: subTask
+    subTask
   }, async () => {
     await _util.default.npmOutdated();
   });
@@ -71,7 +71,7 @@ const build = async ({
     name: 'Build',
     banner: 'Generate package distributions',
     hooks: __.tasks.build,
-    subTask: subTask
+    subTask
   }, async () => {
     if (__.dist) {
       await _builder.default.run(__.dist);
@@ -87,7 +87,7 @@ const watch = async ({
     name: 'Watch',
     banner: 'Watch changes in sources',
     hooks: __.tasks.watch,
-    subTask: subTask
+    subTask
   }, async () => {
     if (__.dist) {
       await _builder.default.watch(__.dist);
@@ -103,7 +103,7 @@ const documentation = async ({
     name: 'Documentation',
     banner: 'Generate documentation',
     hooks: __.tasks.documentation,
-    subTask: subTask
+    subTask
   }, async () => {
     await _documenter.default.generateCommonAssets();
     await _documenter.default.generateAPI();
@@ -118,7 +118,7 @@ const prepare = async ({
     name: 'Prepare',
     banner: 'Prepare package for publication',
     hooks: __.tasks.prepare,
-    subTask: subTask
+    subTask
   }, async () => {
     // eslint-disable-line require-await
     _util.default.updateNodeVersion(); // Update version if self-reference
@@ -146,7 +146,7 @@ const rebuild = async ({
     name: 'Rebuild',
     banner: 'Rebuild package',
     hooks: __.tasks.rebuild,
-    subTask: subTask
+    subTask
   }, async () => {
     await build({
       subTask: true
@@ -169,7 +169,7 @@ const publish = async ({
     name: 'Publish',
     banner: `Publish package${unsafe ? ' (unsafe)' : ''}`,
     hooks: __.tasks.publish,
-    subTask: subTask
+    subTask
   }, async () => {
     if (!unsafe) {
       await outdated({
@@ -187,7 +187,7 @@ const publish = async ({
       version
     } = await _util.default.npmPack();
     await _util.default.npmPublish({
-      tarball: tarball,
+      tarball,
       tag: _util.default.getTag(version),
       restricted: __.publish.restricted,
       otp: await _util.default.getOTP(__.publish.useOTP)

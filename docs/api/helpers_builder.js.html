@@ -203,7 +203,7 @@ const getConfig = (mainConfig, { source = paths.package.sources, destination = p
 			}),
 			new WebpackFriendlyErrors({ clearConsole: false })
 		],
-		externals: externals
+		externals
 	});
 
 	return config;
@@ -350,7 +350,7 @@ class Builder {
 	 * @returns {Promise} When builder completed.
 	 */
 	documentationTheme({ source, destination }) {
-		const [config] = getConfigs({ web: { types: ['browserES5'] }, source: source });
+		const [config] = getConfigs({ web: { types: ['browserES5'] }, source });
 
 		return webpackRunner([merge(config, {
 			mode: 'production',

@@ -137,7 +137,7 @@ const getConfig = (mainConfig, {
     }), new _friendlyErrorsWebpackPlugin.default({
       clearConsole: false
     })],
-    externals: externals
+    externals
   });
   return config;
 }; //-- Generate all distributions configs
@@ -290,7 +290,7 @@ class Builder {
       web: {
         types: ['browserES5']
       },
-      source: source
+      source
     });
     return webpackRunner([(0, _webpackMerge.default)(config, {
       mode: 'production',
