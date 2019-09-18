@@ -3,13 +3,14 @@
 //--------------------------------------------------------
 'use strict';
 
+const autoprefixer = require('autoprefixer');
+const cssnano      = require('cssnano');
 const gulp         = require('gulp');
-const autoprefixer = require('gulp-autoprefixer');
-const cssnano      = require('gulp-cssnano');
 const gulpsass     = require('gulp-dart-sass');
+const postcss      = require('gulp-postcss');
 const sass         = require('sass');
 const fss          = require('@absolunet/fss');
-const manager      = require('@absolunet/manager');
+const { manager }  = require('@absolunet/manager');
 const builder      = require('@absolunet/manager/dist/node/helpers/builder');
 const documenter   = require('@absolunet/manager/dist/node/helpers/documenter');
 
@@ -41,8 +42,10 @@ manager.singleScriptsRunner({
 								}
 							}
 						}).on('error', gulpsass.logError))
-						.pipe(autoprefixer({ overrideBrowserslist: ['> 0.25%', 'not dead'] }))
-						.pipe(cssnano({ autoprefixer: false, discardUnused: false, mergeIdents: false, reduceIdents: false, zindex: false }))
+						.pipe(postcss([
+							autoprefixer({ overrideBrowserslist: ['> 0.25%', 'not dead'] }),
+							cssnano({ autoprefixer: false, discardUnused: false, mergeIdents: false, reduceIdents: false, zindex: false })
+						]))
 						.pipe(gulp.dest(documenter.theme.output))
 						.on('finish', () => { terminal.println('Styles written'); resolve(); })
 					;

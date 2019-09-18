@@ -22,17 +22,16 @@ In your `./package.json` file add
 ```json
 {
 	"scripts": {
-		"install": "npm run manager:install",  // For multi-package repository
-    	"manager:install": "node manager.js --task=install",
-    	"manager:outdated": "node manager.js --task=outdated",
-    	"manager:build": "node manager.js --task=build",
-    	"manager:watch": "node manager.js --task=watch",
-    	"manager:documentation": "node manager.js --task=documentation",
-    	"manager:prepare": "node manager.js --task=prepare",
-    	"manager:rebuild": "node manager.js --task=rebuild",
-    	"manager:publish": "node manager.js --task=publish",
-    	"manager:publish:unsafe": "node manager.js --task=publish:unsafe"
-
+		"postinstall": "npm run manager:install",  // For multi-package repository
+		"manager:install": "node manager --task=install",
+		"manager:outdated": "node manager --task=outdated",
+		"manager:build": "node manager --task=build",
+		"manager:watch": "node manager --task=watch",
+		"manager:documentation": "node manager --task=documentation",
+		"manager:prepare": "node manager --task=prepare",
+		"manager:rebuild": "node manager --task=rebuild",
+		"manager:publish": "node manager --task=publish",
+		"manager:publish:unsafe": "node manager --task=publish:unsafe"
 	}
 }
 ```
@@ -40,7 +39,7 @@ In your `./package.json` file add
 
 In a `./manager.js` file
 ```js
-const manager = require('@absolunet/manager');
+import { manager } from '@absolunet/manager';
 
 manager.singleScriptsRunner(options);
 ```
@@ -49,7 +48,7 @@ or
 
 
 ```js
-const manager = require('@absolunet/manager');
+import { manager } from '@absolunet/manager';
 
 manager.multiScriptsRunner(options);
 ```

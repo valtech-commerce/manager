@@ -3,10 +3,10 @@
 //--------------------------------------------------------
 import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
-import builder      from './helpers/builder';
-import documenter   from './helpers/documenter';
-import paths        from './helpers/paths';
-import util         from './helpers/util';
+import builder      from '../helpers/builder';
+import documenter   from '../helpers/documenter';
+import paths        from '../helpers/paths';
+import util         from '../helpers/util';
 const { chalk } = terminal;
 
 

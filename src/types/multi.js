@@ -4,8 +4,8 @@
 import minimist     from 'minimist';
 import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
-import paths        from './helpers/paths';
-import util         from './helpers/util';
+import paths        from '../helpers/paths';
+import util         from '../helpers/util';
 
 let subPackagesList = [];
 

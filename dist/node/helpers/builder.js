@@ -111,7 +111,8 @@ const getConfig = (mainConfig, {
   source = _paths.default.package.sources,
   destination = _paths.default.package.distributions,
   name = '',
-  externals = {}
+  externals = {},
+  include = []
 } = {}) => {
   const targetedDestination = `${destination}/${mainConfig.target}`;
 
@@ -138,7 +139,24 @@ const getConfig = (mainConfig, {
       clearConsole: false
     })],
     externals
+  }); // Extra files to include
+
+  const filtered = include.filter(pattern => {
+    return !(pattern.startsWith('/') || pattern.startsWith('.'));
   });
+
+  if (filtered.length !== 0) {
+    config.plugins.push(new _copyWebpackPlugin.default(filtered.map(pattern => {
+      return {
+        context: finalSource,
+        from: pattern,
+        to: finalDestination,
+        cache: false,
+        flatten: false
+      };
+    })));
+  }
+
   return config;
 }; //-- Generate all distributions configs
 
@@ -235,6 +253,7 @@ const webpackWatcher = (configs, output) => {
  * @property {Array<string>} web.types - List of web distributions (browser, browerES5, kafe, kafe, kafeES5).
  * @property {string} web.name - Public exposed name of package.
  * @property {object<string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
+ * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
  */
 
 /**

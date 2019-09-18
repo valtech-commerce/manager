@@ -6,13 +6,13 @@ var _fss = _interopRequireDefault(require("@absolunet/fss"));
 
 var _terminal = require("@absolunet/terminal");
 
-var _builder = _interopRequireDefault(require("./helpers/builder"));
+var _builder = _interopRequireDefault(require("../helpers/builder"));
 
-var _documenter = _interopRequireDefault(require("./helpers/documenter"));
+var _documenter = _interopRequireDefault(require("../helpers/documenter"));
 
-var _paths = _interopRequireDefault(require("./helpers/paths"));
+var _paths = _interopRequireDefault(require("../helpers/paths"));
 
-var _util = _interopRequireDefault(require("./helpers/util"));
+var _util = _interopRequireDefault(require("../helpers/util"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
