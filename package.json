@@ -1,6 +1,6 @@
 {
   "name": "@absolunet/manager",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.3",
   "description": "Manager for Node.js projects",
   "definition": "",
   "homepage": "https://github.com/absolunet/node-manager",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@absolunet/eslint-config-browser": "1.3.0",
-    "@absolunet/manager": "2.0.0-alpha.2",
+    "@absolunet/manager": "2.0.0-alpha.3",
     "@absolunet/nwayo-toolbox": "3.7.0",
     "@absolunet/tester": "2.6.9",
     "autoprefixer": "9.6.1",
