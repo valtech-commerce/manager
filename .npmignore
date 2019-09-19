@@ -1,5 +1,6 @@
 .DS_Store
 .editorconfig
+.eslintignore
 .eslintrc.yaml
 .gitignore
 .travis.yml
@@ -7,4 +8,6 @@ manager.js
 docs
 src
 test
+!dist/**
+
 ressources/documentation-theme/sources
