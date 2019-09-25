@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Manager - @absolunet/manager API documentation</title>
+	<title>managers/AbstractManager.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,830 +54,262 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">Manager</h1>
+			<h1 class="page-title">managers/AbstractManager.js</h1>
 		
 
 			
 
 
 
-
-<section>
-
-<div>
-    
-        </h2>
-        
-            <div class="class-description">Absolunet's npm packages manager.</div>
-        
-    
-</div>
-
-<article>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<div class="member">
-<h4 class="name" id="version"><span class="type-signature"></span>version<span class="type-signature"> :string</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-32">Manager.js:32</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Current package or multi-package version.
-</div>
-
-
-
-
-
-
-
-</div>
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="updatePackageMeta"><span class="type-signature">(async) </span>updatePackageMeta<span class="signature">(&hellip;parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-44">Manager.js:44</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Update package meta.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Parameters of <a href="Util.html#updateNodeVersion">Util#updateNodeVersion</a> and <a href="Util.html#updateLicense">Util#updateLicense</a>.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="testOutdated"><span class="type-signature">(async) </span>testOutdated<span class="signature">(&hellip;parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-57">Manager.js:57</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Lists outdated packages.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Parameters of <a href="Util.html#npmOutdated">Util#npmOutdated</a>.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="installPackage"><span class="type-signature">(async) </span>installPackage<span class="signature">(&hellip;parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-69">Manager.js:69</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Reinstall packages.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Parameters of <a href="Util.html#npmInstall">Util#npmInstall</a>.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
     
-
-    <h4 class="name" id="init"><span class="type-signature">(async) </span>init<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-97">Manager.js:97</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Initialize the manager.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre><code class="language-js">manager.init({
-	repositoryType: 'single-package',
-	tasks: {
-		build: {
-			postRun: async () => {}
-		},
-
-		deploy: {
-			preRun:  async () => {},
-			postRun: async ({ terminal }) => {
-				terminal.print('Enjoy');
-			}
-		}
+    <section>
+        <article>
+            <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
+//-- Abstract manager
+//--------------------------------------------------------
+import merge        from 'webpack-merge';
+import fss          from '@absolunet/fss';
+import __           from '@absolunet/private-registry';
+import { terminal } from '@absolunet/terminal';
+import builder      from '../helpers/builder';
+import documenter   from '../helpers/documenter';
+import env          from '../helpers/environment';
+import paths        from '../helpers/paths';
+import util         from '../helpers/util';
+const { chalk } = terminal;
+
+
+const runTask = ({ task, subtask = '', context, grouped, callback }) => {
+	return util.taskRunner({
+		task:  env.TASK[task + subtask],
+		hooks: __(context).get('tasks')[task],
+		grouped
+	}, callback);
+};
+
+
+
+
+
+
+/**
+ * Abstract manager class.
+ *
+ * @abstract
+ */
+class AbstractManager {
+
+	/**
+	 * Create a package manager.
+	 *
+	 * @param {ManagerOptions} [options] - Options to customize the manager.
+	 */
+	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
+		__(this).set({
+			publish: { restricted, useOTP },
+			dist,
+			tasks
+		});
 	}
-});</code></pre>
 
 
+	/**
+	 * Current repository version.
+	 *
+	 * @type {string}
+	 */
+	get version() {
+		throw new Error('Not implemented');
+	}
 
 
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#ManagerOptions">ManagerOptions</a></span>
+	/**
+	 * Install task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async install({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'install',
+			context: this,
+			grouped,
+			callback
+		});
+	}
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Options to customize the manager.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
+	/**
+	 * Outdated task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async outdated({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'outdated',
+			context: this,
+			grouped,
+			callback: async () => {
+				await util.npmOutdated();
+				await callback();
+			}
+		});
+	}
 
 
+	/**
+	 * Build task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async build({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'build',
+			context: this,
+			grouped,
+			callback: async () => {
+				if (__(this).get('dist')) {
+					await callback();
+				}
+			}
+		});
+	}
 
 
+	/**
+	 * Watch task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async watch({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'watch',
+			context: this,
+			grouped,
+			callback: async () => {
+				if (__(this).get('dist')) {
+					await callback();
+				}
+			}
+		});
+	}
 
 
+	/**
+	 * Documentation task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async documentation({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'documentation',
+			context: this,
+			grouped,
+			callback: async () => {
+				await documenter.generateCommonAssets();
+				await callback();
+			}
+		});
+	}
 
 
+	/**
+	 * Prepare task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async prepare({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'prepare',
+			context: this,
+			grouped,
+			callback
+		});
+	}
 
 
+	/**
+	 * Rebuild task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async rebuild({ grouped } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'rebuild',
+			context: this,
+			grouped,
+			callback: async () => {
+				await this.build({ grouped: true });
+				await this.documentation({ grouped: true });
+				await this.prepare({ grouped: true });
+				await callback();
+			}
+		});
+	}
 
 
+	/**
+	 * Publish task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {boolean} [options.unsafe=false] - Publish without testing.
+	 * @param {Function} [callback] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	async publish({ grouped, unsafe = false } = {}, callback = async () => {}) {
+		return runTask({
+			task: 'publish',
+			subtask: unsafe ? 'Unsafe' : '',
+			context: this,
+			grouped,
+			callback: async () => {
+				if (!unsafe) {
+					await this.outdated({ grouped: true });
+					await this.rebuild({ grouped: true });
+					terminal.run('npm test');
+				}
+
+				await callback();
+			}
+		});
+	}
+
+}
 
 
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+export default AbstractManager;
+</code></pre>
+        </article>
+    </section>
 
 
 

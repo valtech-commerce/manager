@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Util - @absolunet/manager API documentation</title>
+	<title>SingleManager - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,7 +54,7 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">Util</h1>
+			<h1 class="page-title">SingleManager</h1>
 		
 
 			
@@ -68,13 +68,115 @@
     
         </h2>
         
-            <div class="class-description">Manager utils.</div>
+            <div class="class-description">Single package manager.</div>
         
     
 </div>
 
 <article>
     
+        <div class="container-overview">
+        
+            
+<div class="method">
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="SingleManager"><span class="type-signature"></span>new SingleManager<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="managers_SingleManager.js.html#line-21">managers/SingleManager.js:21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+        
+        </div>
+    
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="AbstractManager.html">AbstractManager</a></li>
+    </ul>
+
 
     
 
@@ -89,6 +191,80 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="member">
+<h4 class="name" id="version"><span class="type-signature"></span>version<span class="type-signature"> :string</span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="managers_AbstractManager.js.html#line-55">managers/AbstractManager.js:55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#version">AbstractManager#version</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Current repository version.
+</div>
+
+
+
+
+
+
+
+</div>
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -99,7 +275,7 @@
 
     
 
-    <h4 class="name" id="relativizePath"><span class="type-signature"></span>relativizePath<span class="signature">(absolutePath)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="install"><span class="type-signature">(async) </span>install<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -111,7 +287,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-54">helpers/util.js:54</a>
+        <a href="managers_AbstractManager.js.html#line-69">managers/AbstractManager.js:69</a>
     </li></ul></dd>
     
 
@@ -121,6 +297,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#install">AbstractManager#install</a>
+    </li></ul></dd>
     
 
     
@@ -151,7 +332,7 @@
 
 
 <div class="description">
-    Relativize path from package root.
+    Install task.
 </div>
 
 
@@ -177,276 +358,7 @@
         <th>Type</th>
 
         
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>absolutePath</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Absolute package path.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Relativized path.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="getTask"><span class="type-signature"></span>getTask<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-64">helpers/util.js:64</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Post-runner wrapper.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Task fetch from terminal.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="taskRunner"><span class="type-signature">(async) </span>taskRunner<span class="signature">(options, main)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-80">helpers/util.js:80</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Task runner.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
+        <th>Attributes</th>
         
 
         
@@ -472,6 +384,16 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -502,78 +424,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>task</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#Task">Task</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Task.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>hooks</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#TaskHooks">TaskHooks</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Custom hooks.</td>
-        </tr>
-
     
 
         <tr>
@@ -610,7 +460,7 @@
                 </td>
             
 
-            <td class="description last">Options.</td>
+            <td class="description last">If is called in a grouped task.</td>
         </tr>
 
     
@@ -624,7 +474,7 @@
 
         <tr>
             
-                <td class="name"><code>main</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
@@ -637,10 +487,20 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Main runner.</td>
+            <td class="description last">Async function to execute.</td>
         </tr>
 
     
@@ -666,7 +526,7 @@
 
         
 <div class="param-desc">
-    When post-runner completed.
+    When task completed.
 </div>
 
 
@@ -694,7 +554,7 @@
 
     
 
-    <h4 class="name" id="updateNodeVersion"><span class="type-signature"></span>updateNodeVersion<span class="signature">(root<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="outdated"><span class="type-signature">(async) </span>outdated<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -706,7 +566,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-124">helpers/util.js:124</a>
+        <a href="managers_AbstractManager.js.html#line-88">managers/AbstractManager.js:88</a>
     </li></ul></dd>
     
 
@@ -714,6 +574,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="AbstractManager.html#outdated">AbstractManager#outdated</a>
+    </li></ul></dd>
     
 
     
@@ -746,7 +611,7 @@
 
 
 <div class="description">
-    Update Node.js engine version in package.json.
+    Outdated task.
 </div>
 
 
@@ -776,8 +641,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -788,13 +651,13 @@
 
         <tr>
             
-                <td class="name"><code>root</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -813,112 +676,10 @@
             
 
             
-                <td class="default">
+
+            <td class="description last">Options.
+                <h6>Properties</h6>
                 
-                    <code><a href="global.html#PackagePaths">PackagePaths</a>.root</code>
-                
-                </td>
-            
-
-            <td class="description last">Directory path of the package.json.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="updateLicense"><span class="type-signature"></span>updateLicense<span class="signature">(root<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-139">helpers/util.js:139</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Copy license file from project root to sub-package root.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
 
 <table class="params">
     <thead>
@@ -946,204 +707,7 @@
 
         <tr>
             
-                <td class="name"><code>root</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code><a href="global.html#PackagePaths">PackagePaths</a>.root</code>
-                
-                </td>
-            
-
-            <td class="description last">Directory path of the sub-package licence.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="npmOutdated"><span class="type-signature">(async) </span>npmOutdated<span class="signature">(root<span class="signature-attributes">opt</span>, verbose<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-156">helpers/util.js:156</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Check for outdated packages.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>root</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code><a href="global.html#PackagePaths">PackagePaths</a>.root</code>
-                
-                </td>
-            
-
-            <td class="description last">Directory path of the package.json.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>verbose</code></td>
+                <td class="name"><code>grouped</code></td>
             
 
             <td class="type">
@@ -1175,7 +739,47 @@
                 </td>
             
 
-            <td class="description last">Verbose mode.</td>
+            <td class="description last">If is called in a grouped task.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Async function to execute.</td>
         </tr>
 
     
@@ -1201,7 +805,7 @@
 
         
 <div class="param-desc">
-    When method completed.
+    When task completed.
 </div>
 
 
@@ -1229,7 +833,7 @@
 
     
 
-    <h4 class="name" id="npmInstall"><span class="type-signature">(async) </span>npmInstall<span class="signature">(root<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="build"><span class="type-signature">(async) </span>build<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1241,7 +845,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-224">helpers/util.js:224</a>
+        <a href="managers_AbstractManager.js.html#line-110">managers/AbstractManager.js:110</a>
     </li></ul></dd>
     
 
@@ -1251,6 +855,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#build">AbstractManager#build</a>
+    </li></ul></dd>
     
 
     
@@ -1281,7 +890,7 @@
 
 
 <div class="description">
-    Install npm packages.
+    Build task.
 </div>
 
 
@@ -1311,8 +920,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -1323,363 +930,7 @@
 
         <tr>
             
-                <td class="name"><code>root</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code><a href="global.html#PackagePaths">PackagePaths</a>.root</code>
-                
-                </td>
-            
-
-            <td class="description last">Directory path of the package.json.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="npmPack"><span class="type-signature">(async) </span>npmPack<span class="signature">(root<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-240">helpers/util.js:240</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Pack directory and return tarball path.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>root</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code><a href="global.html#PackagePaths">PackagePaths</a>.root</code>
-                
-                </td>
-            
-
-            <td class="description last">Directory path of the package.json.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Tarball path and version used.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;object.&lt;{tarball: string, version: string}>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="npmPublish"><span class="type-signature">(async) </span>npmPublish<span class="signature">(parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-273">helpers/util.js:273</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Publish package.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
@@ -1692,10 +943,20 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Parameters.
+            <td class="description last">Options.
                 <h6>Properties</h6>
                 
 
@@ -1709,7 +970,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1721,53 +986,7 @@
 
         <tr>
             
-                <td class="name"><code>tarball</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Tarball path.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tag</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Tag to use.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>restricted</code></td>
+                <td class="name"><code>grouped</code></td>
             
 
             <td class="type">
@@ -1780,33 +999,26 @@
             </td>
 
             
-
-            
-
-            <td class="description last">Tell the registry the package should be published restricted instead of public.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>otp</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">boolean</span>
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
 
             
-            </td>
-
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
             
 
-            
-
-            <td class="description last">Use the two-factor authentication if enabled.</td>
+            <td class="description last">If is called in a grouped task.</td>
         </tr>
 
     
@@ -1814,6 +1026,39 @@
 </table>
 
             </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Async function to execute.</td>
         </tr>
 
     
@@ -1839,7 +1084,7 @@
 
         
 <div class="param-desc">
-    When method completed.
+    When task completed.
 </div>
 
 
@@ -1867,7 +1112,7 @@
 
     
 
-    <h4 class="name" id="getTag"><span class="type-signature"></span>getTag<span class="signature">(version)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="watch"><span class="type-signature">(async) </span>watch<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1879,7 +1124,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-292">helpers/util.js:292</a>
+        <a href="managers_AbstractManager.js.html#line-133">managers/AbstractManager.js:133</a>
     </li></ul></dd>
     
 
@@ -1889,6 +1134,11 @@
 
     
 
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#watch">AbstractManager#watch</a>
+    </li></ul></dd>
     
 
     
@@ -1919,7 +1169,7 @@
 
 
 <div class="description">
-    Get publish tag depending on version.
+    Watch task.
 </div>
 
 
@@ -1945,6 +1195,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1957,143 +1209,35 @@
 
         <tr>
             
-                <td class="name"><code>version</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Version to check.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Tag.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="getOTP"><span class="type-signature">(async) </span>getOTP<span class="signature">(useOTP)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-304">helpers/util.js:304</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Ask user for npm's one-time password or confirm publication.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
+            <td class="description last">Options.
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -2105,7 +1249,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2117,7 +1265,7 @@
 
         <tr>
             
-                <td class="name"><code>useOTP</code></td>
+                <td class="name"><code>grouped</code></td>
             
 
             <td class="type">
@@ -2130,10 +1278,66 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">If is called in a grouped task.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Get one-time password or confirm publication.</td>
+            <td class="description last">Async function to execute.</td>
         </tr>
 
     
@@ -2159,7 +1363,7 @@
 
         
 <div class="param-desc">
-    User's one-time password.
+    When task completed.
 </div>
 
 
@@ -2170,7 +1374,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;(string|undefined)></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -2187,7 +1391,7 @@
 
     
 
-    <h4 class="name" id="confirmUnsafePublish"><span class="type-signature">(async) </span>confirmUnsafePublish<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="documentation"><span class="type-signature">(async) </span>documentation<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2199,7 +1403,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_util.js.html#line-339">helpers/util.js:339</a>
+        <a href="managers_AbstractManager.js.html#line-156">managers/AbstractManager.js:156</a>
     </li></ul></dd>
     
 
@@ -2207,6 +1411,569 @@
 
     
 
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#documentation">AbstractManager#documentation</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Documentation task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>grouped</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">If is called in a grouped task.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Async function to execute.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="prepare"><span class="type-signature">(async) </span>prepare<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="managers_AbstractManager.js.html#line-178">managers/AbstractManager.js:178</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#prepare">AbstractManager#prepare</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Prepare task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>grouped</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">If is called in a grouped task.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Async function to execute.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="rebuild"><span class="type-signature">(async) </span>rebuild<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="managers_AbstractManager.js.html#line-197">managers/AbstractManager.js:197</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="AbstractManager.html#rebuild">AbstractManager#rebuild</a>
+    </li></ul></dd>
     
 
     
@@ -2239,7 +2006,7 @@
 
 
 <div class="description">
-    Ask user for consent for unsafe publishing.
+    Rebuild task.
 </div>
 
 
@@ -2250,6 +2017,169 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>grouped</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">If is called in a grouped task.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Async function to execute.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -2270,7 +2200,325 @@
 
         
 <div class="param-desc">
-    Completes if user consents.
+    When task completed.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+</div>
+
+        
+            
+<div class="method">
+
+    
+
+    <h4 class="name" id="publish"><span class="type-signature">(async) </span>publish<span class="signature">(options<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="managers_AbstractManager.js.html#line-222">managers/AbstractManager.js:222</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="AbstractManager.html#publish">AbstractManager#publish</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Publish task.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>grouped</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">If is called in a grouped task.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>unsafe</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last">Publish without testing.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Async function to execute.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    When task completed.
 </div>
 
 

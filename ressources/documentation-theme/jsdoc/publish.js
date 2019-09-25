@@ -680,8 +680,11 @@ exports.publish = function(taffyData, opts, tutorials) {
         : false;
 
 
-	// Absolunet modification
-    var packageRawConfig = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+    // Absolunet modification
+    var managerEnv = require(__dirname + '/../../../dist/node/helpers/environment');
+    var { root, depth } = JSON.parse(process.env[managerEnv.JSDOC_CLI_KEY]);
+
+    var packageRawConfig = JSON.parse(fs.readFileSync(root + '/package.json', 'utf8'));
     var { domain, user, name } = packageRawConfig.repository.url.match(/^[a-z]+:\/\/(?<domain>[a-z0-9.-]+)\/(?<user>[a-z0-9._-]+)\/(?<name>[a-z0-9._-]+).git$/u).groups;
 
     var packageConfig = {
@@ -693,9 +696,15 @@ exports.publish = function(taffyData, opts, tutorials) {
 
     var managerRawConfig = JSON.parse(fs.readFileSync(`${__dirname}/../../../package.json`, 'utf8'));
     var managerConfig = {
-		name: managerRawConfig.name,
+        name: managerRawConfig.name,
         version: managerRawConfig.version,
- 	};
+	};
+	var urlRoot = '..' + '/..'.repeat(depth - 1) ;
+    var urls = {
+        root:   urlRoot,
+        common: urlRoot + '/__assets',
+    };
+    // /Absolunet modification
 
 
     // add template helpers
@@ -707,6 +716,7 @@ exports.publish = function(taffyData, opts, tutorials) {
     view.outputSourceFiles = outputSourceFiles;
     view.package = packageConfig;
     view.manager = managerConfig;
+    view.urls = urls;
 
     // once for all
     view.nav = buildNav(members);

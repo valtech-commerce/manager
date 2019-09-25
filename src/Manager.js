@@ -2,28 +2,10 @@
 //-- Manager
 //--------------------------------------------------------
 import { terminal } from '@absolunet/terminal';
+import env          from './helpers/environment';
 import util         from './helpers/util';
-import multi        from './types/multi';
-import single       from './types/single';
 const { chalk } = terminal;
 
-
-/**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object<TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
 
 /**
  * Absolunet's npm packages manager.
@@ -88,14 +70,16 @@ class Manager {
 		await util.npmInstall(...parameters);
 	}
 
+
 	/**
-	 * Bootstrap the CLI runner for single-package repository.
+	 * Initialize the manager.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
+	 * @param {ManagerOptions} [options] - Options to customize the manager.
 	 * @returns {Promise} When method completed.
 	 * @example
-	 * manager.singleScriptsRunner({
+	 * manager.init({
+	 * 	repositoryType: 'single-package',
 	 * 	tasks: {
 	 *		build: {
 	 *			postRun: async () => {}
@@ -110,34 +94,46 @@ class Manager {
 	 * 	}
 	 * });
 	 */
-	async singleScriptsRunner(...parameters) {
-		await single.scriptsRunner(...parameters);
-	}
+	async init(options) {
+		const { repositoryType } = options;
+		delete options.repositoryType;
 
-	/**
-	 * Bootstrap the CLI runner for multi-package repository.
-	 *
-	 * @async
-	 * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-	 * @returns {Promise} When method completed.
-	 * @example
-	 * manager.multiScriptsRunner({
-		* tasks: {
-		*		build: {
-		*			postRun: async () => {}
-		* 		},
-		*
-		* 		deploy: {
-		* 			preRun:  async () => {},
-		* 			postRun: async ({ terminal }) => {
-		* 				terminal.print('Enjoy');
-		* 			}
-		* 		}
-		* 	}
-		* });
-		*/
-	async multiScriptsRunner(...parameters) {
-		await multi.scriptsRunner(...parameters);
+		let managerType;
+
+		if (repositoryType === env.REPOSITORY_TYPE.singlePackage) {
+			const SingleManager = require('./managers/SingleManager');
+			managerType = new SingleManager(options);
+
+		} else if (repositoryType === env.REPOSITORY_TYPE.multiPackage) {
+			const MultiManager = require('./managers/MultiManager');
+			managerType = new MultiManager(options);
+
+		} else {
+			throw new TypeError('repositoryType option is not valid');
+		}
+
+
+		switch (util.getTask()) {
+
+			case env.TASK.install:       await managerType.install(); break;
+			case env.TASK.outdated:      await managerType.outdated(); break;
+
+			case env.TASK.build:         await managerType.build(); break;
+			case env.TASK.watch:         await managerType.watch(); break;
+			case env.TASK.documentation: await managerType.documentation(); break;
+			case env.TASK.prepare:       await managerType.prepare(); break;
+			case env.TASK.rebuild:       await managerType.rebuild(); break;
+
+			case env.TASK.publish:       await managerType.publish(); break;
+
+			case env.TASK.publishUnsafe:
+				await util.confirmUnsafePublish();
+				await managerType.publish({ unsafe: true });
+				break;
+
+		}
+
+		terminal.completionBox('Completed');
 	}
 
 }

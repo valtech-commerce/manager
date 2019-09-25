@@ -14,6 +14,7 @@ import tmp          from 'tmp';
 import fsp          from '@absolunet/fsp';
 import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
+import env          from './environment';
 import paths        from './paths';
 const { chalk } = terminal;
 
@@ -70,17 +71,17 @@ class Util {
 	 *
 	 * @async
 	 * @param {object} options - Options.
-	 * @param {string} options.name - Task name.
-	 * @param {string} options.banner - Task banner.
+	 * @param {Task} options.task - Task.
 	 * @param {TaskHooks} [options.hooks] - Custom hooks.
-	 * @param {boolean} [options.subTask=false] - Options.
+	 * @param {boolean} [options.grouped=false] - Options.
 	 * @param {Function} main - Main runner.
 	 * @returns {Promise} When post-runner completed.
 	 */
-	async taskRunner({ name, banner, hooks = {}, subTask = false }, main) {
+	async taskRunner({ task, hooks = {}, grouped = false }, main) {
+		const { name, banner } = env.TASK_DATA[task];
 
 		// Banner
-		if (subTask) {
+		if (grouped) {
 			terminal.infoBox(`${name}: ${banner}`);
 		} else {
 			terminal.titleBox(`Manager: ${banner}`);
@@ -107,7 +108,7 @@ class Util {
 		}
 
 		// Completion banner
-		if (subTask) {
+		if (grouped) {
 			terminal.infoBox(`${name}: ${figures.tick} Completed`);
 		}
 	}

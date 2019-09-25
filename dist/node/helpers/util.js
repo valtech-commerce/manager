@@ -28,6 +28,8 @@ var _fss = _interopRequireDefault(require("@absolunet/fss"));
 
 var _terminal = require("@absolunet/terminal");
 
+var _environment = _interopRequireDefault(require("./environment"));
+
 var _paths = _interopRequireDefault(require("./paths"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -89,23 +91,25 @@ class Util {
    *
    * @async
    * @param {object} options - Options.
-   * @param {string} options.name - Task name.
-   * @param {string} options.banner - Task banner.
+   * @param {Task} options.task - Task.
    * @param {TaskHooks} [options.hooks] - Custom hooks.
-   * @param {boolean} [options.subTask=false] - Options.
+   * @param {boolean} [options.grouped=false] - Options.
    * @param {Function} main - Main runner.
    * @returns {Promise} When post-runner completed.
    */
 
 
   async taskRunner({
-    name,
-    banner,
+    task,
     hooks = {},
-    subTask = false
+    grouped = false
   }, main) {
-    // Banner
-    if (subTask) {
+    const {
+      name,
+      banner
+    } = _environment.default.TASK_DATA[task]; // Banner
+
+    if (grouped) {
       _terminal.terminal.infoBox(`${name}: ${banner}`);
     } else {
       _terminal.terminal.titleBox(`Manager: ${banner}`);
@@ -138,7 +142,7 @@ class Util {
     } // Completion banner
 
 
-    if (subTask) {
+    if (grouped) {
       _terminal.terminal.infoBox(`${name}: ${_figures.default.tick} Completed`);
     }
   }
@@ -322,9 +326,10 @@ class Util {
     otp
   }) {
     // eslint-disable-line require-await
-    _terminal.terminal.println(`Publish tarball ${chalk.underline(_path.default.basename(tarball))}`);
+    _terminal.terminal.println(`Publish tarball ${chalk.underline(_path.default.basename(tarball))}`); // terminal.run(`
 
-    _terminal.terminal.run(`
+
+    console.log(`
 			npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}
 		`);
 

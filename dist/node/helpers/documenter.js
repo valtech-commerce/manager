@@ -8,7 +8,11 @@ var _fss = _interopRequireDefault(require("@absolunet/fss"));
 
 var _terminal = require("@absolunet/terminal");
 
+var _environment = _interopRequireDefault(require("./environment"));
+
 var _paths = _interopRequireDefault(require("./paths"));
+
+var _util = _interopRequireDefault(require("./util"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38,50 +42,77 @@ class Documenter {
   /**
    * Copy documentation common assets to output directory.
    *
-   * @param {string} [root={@link PackagePaths}.documentation] - Path to generated documentation root.
+   * @param {string} [destination={@link PackagePaths}.documentation] - Path to the generated documentation.
    */
 
 
-  generateCommonAssets(root = _paths.default.package.documentation) {
+  generateCommonAssets(destination = _paths.default.package.documentation) {
     _terminal.terminal.println('Copy documentation common assets');
 
-    const commonPath = `${root}/common`;
+    const commonPath = `${destination}/__assets`;
 
-    _fss.default.remove(root);
+    _fss.default.remove(destination);
 
     _fss.default.ensureDir(commonPath);
 
-    _fss.default.copy(`${_paths.default.documentationTheme}/build`, commonPath); // Temporarily redirect main url to API docs
-
-
-    _fss.default.copy(`${_paths.default.documentationTheme}/redirect/index.html`, `${root}/index.html`);
+    _fss.default.copy(`${_paths.default.documentationTheme}/build`, commonPath);
   }
   /**
    * Build API documentation via JSDoc.
    *
    * @param {object} [options] - Options.
-   * @param {string} [options.root={@link PackagePaths}.documentation] - Path to generated documentation root.
-   * @param {string} [options.sub] - Name of subpackage.
+   * @param {string} [options.root={@link PackagePaths}.root] - Root to the package.
+   * @param {string} [options.source={@link PackagePaths}.sources] - Path to source code.
+   * @param {string} [options.destination={@link PackagePaths}.documentation] - Path to the generated documentation.
+   * @param {number} [options.depth=1] - Directory depth relative to the documentation root.
    */
 
 
   generateAPI({
-    root = _paths.default.package.documentation,
-    sub = ''
+    root = _paths.default.package.root,
+    source = _paths.default.package.sources,
+    destination = _paths.default.package.documentation,
+    depth = 1
   } = {}) {
-    _terminal.terminal.println('Build API documentation');
+    _terminal.terminal.println(`Build API documentation for ${_util.default.relativizePath(source)}`);
 
-    const output = `${root}${sub ? `/${sub}` : ''}/api`;
+    const output = `${destination}/api`;
 
     _fss.default.remove(output);
 
     _fss.default.ensureDir(output);
 
+    const options = {
+      root,
+      source,
+      destination: output,
+      depth
+    };
     const jsdocBin = `${(0, _resolvePkg.default)('jsdoc', {
       cwd: __dirname
     })}/jsdoc.js`;
 
-    _terminal.terminal.run(`node ${jsdocBin} --configure ${_paths.default.documentationTheme}/jsdoc/config.js --destination ${output}`);
+    _terminal.terminal.run(`export ${_environment.default.JSDOC_CLI_KEY}='${JSON.stringify(options)}'; node ${jsdocBin} --configure ${_paths.default.documentationTheme}/jsdoc/config.js`);
+
+    _terminal.terminal.spacer(2);
+  }
+  /**
+   * Build text documentation.
+   *
+   * @param {object} [options] - Options.
+   * @param {string} [options.source={@link PackagePaths}.sources] - Path to source code.
+   * @param {string} [options.destination={@link PackagePaths}.documentation] - Path to the generated documentation.
+   */
+
+
+  generateText({
+    source = _paths.default.package.sources,
+    destination = _paths.default.package.documentation
+  } = {}) {
+    _terminal.terminal.println(`Build text documentation for ${_util.default.relativizePath(source)}`); // Temporarily redirect main url to API docs
+
+
+    _fss.default.copy(`${_paths.default.documentationTheme}/redirect/index.html`, `${destination}/index.html`);
   }
 
 }

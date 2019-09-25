@@ -1,13 +1,24 @@
 /* eslint-disable unicorn/prevent-abbreviations, array-bracket-newline */
 'use strict';
 
+const fss = require('@absolunet/fss');
+const env = require(`${__dirname}/../../../dist/node/helpers/environment`);
+
+const { source, destination } = JSON.parse(process.env[env.JSDOC_CLI_KEY]);  // eslint-disable-line no-process-env
+const readme = fss.realpath(`${source}/../readme.md`);
+
+
+
+
+
+
 module.exports = {
 	plugins: [
 		'plugins/underscore'
 	],
 	recurseDepth: 10,
 	source: {
-		include: ['./readme.md', './src'],
+		include: [readme, source],
 		includePattern: '.js$',
 		excludePattern: ''
 	},
@@ -22,6 +33,7 @@ module.exports = {
 	},
 
 	opts: {
+		destination,
 		template: `${__dirname}`,
 		encoding: 'utf8',
 		recurse: true,

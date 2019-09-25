@@ -15,7 +15,7 @@ const manager = new Manager();
  * @example
  * import { manager } from '@absolunet/manager';
  *
- * manager.singleScriptsRunner(options);
+ * manager.init(options);
  *
  * @example
  * import { Manager } from '@absolunet/manager';

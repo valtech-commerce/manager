@@ -16,7 +16,8 @@ const documenter   = require('@absolunet/manager/dist/node/helpers/documenter');
 
 
 
-manager.singleScriptsRunner({
+manager.init({
+	repositoryType: 'single-package',
 	dist: {
 		node: true
 	},

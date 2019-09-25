@@ -14,6 +14,13 @@ import { terminal }          from '@absolunet/terminal';
 import { transformAsync }    from '@babel/core';
 import babelTransformModules from '@babel/plugin-transform-modules-commonjs';
 import paths                 from './paths';
+import util                  from './util';
+const { chalk } = terminal;
+
+
+//-- Actions
+const BUILD = 'Build distribution for';
+const WATCH = 'Start watching in';
 
 
 //-- Common
@@ -24,31 +31,31 @@ const COMMON_CONFIG = {
 
 
 //-- Node.js
-const NODE_CONFIG = merge(COMMON_CONFIG, {
-	target: 'node',
-	entry:  `${paths.webpackEntryPoints}/node.js`,
-	plugins: [
-		new WebpackDisableOutput(),
-		new WebpackCopy([{
-			context: paths.package.sources,
-			from: '**/*.js',
-			to: '',
-			cache: true,
-			transform: (content) => {
-				return transformAsync(content, {
-					plugins: [
-						[babelTransformModules, { strict: true }],
-						[babelAddModuleExports, { addDefaultProperty: true }]
-					]
-				})
-					.then(({ code }) => { return code; })
-				;
-			}
-		}])
-
-	]
-
-});
+const NODE_CONFIG = (source) => {
+	return merge(COMMON_CONFIG, {
+		target: 'node',
+		entry:  `${paths.webpackEntryPoints}/node.js`,
+		plugins: [
+			new WebpackDisableOutput(),
+			new WebpackCopy([{
+				context: source,
+				from: '**/!(*.d).js',
+				to: '',
+				cache: true,
+				transform: (content) => {
+					return transformAsync(content, {
+						plugins: [
+							[babelTransformModules, { strict: true }],
+							[babelAddModuleExports, { addDefaultProperty: true }]
+						]
+					})
+						.then(({ code }) => { return code; })
+					;
+				}
+			}])
+		]
+	});
+};
 
 
 //-- Browser
@@ -113,11 +120,9 @@ const KAFE_ES5_CONFIG = merge(BROWSER_ES5_CONFIG, {
 
 
 //-- Generate a specific distribution config
-const getConfig = (mainConfig, { source = paths.package.sources, destination = paths.package.distributions, name = '', externals = {}, include = [] } = {}) => {
+const getDistributionConfig = (mainConfig, { source, destination = paths.package.distributions, name = '', externals = {}, include = [] } = {}) => {
 	const targetedDestination = `${destination}/${mainConfig.target}`;
 	fss.ensureDir(targetedDestination);
-
-	const finalSource      = fss.realpath(source);
 	const finalDestination = fss.realpath(targetedDestination);
 
 	if (mainConfig.output && mainConfig.output.filename) {
@@ -133,7 +138,7 @@ const getConfig = (mainConfig, { source = paths.package.sources, destination = p
 		plugins: [
 			new webpack.DefinePlugin({
 				'process.env.__PACKAGE_NAME__': JSON.stringify(name),
-				'process.env.__PACKAGE_ROOT__': JSON.stringify(finalSource)
+				'process.env.__PACKAGE_ROOT__': JSON.stringify(source)
 			}),
 			new WebpackFriendlyErrors({ clearConsole: false })
 		],
@@ -148,7 +153,7 @@ const getConfig = (mainConfig, { source = paths.package.sources, destination = p
 	if (filtered.length !== 0) {
 		config.plugins.push(new WebpackCopy(filtered.map((pattern) => {
 			return {
-				context: finalSource,
+				context: source,
 				from:    pattern,
 				to:      finalDestination,
 				cache:   false,
@@ -162,13 +167,16 @@ const getConfig = (mainConfig, { source = paths.package.sources, destination = p
 
 
 //-- Generate all distributions configs
-const getConfigs = ({ node, web = {}, ...options } = {}) => {
+const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action) => {
 	const configs = [];
 
 	const types = web.types || [];
 	if (node) {
 		types.push('node');
 	}
+
+	options.source = fss.realpath(options.source || paths.package.sources);
+	terminal.print(`${action} ${chalk.underline(util.relativizePath(options.source))}`);
 
 	const webOptions = merge(web, options);
 
@@ -177,27 +185,27 @@ const getConfigs = ({ node, web = {}, ...options } = {}) => {
 
 			case 'node':
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getConfig(NODE_CONFIG, options));
+				configs.push(getDistributionConfig(NODE_CONFIG(options.source), options));
 				break;
 
 			case 'browser':
 				terminal.print(`${figures.pointerSmall} Add browser distribution`);
-				configs.push(getConfig(BROWSER_CONFIG, webOptions));
+				configs.push(getDistributionConfig(BROWSER_CONFIG, webOptions));
 				break;
 
 			case 'browserES5':
 				terminal.print(`${figures.pointerSmall} Add browser ES5 distribution`);
-				configs.push(getConfig(BROWSER_ES5_CONFIG, webOptions));
+				configs.push(getDistributionConfig(BROWSER_ES5_CONFIG, webOptions));
 				break;
 
 			case 'kafe':
 				terminal.print(`${figures.pointerSmall} Add kafe distribution`);
-				configs.push(getConfig(KAFE_CONFIG, webOptions));
+				configs.push(getDistributionConfig(KAFE_CONFIG, webOptions));
 				break;
 
 			case 'kafeES5':
 				terminal.print(`${figures.pointerSmall} Add kafe ES5 distribution`);
-				configs.push(getConfig(KAFE_ES5_CONFIG, webOptions));
+				configs.push(getDistributionConfig(KAFE_ES5_CONFIG, webOptions));
 				break;
 
 			default: break;
@@ -211,6 +219,17 @@ const getConfigs = ({ node, web = {}, ...options } = {}) => {
 };
 
 
+//-- Generate multiple in/out configs
+const getMultipleInOutConfigs = (options, multipleInOut, action) => {
+	const configs = multipleInOut.reduce((list, { source, destination }) => {
+		list.push(...getAllDistributionsConfigs(merge(options, { source, destination }), action));
+
+		return list;
+	}, []);
+
+	return configs;
+};
+
 
 
 
@@ -220,6 +239,7 @@ const webpackRunner = (configs) => {
 	return new Promise((resolve) => {
 		webpack(configs).run((error, stats) => {
 			terminal.echo(stats.toString({ colors: true }));
+			terminal.spacer(2);
 			resolve();
 		});
 	});
@@ -243,20 +263,6 @@ const webpackWatcher = (configs, output) => {
 
 
 
-/**
- * Distribution options.
- *
- * @typedef {object} DistributionOptions
- * @property {string} [source={@link PackagePaths}.sources] - Package source path.
- * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
- * @property {boolean} [node] - Add a Node.js distribution.
- * @property {object} [web] - Web distributions options.
- * @property {Array<string>} web.types - List of web distributions (browser, browerES5, kafe, kafe, kafeES5).
- * @property {string} web.name - Public exposed name of package.
- * @property {object<string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
- * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
- */
-
  /**
   * Distribution builder.
   *
@@ -271,10 +277,8 @@ class Builder {
 	 * @param {DistributionOptions} options - Options.
 	 * @returns {Promise} When runner completed.
 	 */
-	run(options) {
-		terminal.print('Build distributions');
-
-		return webpackRunner(getConfigs(options));
+	run(options, multipleInOut) {
+		return webpackRunner(multipleInOut ? getMultipleInOutConfigs(options, multipleInOut, BUILD) : getAllDistributionsConfigs(options, BUILD));
 	}
 
 
@@ -285,10 +289,8 @@ class Builder {
 	 * @param {DistributionOptions} options - Options.
 	 * @returns {Promise} When watcher completed.
 	 */
-	watch(options) {
-		terminal.print('Start watching distributions');
-
-		return webpackWatcher(getConfigs(options));
+	watch(options, multipleInOut) {
+		return webpackWatcher(multipleInOut ? getMultipleInOutConfigs(options, multipleInOut, WATCH) : getAllDistributionsConfigs(options, WATCH));
 	}
 
 
@@ -302,7 +304,7 @@ class Builder {
 	 * @returns {Promise} When builder completed.
 	 */
 	documentationTheme({ source, destination }) {
-		const [config] = getConfigs({ web: { types: ['browserES5'] }, source });
+		const [config] = getAllDistributionsConfigs({ web: { types: ['browserES5'] }, source }, BUILD);
 
 		return webpackRunner([merge(config, {
 			mode: 'production',

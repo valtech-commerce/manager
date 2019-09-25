@@ -56,6 +56,7 @@
   "dependencies": {
     "@absolunet/fsp": "^1.6.1",
     "@absolunet/fss": "^1.6.1",
+    "@absolunet/private-registry": "^2.0.0",
     "@absolunet/terminal": "^2.1.1",
     "@babel/core": "^7.6.0",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",

@@ -4,11 +4,9 @@ exports.default = void 0;
 
 var _terminal = require("@absolunet/terminal");
 
+var _environment = _interopRequireDefault(require("./helpers/environment"));
+
 var _util = _interopRequireDefault(require("./helpers/util"));
-
-var _multi = _interopRequireDefault(require("./types/multi"));
-
-var _single = _interopRequireDefault(require("./types/single"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,24 +16,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const {
   chalk
 } = _terminal.terminal;
-/**
- * Task hooks (installer, postinstall, outdated, build, watch, assemble, deploy).
- *
- * @typedef {object} TaskHooks
- * @property {Function} preRun - Pre-run hook.
- * @property {Function} postRun - Post-run hook.
- */
-
-/**
- * Manager options.
- *
- * @typedef {object} ManagerOptions
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
- * @property {DistributionOptions} dist - Distribution options.
- * @property {object<TaskHooks>} tasks - List of tasks with hooks to call before and after.
- */
-
 /**
  * Absolunet's npm packages manager.
  *
@@ -61,7 +41,7 @@ class Manager {
 
 
   get version() {
-    return _multi.default.version || _single.default.version;
+    return multi.version || single.version;
   }
   /**
    * Update package meta.
@@ -103,13 +83,14 @@ class Manager {
     await _util.default.npmInstall(...parameters);
   }
   /**
-   * Bootstrap the CLI runner for single-package repository.
+   * Initialize the manager.
    *
    * @async
-   * @param {...*} parameters - Parameters of {@link Single#scriptsRunner}.
+   * @param {ManagerOptions} [options] - Options to customize the manager.
    * @returns {Promise} When method completed.
    * @example
-   * manager.singleScriptsRunner({
+   * manager.init({
+   * 	repositoryType: 'single-package',
    * 	tasks: {
    *		build: {
    *			postRun: async () => {}
@@ -126,35 +107,67 @@ class Manager {
    */
 
 
-  async singleScriptsRunner(...parameters) {
-    await _single.default.scriptsRunner(...parameters);
-  }
-  /**
-   * Bootstrap the CLI runner for multi-package repository.
-   *
-   * @async
-   * @param {...*} parameters - Parameters of {@link Multi#scriptsRunner}.
-   * @returns {Promise} When method completed.
-   * @example
-   * manager.multiScriptsRunner({
-  	* tasks: {
-  	*		build: {
-  	*			postRun: async () => {}
-  	* 		},
-  	*
-  	* 		deploy: {
-  	* 			preRun:  async () => {},
-  	* 			postRun: async ({ terminal }) => {
-  	* 				terminal.print('Enjoy');
-  	* 			}
-  	* 		}
-  	* 	}
-  	* });
-  	*/
+  async init(options) {
+    const {
+      repositoryType
+    } = options;
+    delete options.repositoryType;
+    let managerType;
 
+    if (repositoryType === _environment.default.REPOSITORY_TYPE.singlePackage) {
+      const SingleManager = require('./managers/SingleManager');
 
-  async multiScriptsRunner(...parameters) {
-    await _multi.default.scriptsRunner(...parameters);
+      managerType = new SingleManager(options);
+    } else if (repositoryType === _environment.default.REPOSITORY_TYPE.multiPackage) {
+      const MultiManager = require('./managers/MultiManager');
+
+      managerType = new MultiManager(options);
+    } else {
+      throw new TypeError('repositoryType option is not valid');
+    }
+
+    switch (_util.default.getTask()) {
+      case _environment.default.TASK.install:
+        await managerType.install();
+        break;
+
+      case _environment.default.TASK.outdated:
+        await managerType.outdated();
+        break;
+
+      case _environment.default.TASK.build:
+        await managerType.build();
+        break;
+
+      case _environment.default.TASK.watch:
+        await managerType.watch();
+        break;
+
+      case _environment.default.TASK.documentation:
+        await managerType.documentation();
+        break;
+
+      case _environment.default.TASK.prepare:
+        await managerType.prepare();
+        break;
+
+      case _environment.default.TASK.rebuild:
+        await managerType.rebuild();
+        break;
+
+      case _environment.default.TASK.publish:
+        await managerType.publish();
+        break;
+
+      case _environment.default.TASK.publishUnsafe:
+        await _util.default.confirmUnsafePublish();
+        await managerType.publish({
+          unsafe: true
+        });
+        break;
+    }
+
+    _terminal.terminal.completionBox('Completed');
   }
 
 }

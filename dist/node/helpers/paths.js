@@ -61,17 +61,6 @@ class Paths {
   /**
    * Current package paths.
    *
-   * @typedef {object} PackagePaths
-   * @property {string} root - Package root.
-   * @property {string} config - Package package.json.
-   * @property {string} distributions - Package distributions.
-   * @property {string} documentation - Package documentation.
-   * @property {string} sources - Package sources.
-   */
-
-  /**
-   * Current package paths.
-   *
    * @type {PackagePaths}
    */
 
@@ -82,7 +71,21 @@ class Paths {
       config: `${__.packageRoot}/package.json`,
       distributions: `${__.packageRoot}/dist`,
       documentation: `${__.packageRoot}/docs`,
+      subpackages: `${__.packageRoot}/packages`,
       sources: `${__.packageRoot}/src`
+    };
+  }
+  /**
+   * Subpackage paths.
+   *
+   * @type {SubpackagePaths}
+   */
+
+
+  get subpackage() {
+    return {
+      distributions: `dist`,
+      sources: `src`
     };
   }
 

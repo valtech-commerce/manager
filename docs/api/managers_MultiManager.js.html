@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Manager - @absolunet/manager API documentation</title>
+	<title>managers/MultiManager.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,830 +54,242 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">Manager</h1>
+			<h1 class="page-title">managers/MultiManager.js</h1>
 		
 
 			
 
 
 
-
-<section>
-
-<div>
-    
-        </h2>
-        
-            <div class="class-description">Absolunet's npm packages manager.</div>
-        
-    
-</div>
-
-<article>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<div class="member">
-<h4 class="name" id="version"><span class="type-signature"></span>version<span class="type-signature"> :string</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-32">Manager.js:32</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Current package or multi-package version.
-</div>
-
-
-
-
-
-
-
-</div>
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="updatePackageMeta"><span class="type-signature">(async) </span>updatePackageMeta<span class="signature">(&hellip;parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-44">Manager.js:44</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Update package meta.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Parameters of <a href="Util.html#updateNodeVersion">Util#updateNodeVersion</a> and <a href="Util.html#updateLicense">Util#updateLicense</a>.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="testOutdated"><span class="type-signature">(async) </span>testOutdated<span class="signature">(&hellip;parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-57">Manager.js:57</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Lists outdated packages.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Parameters of <a href="Util.html#npmOutdated">Util#npmOutdated</a>.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
-    
-
-    <h4 class="name" id="installPackage"><span class="type-signature">(async) </span>installPackage<span class="signature">(&hellip;parameters)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-69">Manager.js:69</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Reinstall packages.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>parameters</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Parameters of <a href="Util.html#npmInstall">Util#npmInstall</a>.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-            
-<div class="method">
-
     
-
-    <h4 class="name" id="init"><span class="type-signature">(async) </span>init<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Manager.js.html#line-97">Manager.js:97</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Initialize the manager.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre><code class="language-js">manager.init({
-	repositoryType: 'single-package',
-	tasks: {
-		build: {
-			postRun: async () => {}
-		},
-
-		deploy: {
-			preRun:  async () => {},
-			postRun: async ({ terminal }) => {
-				terminal.print('Enjoy');
-			}
+    <section>
+        <article>
+            <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
+//-- Multi
+//--------------------------------------------------------
+import path            from 'path';
+import merge           from 'webpack-merge';
+import fss             from '@absolunet/fss';
+import __              from '@absolunet/private-registry';
+import { terminal }    from '@absolunet/terminal';
+import builder         from '../helpers/builder';
+import documenter      from '../helpers/documenter';
+import env             from '../helpers/environment';
+import paths           from '../helpers/paths';
+import util            from '../helpers/util';
+import AbstractManager from './AbstractManager';
+const { chalk } = terminal;
+
+
+/**
+ * Multi package manager.
+ *
+ * @augments AbstractManager
+ */
+class MultiManager extends AbstractManager {
+
+	/**
+	 * Create a single package manager.
+	 *
+	 * @inheritdoc
+	 */
+	constructor(options) {
+		super(options);
+
+		// Get a list of all subpackages from lerna
+		const rawList = terminal.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+		const list    = rawList.replace(/^(?&lt;header>info cli.+\n)(?&lt;path>[\s\S]+)/u, '$&lt;path>').split('\n');
+
+		const subpackagesList = list
+			.filter((item) => {
+				return Boolean(item);
+			})
+			.map((item) => {
+				const root = util.relativizePath(item);
+
+				return {
+					root,
+					source:      `${root}/${paths.subpackage.sources}`,
+					destination: `${root}/${paths.subpackage.distributions}`,
+					name:        path.basename(item)
+				};
+			})
+		;
+
+		__(this).set('subpackages', subpackagesList);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	get version() {
+		const file = `${paths.package.root}/lerna.json`;
+
+		if (fss.exists(file)) {
+			const { version } = fss.readJson(file);
+
+			return version;
+		}
+
+		return undefined;
+	}
+
+
+	/**
+	 * xxx
+	 */
+	get subpackages() {
+		return __(this).get('subpackages');
+	}
+
+
+	/**
+	 * xxx
+	 */
+	async forEachSubpackage(callback) {
+		for (const subpackage of this.subpackages) {
+			await callback(subpackage);  // eslint-disable-line no-await-in-loop
 		}
 	}
-});</code></pre>
 
 
+	/**
+	 * @inheritdoc
+	 */
+	async install(options) {
+		return super.install(options, async () => {
+
+			// Let lerna do its subpackage interdependencies magic
+			terminal.println('Install subpackages dependencies and link siblings');
+			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
+			terminal.run(`
+				lerna clean --yes
+				lerna bootstrap --no-ci
+			`);
+
+		});
+	}
 
 
-    <h5>Parameters:</h5>
-    
+	/**
+	 * @inheritdoc
+	 */
+	async outdated(options) {
+		return super.outdated(options, async () => {
 
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
+			// Check outdated dependencies for all subpackages
+			await this.forEachSubpackage(async ({ root }) => {
+				await util.npmOutdated(root);
+			});
 
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#ManagerOptions">ManagerOptions</a></span>
+		});
+	}
 
 
-            
-            </td>
+	/**
+	 * @inheritdoc
+	 */
+	async build(options) {
+		return super.build(options, async () => {
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
+			// Run builder for all subpackages
+			await builder.run(__(this).get('dist'), this.subpackages);
 
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Options to customize the manager.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
+		});
+	}
 
 
+	/**
+	 * @inheritdoc
+	 */
+	async watch(options) {
+		return super.watch(options, async () => {
+
+			// Run watcher for all subpackages
+			await builder.watch(__(this).get('dist'), this.subpackages);
+
+		});
+	}
 
 
+	/**
+	 * @inheritdoc
+	 */
+	async documentation(options) {
+		return super.documentation(options, async () => {
+
+			// API and text documentation for all subpackages
+			await this.forEachSubpackage(async ({ root, name }) => {
+				await documenter.generateAPI({
+					root,
+					source:      `${root}/${paths.subpackage.sources}`,
+					destination: `${paths.package.documentation}/${name}`,
+					depth:       2
+				});
+
+				await documenter.generateText({
+					source:      `${root}/${paths.subpackage.sources}`,
+					destination: `${paths.package.documentation}/${name}`,
+				});
+			});
+
+		});
+	}
 
 
+	/**
+	 * @inheritdoc
+	 */
+	async prepare(options) {
+		return super.prepare(options, async () => {
+
+			// Update license and current Node.js engine version for all subpackages
+			await this.forEachSubpackage(async ({ root }) => {
+				util.updateLicense(root);
+				util.updateNodeVersion(root);
+			});
+
+			// Update version for all subpackages
+			terminal.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+
+		});
+	}
 
 
+	/**
+	 * @inheritdoc
+	 */
+	async publish(options) {
+		return super.publish(options, async () => {
+
+			// Pack a tarball for all subpackages
+			const tarballs = [];
+			await this.forEachSubpackage(async ({ root }) => {
+				const { tarball } = await util.npmPack(root);
+				tarballs.push(tarball);
+			});
+
+			// Fetch generic config
+			const tag        = util.getTag(this.version);
+			const restricted = __(this).get('publish').restricted;
+			const otp        = await util.getOTP(__(this).get('publish').useOTP);
+
+			// Publish the tarball for all subpackages
+			for (const tarball of tarballs) {
+				await util.npmPublish({ tarball, tag, restricted, otp });  // eslint-disable-line no-await-in-loop
+			}
+
+		});
+	}
+
+}
 
 
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When method completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+export default MultiManager;
+</code></pre>
+        </article>
+    </section>
 
 
 
