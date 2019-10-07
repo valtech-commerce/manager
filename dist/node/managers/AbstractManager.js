@@ -2,21 +2,13 @@
 
 exports.default = void 0;
 
-var _webpackMerge = _interopRequireDefault(require("webpack-merge"));
-
-var _fss = _interopRequireDefault(require("@absolunet/fss"));
-
 var _privateRegistry = _interopRequireDefault(require("@absolunet/private-registry"));
 
 var _terminal = require("@absolunet/terminal");
 
-var _builder = _interopRequireDefault(require("../helpers/builder"));
-
 var _documenter = _interopRequireDefault(require("../helpers/documenter"));
 
 var _environment = _interopRequireDefault(require("../helpers/environment"));
-
-var _paths = _interopRequireDefault(require("../helpers/paths"));
 
 var _util = _interopRequireDefault(require("../helpers/util"));
 
@@ -25,22 +17,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //--------------------------------------------------------
 //-- Abstract manager
 //--------------------------------------------------------
-const {
-  chalk
-} = _terminal.terminal;
-
 const runTask = ({
   task,
   subtask = '',
   context,
   grouped,
-  callback
+  toExecute
 }) => {
   return _util.default.taskRunner({
     task: _environment.default.TASK[task + subtask],
     hooks: (0, _privateRegistry.default)(context).get('tasks')[task],
     grouped
-  }, callback);
+  }, toExecute);
 };
 /**
  * Abstract manager class.
@@ -86,19 +74,21 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async install({
+  install({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'install',
       context: this,
       grouped,
-      callback
+      toExecute
     });
   }
   /**
@@ -107,21 +97,23 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async outdated({
+  outdated({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'outdated',
       context: this,
       grouped,
-      callback: async () => {
+      toExecute: async () => {
         await _util.default.npmOutdated();
-        await callback();
+        await toExecute();
       }
     });
   }
@@ -131,21 +123,23 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async build({
+  build({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'build',
       context: this,
       grouped,
-      callback: async () => {
+      toExecute: async () => {
         if ((0, _privateRegistry.default)(this).get('dist')) {
-          await callback();
+          await toExecute();
         }
       }
     });
@@ -156,21 +150,23 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async watch({
+  watch({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'watch',
       context: this,
       grouped,
-      callback: async () => {
+      toExecute: async () => {
         if ((0, _privateRegistry.default)(this).get('dist')) {
-          await callback();
+          await toExecute();
         }
       }
     });
@@ -181,21 +177,23 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async documentation({
+  documentation({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'documentation',
       context: this,
       grouped,
-      callback: async () => {
+      toExecute: async () => {
         await _documenter.default.generateCommonAssets();
-        await callback();
+        await toExecute();
       }
     });
   }
@@ -205,19 +203,21 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async prepare({
+  prepare({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'prepare',
       context: this,
       grouped,
-      callback
+      toExecute
     });
   }
   /**
@@ -226,19 +226,21 @@ class AbstractManager {
    * @async
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async rebuild({
+  rebuild({
     grouped
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'rebuild',
       context: this,
       grouped,
-      callback: async () => {
+      toExecute: async () => {
         await this.build({
           grouped: true
         });
@@ -248,7 +250,7 @@ class AbstractManager {
         await this.prepare({
           grouped: true
         });
-        await callback();
+        await toExecute();
       }
     });
   }
@@ -259,21 +261,23 @@ class AbstractManager {
    * @param {object} [options] - Options.
    * @param {boolean} [options.grouped=false] - If is called in a grouped task.
    * @param {boolean} [options.unsafe=false] - Publish without testing.
-   * @param {Function} [callback] - Async function to execute.
+   * @param {Function} [toExecute] - Async function to execute.
    * @returns {Promise} When task completed.
    */
 
 
-  async publish({
+  publish({
     grouped,
     unsafe = false
-  } = {}, callback = async () => {}) {
+  } = {}, toExecute = async () => {
+    /**/
+  }) {
     return runTask({
       task: 'publish',
       subtask: unsafe ? 'Unsafe' : '',
       context: this,
       grouped,
-      callback: async () => {
+      toExecute: async () => {
         if (!unsafe) {
           await this.outdated({
             grouped: true
@@ -285,7 +289,7 @@ class AbstractManager {
           _terminal.terminal.run('npm test');
         }
 
-        await callback();
+        await toExecute();
       }
     });
   }

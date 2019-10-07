@@ -4,12 +4,17 @@
  * @typedef {string} RepositoryType
  */
 
- /**
- * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild', 'publish', 'publish:unsafe'
+/**
+ * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild', 'publish', 'publish:unsafe'.
  *
  * @typedef {string} Task
  */
 
+/**
+ * Types of distribution: 'browser', 'browser-es5', 'kafe', 'kafe-es5', 'node'.
+ *
+ * @typedef {string} DistributionType
+ */
 
 /**
  * Task hooks (install, outdated, build, watch, documentation, prepare, rebuild, publish).
@@ -20,7 +25,7 @@
  */
 
 
- /**
+/**
  * Distribution options.
  *
  * @typedef {object} DistributionOptions
@@ -28,7 +33,7 @@
  * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
  * @property {boolean} [node] - Add a Node.js distribution.
  * @property {object} [web] - Web distributions options.
- * @property {Array<string>} web.types - List of web distributions (browser, browerES5, kafe, kafe, kafeES5).
+ * @property {Array<DistributionType>} web.types - List of web distributions.
  * @property {string} web.name - Public exposed name of package.
  * @property {object<string, string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
  * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
@@ -40,8 +45,8 @@
  *
  * @typedef {object} ManagerOptions
  * @property {RepositoryType} repositoryType - Type of repository.
- * @property {Function} [restricted=false] - When publishing, tell the registry the package should be published restricted instead of public.
- * @property {Function} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
+ * @property {boolean} [restricted=false] - When publishing, tell the registry if the package should be published restricted instead of public.
+ * @property {boolean} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
  * @property {DistributionOptions} dist - Distribution options.
  * @property {object<Task, TaskHooks>} tasks - List of tasks with hooks to call before and after.
  */

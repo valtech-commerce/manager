@@ -2,6 +2,7 @@
 //-- Builder
 //--------------------------------------------------------
 import babelAddModuleExports from 'babel-plugin-add-module-exports';
+import chalk                 from 'chalk';
 import WebpackCopy           from 'copy-webpack-plugin';
 import WebpackDisableOutput  from 'disable-output-webpack-plugin';
 import figures               from 'figures';
@@ -13,9 +14,9 @@ import fss                   from '@absolunet/fss';
 import { terminal }          from '@absolunet/terminal';
 import { transformAsync }    from '@babel/core';
 import babelTransformModules from '@babel/plugin-transform-modules-commonjs';
+import env                   from './environment';
 import paths                 from './paths';
 import util                  from './util';
-const { chalk } = terminal;
 
 
 //-- Actions
@@ -31,7 +32,7 @@ const COMMON_CONFIG = {
 
 
 //-- Node.js
-const NODE_CONFIG = (source) => {
+const nodeConfig = (source) => {
 	return merge(COMMON_CONFIG, {
 		target: 'node',
 		entry:  `${paths.webpackEntryPoints}/node.js`,
@@ -63,7 +64,7 @@ const BROWSER_CONFIG = merge(COMMON_CONFIG, {
 	target: 'web',
 	entry:  `${paths.webpackEntryPoints}/browser.js`,
 	output: {
-		filename: 'browser.js'
+		filename: `${env.DISTRIBUTION_TYPE.browser}.js`
 	}
 });
 
@@ -71,7 +72,7 @@ const BROWSER_CONFIG = merge(COMMON_CONFIG, {
 //-- Browser ES5
 const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
 	output: {
-		filename: 'browser-es5.js'
+		filename: `${env.DISTRIBUTION_TYPE.browserES5}.js`
 	},
 	module: {
 		rules: [
@@ -101,7 +102,7 @@ const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
 const KAFE_CONFIG = merge(BROWSER_CONFIG, {
 	entry:  `${paths.webpackEntryPoints}/kafe.js`,
 	output: {
-		filename: 'kafe.js'
+		filename: `${env.DISTRIBUTION_TYPE.kafe}.js`
 	}
 });
 
@@ -110,7 +111,7 @@ const KAFE_CONFIG = merge(BROWSER_CONFIG, {
 const KAFE_ES5_CONFIG = merge(BROWSER_ES5_CONFIG, {
 	entry:  `${paths.webpackEntryPoints}/kafe.js`,
 	output: {
-		filename: 'kafe-es5.js'
+		filename: `${env.DISTRIBUTION_TYPE.kafeES5}.js`
 	}
 });
 
@@ -183,28 +184,28 @@ const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action)
 	types.forEach((id) => {
 		switch (id) {
 
-			case 'node':
+			case env.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getDistributionConfig(NODE_CONFIG(options.source), options));
+				configs.push(getDistributionConfig(nodeConfig(options.source), options));
 				break;
 
-			case 'browser':
+			case env.DISTRIBUTION_TYPE.browser:
 				terminal.print(`${figures.pointerSmall} Add browser distribution`);
 				configs.push(getDistributionConfig(BROWSER_CONFIG, webOptions));
 				break;
 
-			case 'browserES5':
-				terminal.print(`${figures.pointerSmall} Add browser ES5 distribution`);
+			case env.DISTRIBUTION_TYPE.browserES5:
+				terminal.print(`${figures.pointerSmall} Add browser ECMAScript 5 distribution`);
 				configs.push(getDistributionConfig(BROWSER_ES5_CONFIG, webOptions));
 				break;
 
-			case 'kafe':
+			case env.DISTRIBUTION_TYPE.kafe:
 				terminal.print(`${figures.pointerSmall} Add kafe distribution`);
 				configs.push(getDistributionConfig(KAFE_CONFIG, webOptions));
 				break;
 
-			case 'kafeES5':
-				terminal.print(`${figures.pointerSmall} Add kafe ES5 distribution`);
+			case env.DISTRIBUTION_TYPE.kafeES5:
+				terminal.print(`${figures.pointerSmall} Add kafe ECMAScript 5 distribution`);
 				configs.push(getDistributionConfig(KAFE_ES5_CONFIG, webOptions));
 				break;
 
@@ -275,6 +276,7 @@ class Builder {
 	 *
 	 * @async
 	 * @param {DistributionOptions} options - Options.
+	 * @param {Array<{ source: string, destination: string }>} multipleInOut - List of source / destination.
 	 * @returns {Promise} When runner completed.
 	 */
 	run(options, multipleInOut) {
@@ -287,6 +289,7 @@ class Builder {
 	 *
 	 * @async
 	 * @param {DistributionOptions} options - Options.
+	 * @param {Array<{ source: string, destination: string }>} multipleInOut - List of source / destination.
 	 * @returns {Promise} When watcher completed.
 	 */
 	watch(options, multipleInOut) {
@@ -304,7 +307,7 @@ class Builder {
 	 * @returns {Promise} When builder completed.
 	 */
 	documentationTheme({ source, destination }) {
-		const [config] = getAllDistributionsConfigs({ web: { types: ['browserES5'] }, source }, BUILD);
+		const [config] = getAllDistributionsConfigs({ web: { types: [env.DISTRIBUTION_WEB_TYPE.browserES5] }, source }, BUILD);
 
 		return webpackRunner([merge(config, {
 			mode: 'production',

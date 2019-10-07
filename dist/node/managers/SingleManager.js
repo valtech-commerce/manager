@@ -2,6 +2,8 @@
 
 exports.default = void 0;
 
+var _chalk = _interopRequireDefault(require("chalk"));
+
 var _fss = _interopRequireDefault(require("@absolunet/fss"));
 
 var _privateRegistry = _interopRequireDefault(require("@absolunet/private-registry"));
@@ -11,8 +13,6 @@ var _terminal = require("@absolunet/terminal");
 var _builder = _interopRequireDefault(require("../helpers/builder"));
 
 var _documenter = _interopRequireDefault(require("../helpers/documenter"));
-
-var _environment = _interopRequireDefault(require("../helpers/environment"));
 
 var _paths = _interopRequireDefault(require("../helpers/paths"));
 
@@ -25,15 +25,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //--------------------------------------------------------
 //-- Single manger
 //--------------------------------------------------------
-const {
-  chalk
-} = _terminal.terminal;
+
 /**
  * Single package manager.
  *
  * @augments AbstractManager
  */
-
 class SingleManager extends _AbstractManager.default {
   /**
    * @inheritdoc
@@ -54,8 +51,9 @@ class SingleManager extends _AbstractManager.default {
    */
 
 
-  async install(options) {
+  install(options) {
     return super.install(options, async () => {
+      // eslint-disable-line require-await
       // Symlink if self-reference
       const config = _fss.default.readJson(_paths.default.package.config);
 
@@ -75,7 +73,7 @@ class SingleManager extends _AbstractManager.default {
    */
 
 
-  async build(options) {
+  build(options) {
     return super.build(options, async () => {
       // Run builder
       await _builder.default.run((0, _privateRegistry.default)(this).get('dist'));
@@ -86,7 +84,7 @@ class SingleManager extends _AbstractManager.default {
    */
 
 
-  async watch(options) {
+  watch(options) {
     return super.watch(options, async () => {
       // Run watcher
       await _builder.default.watch((0, _privateRegistry.default)(this).get('dist'));
@@ -97,7 +95,7 @@ class SingleManager extends _AbstractManager.default {
    */
 
 
-  async documentation(options) {
+  documentation(options) {
     return super.documentation(options, async () => {
       // API documentation
       await _documenter.default.generateAPI(); // Text documentation
@@ -110,8 +108,9 @@ class SingleManager extends _AbstractManager.default {
    */
 
 
-  async prepare(options) {
+  prepare(options) {
     return super.prepare(options, async () => {
+      // eslint-disable-line require-await
       // Current Node.js engine version
       _util.default.updateNodeVersion(); // Update version if self-reference
 
@@ -125,7 +124,7 @@ class SingleManager extends _AbstractManager.default {
           space: 2
         });
 
-        _terminal.terminal.println(`Update self-reference version in ${chalk.underline(_util.default.relativizePath(_paths.default.package.config))}`);
+        _terminal.terminal.println(`Update self-reference version in ${_chalk.default.underline(_util.default.relativizePath(_paths.default.package.config))}`);
       }
     });
   }
@@ -134,7 +133,7 @@ class SingleManager extends _AbstractManager.default {
    */
 
 
-  async publish(options) {
+  publish(options) {
     return super.publish(options, async () => {
       // Pack a tarball
       const {

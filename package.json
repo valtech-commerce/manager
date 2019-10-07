@@ -22,27 +22,32 @@
     "url": "https://github.com/absolunet/node-manager/issues"
   },
   "engines": {
-    "node": ">= 12.10.0"
+    "node": ">= 12.11.1"
   },
   "main": "dist/node",
   "scripts": {
-    "test": "ava test/index.js",
-    "manager:install": "node manager.js --task=install",
-    "manager:outdated": "node manager.js --task=outdated",
-    "manager:build": "node manager.js --task=build",
-    "manager:watch": "node manager.js --task=watch",
-    "manager:documentation": "node manager.js --task=documentation",
-    "manager:prepare": "node manager.js --task=prepare",
-    "manager:rebuild": "node manager.js --task=rebuild",
-    "manager:publish": "node manager.js --task=publish",
-    "manager:publish:unsafe": "node manager.js --task=publish:unsafe"
+    "manager:install": "node manager --task=install",
+    "manager:outdated": "node manager --task=outdated",
+    "manager:build": "node manager --task=build",
+    "manager:watch": "node manager --task=watch",
+    "manager:documentation": "node manager --task=documentation",
+    "manager:prepare": "node manager --task=prepare",
+    "manager:rebuild": "node manager --task=rebuild",
+    "manager:publish": "node manager --task=publish",
+    "manager:publish:unsafe": "node manager --task=publish:unsafe",
+    "test": "node test --scope=all",
+    "test:standards": "node test --scope=standards",
+    "test:unit": "node test --scope=unit",
+    "test:feature": "node test --scope=feature",
+    "test:integration": "node test --scope=integration",
+    "test:endtoend": "node test --scope=endtoend"
   },
   "devDependencies": {
-    "@absolunet/eslint-config-browser": "1.3.0",
     "@absolunet/manager": "2.0.0-alpha.3",
     "@absolunet/nwayo-toolbox": "3.7.0",
-    "@absolunet/tester": "2.6.9",
-    "autoprefixer": "9.6.1",
+    "@absolunet/stylelint-config-nwayo": "1.2.1",
+    "@absolunet/tester": "3.0.0-beta.1",
+    "autoprefixer": "9.6.4",
     "cssnano": "4.1.10",
     "fibers": "4.0.1",
     "gulp": "4.0.2",
@@ -51,18 +56,21 @@
     "jquery": "3.4.1",
     "jquery.scrollto": "2.1.2",
     "prismjs": "1.17.1",
-    "sass": "1.22.12"
+    "sass": "1.23.0",
+    "stylelint": "11.0.0"
   },
   "dependencies": {
     "@absolunet/fsp": "^1.6.1",
     "@absolunet/fss": "^1.6.1",
     "@absolunet/private-registry": "^2.0.0",
     "@absolunet/terminal": "^2.1.1",
-    "@babel/core": "^7.6.0",
+    "@babel/core": "^7.6.2",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-env": "^7.6.2",
+    "@hapi/joi": "^16.1.7",
     "babel-loader": "^8.0.6",
     "babel-plugin-add-module-exports": "^1.0.2",
+    "chalk": "^2.4.2",
     "copy-webpack-plugin": "^5.0.4",
     "core-js": "^3.2.1",
     "disable-output-webpack-plugin": "^1.0.1",
@@ -74,12 +82,13 @@
     "lodash.kebabcase": "^4.1.1",
     "minimist": "^1.2.0",
     "npm-check": "^5.9.0",
+    "pkg-dir": "^4.2.0",
     "resolve-pkg": "^2.0.0",
     "semver": "^6.3.0",
     "string-length": "^3.1.0",
     "text-table": "^0.2.0",
     "tmp": "^0.1.0",
-    "webpack": "^4.40.2",
+    "webpack": "^4.41.0",
     "webpack-merge": "^4.2.2"
   }
 }

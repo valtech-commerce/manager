@@ -4,6 +4,8 @@ exports.default = void 0;
 
 var _babelPluginAddModuleExports = _interopRequireDefault(require("babel-plugin-add-module-exports"));
 
+var _chalk = _interopRequireDefault(require("chalk"));
+
 var _copyWebpackPlugin = _interopRequireDefault(require("copy-webpack-plugin"));
 
 var _disableOutputWebpackPlugin = _interopRequireDefault(require("disable-output-webpack-plugin"));
@@ -26,6 +28,8 @@ var _core = require("@babel/core");
 
 var _pluginTransformModulesCommonjs = _interopRequireDefault(require("@babel/plugin-transform-modules-commonjs"));
 
+var _environment = _interopRequireDefault(require("./environment"));
+
 var _paths = _interopRequireDefault(require("./paths"));
 
 var _util = _interopRequireDefault(require("./util"));
@@ -35,10 +39,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //--------------------------------------------------------
 //-- Builder
 //--------------------------------------------------------
-const {
-  chalk
-} = _terminal.terminal; //-- Actions
-
+//-- Actions
 const BUILD = 'Build distribution for';
 const WATCH = 'Start watching in'; //-- Common
 
@@ -47,7 +48,7 @@ const COMMON_CONFIG = {
   devtool: ''
 }; //-- Node.js
 
-const NODE_CONFIG = source => {
+const nodeConfig = source => {
   return (0, _webpackMerge.default)(COMMON_CONFIG, {
     target: 'node',
     entry: `${_paths.default.webpackEntryPoints}/node.js`,
@@ -78,13 +79,13 @@ const BROWSER_CONFIG = (0, _webpackMerge.default)(COMMON_CONFIG, {
   target: 'web',
   entry: `${_paths.default.webpackEntryPoints}/browser.js`,
   output: {
-    filename: 'browser.js'
+    filename: `${_environment.default.DISTRIBUTION_TYPE.browser}.js`
   }
 }); //-- Browser ES5
 
 const BROWSER_ES5_CONFIG = (0, _webpackMerge.default)(BROWSER_CONFIG, {
   output: {
-    filename: 'browser-es5.js'
+    filename: `${_environment.default.DISTRIBUTION_TYPE.browserES5}.js`
   },
   module: {
     rules: [{
@@ -107,14 +108,14 @@ const BROWSER_ES5_CONFIG = (0, _webpackMerge.default)(BROWSER_CONFIG, {
 const KAFE_CONFIG = (0, _webpackMerge.default)(BROWSER_CONFIG, {
   entry: `${_paths.default.webpackEntryPoints}/kafe.js`,
   output: {
-    filename: 'kafe.js'
+    filename: `${_environment.default.DISTRIBUTION_TYPE.kafe}.js`
   }
 }); //-- kafe ES5
 
 const KAFE_ES5_CONFIG = (0, _webpackMerge.default)(BROWSER_ES5_CONFIG, {
   entry: `${_paths.default.webpackEntryPoints}/kafe.js`,
   output: {
-    filename: 'kafe-es5.js'
+    filename: `${_environment.default.DISTRIBUTION_TYPE.kafeES5}.js`
   }
 }); //-- Generate a specific distribution config
 
@@ -184,37 +185,37 @@ const getAllDistributionsConfigs = ({
 
   options.source = _fss.default.realpath(options.source || _paths.default.package.sources);
 
-  _terminal.terminal.print(`${action} ${chalk.underline(_util.default.relativizePath(options.source))}`);
+  _terminal.terminal.print(`${action} ${_chalk.default.underline(_util.default.relativizePath(options.source))}`);
 
   const webOptions = (0, _webpackMerge.default)(web, options);
   types.forEach(id => {
     switch (id) {
-      case 'node':
+      case _environment.default.DISTRIBUTION_TYPE.node:
         _terminal.terminal.print(`${_figures.default.pointerSmall} Add Node.js distribution`);
 
-        configs.push(getDistributionConfig(NODE_CONFIG(options.source), options));
+        configs.push(getDistributionConfig(nodeConfig(options.source), options));
         break;
 
-      case 'browser':
+      case _environment.default.DISTRIBUTION_TYPE.browser:
         _terminal.terminal.print(`${_figures.default.pointerSmall} Add browser distribution`);
 
         configs.push(getDistributionConfig(BROWSER_CONFIG, webOptions));
         break;
 
-      case 'browserES5':
-        _terminal.terminal.print(`${_figures.default.pointerSmall} Add browser ES5 distribution`);
+      case _environment.default.DISTRIBUTION_TYPE.browserES5:
+        _terminal.terminal.print(`${_figures.default.pointerSmall} Add browser ECMAScript 5 distribution`);
 
         configs.push(getDistributionConfig(BROWSER_ES5_CONFIG, webOptions));
         break;
 
-      case 'kafe':
+      case _environment.default.DISTRIBUTION_TYPE.kafe:
         _terminal.terminal.print(`${_figures.default.pointerSmall} Add kafe distribution`);
 
         configs.push(getDistributionConfig(KAFE_CONFIG, webOptions));
         break;
 
-      case 'kafeES5':
-        _terminal.terminal.print(`${_figures.default.pointerSmall} Add kafe ES5 distribution`);
+      case _environment.default.DISTRIBUTION_TYPE.kafeES5:
+        _terminal.terminal.print(`${_figures.default.pointerSmall} Add kafe ECMAScript 5 distribution`);
 
         configs.push(getDistributionConfig(KAFE_ES5_CONFIG, webOptions));
         break;
@@ -285,6 +286,7 @@ class Builder {
    *
    * @async
    * @param {DistributionOptions} options - Options.
+   * @param {Array<{ source: string, destination: string }>} multipleInOut - List of source / destination.
    * @returns {Promise} When runner completed.
    */
   run(options, multipleInOut) {
@@ -295,6 +297,7 @@ class Builder {
    *
    * @async
    * @param {DistributionOptions} options - Options.
+   * @param {Array<{ source: string, destination: string }>} multipleInOut - List of source / destination.
    * @returns {Promise} When watcher completed.
    */
 
@@ -319,7 +322,7 @@ class Builder {
   }) {
     const [config] = getAllDistributionsConfigs({
       web: {
-        types: ['browserES5']
+        types: [_environment.default.DISTRIBUTION_WEB_TYPE.browserES5]
       },
       source
     }, BUILD);

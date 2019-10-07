@@ -2,6 +2,8 @@
 
 exports.default = void 0;
 
+var _pkgDir = _interopRequireDefault(require("pkg-dir"));
+
 var _fss = _interopRequireDefault(require("@absolunet/fss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -10,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //-- Paths
 //--------------------------------------------------------
 const __ = {
-  root: _fss.default.realpath(`${__dirname}/../../..`),
+  root: _pkgDir.default.sync(__dirname),
   packageRoot: _fss.default.realpath(`.`)
 };
 /**

@@ -2,6 +2,8 @@
 
 exports.default = void 0;
 
+var _chalk = _interopRequireDefault(require("chalk"));
+
 var _figures = _interopRequireDefault(require("figures"));
 
 var _inquirer = _interopRequireDefault(require("inquirer"));
@@ -37,10 +39,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //--------------------------------------------------------
 //-- Util
 //--------------------------------------------------------
-const {
-  chalk
-} = _terminal.terminal;
-
 const getTemporaryDirectory = (id = 'tmp') => {
   _tmp.default.setGracefulCleanup();
 
@@ -156,7 +154,7 @@ class Util {
   updateNodeVersion(root = _paths.default.package.root) {
     const FILE = `${root}/package.json`;
 
-    _terminal.terminal.println(`Update Node version in ${chalk.underline(this.relativizePath(FILE))}`);
+    _terminal.terminal.println(`Update Node version in ${_chalk.default.underline(this.relativizePath(FILE))}`);
 
     const data = _fss.default.readJson(FILE);
 
@@ -176,7 +174,7 @@ class Util {
   updateLicense(root = _paths.default.package.root) {
     const LICENSE = `${root}/license`;
 
-    _terminal.terminal.println(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`);
+    _terminal.terminal.println(`Update license in ${_chalk.default.underline(this.relativizePath(LICENSE))}`);
 
     _fss.default.copy(`${_paths.default.package.root}/license`, LICENSE);
   }
@@ -191,7 +189,7 @@ class Util {
 
 
   async npmOutdated(root = _paths.default.package.root, verbose = false) {
-    _terminal.terminal.println(`Checking ${chalk.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`); // Dependencies
+    _terminal.terminal.println(`Checking ${_chalk.default.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`); // Dependencies
 
 
     const currentState = await (0, _npmCheck.default)({
@@ -216,25 +214,25 @@ class Util {
             if (installed === latest && wanted === latest) {
               // All is good
               if (verbose) {
-                results.push([name, chalk.green(installed), chalk.green(wantedRaw), chalk.green(latest)]);
+                results.push([name, _chalk.default.green(installed), _chalk.default.green(wantedRaw), _chalk.default.green(latest)]);
               } // Mismatch between versions
 
             } else {
-              results.push([chalk.yellow(name), installed === latest ? installed : chalk.yellow(installed), wanted === latest ? wantedRaw : chalk.red(wantedRaw), chalk.magenta(latest)]);
+              results.push([_chalk.default.yellow(name), installed === latest ? installed : _chalk.default.yellow(installed), wanted === latest ? wantedRaw : _chalk.default.red(wantedRaw), _chalk.default.magenta(latest)]);
             } // Current or wanted greater than latest (wut?)
 
           } else {
-            results.push([chalk.red(name), chalk.red(installed), chalk.red(wantedRaw), chalk.red(latest)]);
+            results.push([_chalk.default.red(name), _chalk.default.red(installed), _chalk.default.red(wantedRaw), _chalk.default.red(latest)]);
           } // Not installed
 
         } else {
-          results.push([chalk.red(name), chalk.red('NOT INSTALLED'), chalk.red(wantedRaw), chalk.red(latest)]);
+          results.push([_chalk.default.red(name), _chalk.default.red('NOT INSTALLED'), _chalk.default.red(wantedRaw), _chalk.default.red(latest)]);
         }
       }
     }
 
     if (results.length !== 0) {
-      results.unshift([chalk.underline('Package'), ` ${chalk.underline('Current')}`, ` ${chalk.underline('Wanted')}`, ` ${chalk.underline('Latest')}`]);
+      results.unshift([_chalk.default.underline('Package'), ` ${_chalk.default.underline('Current')}`, ` ${_chalk.default.underline('Wanted')}`, ` ${_chalk.default.underline('Latest')}`]);
 
       _terminal.terminal.echoIndent((0, _textTable.default)(results, {
         align: ['l', 'r', 'r', 'r'],
@@ -260,7 +258,7 @@ class Util {
 
 
   async npmInstall(root = _paths.default.package.root) {
-    _terminal.terminal.println(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`);
+    _terminal.terminal.println(`Install dependencies in ${_chalk.default.underline(this.relativizePath(root))}`);
 
     await _fsp.default.remove(`${root}/node_modules`);
     await _fsp.default.remove(`${root}/package-lock.json`);
@@ -279,7 +277,7 @@ class Util {
 
 
   async npmPack(root = _paths.default.package.root) {
-    _terminal.terminal.println(`Pack package in ${chalk.underline(this.relativizePath(root))}`);
+    _terminal.terminal.println(`Pack package in ${_chalk.default.underline(this.relativizePath(root))}`);
 
     const directory = await getTemporaryDirectory('package-tarball');
 
@@ -326,10 +324,9 @@ class Util {
     otp
   }) {
     // eslint-disable-line require-await
-    _terminal.terminal.println(`Publish tarball ${chalk.underline(_path.default.basename(tarball))}`); // terminal.run(`
+    _terminal.terminal.println(`Publish tarball ${_chalk.default.underline(_path.default.basename(tarball))}`);
 
-
-    console.log(`
+    _terminal.terminal.run(`
 			npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}
 		`);
 

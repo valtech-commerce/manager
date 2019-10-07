@@ -24,8 +24,8 @@ class EnvironmentHelper {
    * Types of repository.
    *
    * @type {object<string, RepositoryType>}
-   * @property {string} singlePackage - Single package.
-   * @property {string} multiPackage - Multi package.
+   * @property {RepositoryType} singlePackage - Single package.
+   * @property {RepositoryType} multiPackage - Multi package.
    */
 
 
@@ -36,18 +36,54 @@ class EnvironmentHelper {
     };
   }
   /**
+   * Types of web distribution.
+   *
+   * @type {object<string, DistributionType>}
+   * @property {DistributionType} browser - Browser.
+   * @property {DistributionType} browserES5 - Browser transpilied into ECMAScript 5.
+   * @property {DistributionType} kafe - A kafe package.
+   * @property {DistributionType} kafeES5 - A kafe package transpilied into ECMAScript 5.
+   */
+
+
+  get DISTRIBUTION_WEB_TYPE() {
+    return {
+      browser: 'browser',
+      browserES5: 'browser-es5',
+      kafe: 'kafe',
+      kafeES5: 'kafe-es5'
+    };
+  }
+  /**
+   * Types of distribution.
+   *
+   * @type {object<string, DistributionType>}
+   * @property {DistributionType} browser - Browser.
+   * @property {DistributionType} browserES5 - Browser transpilied into ECMAScript 5.
+   * @property {DistributionType} kafe - A kafe package.
+   * @property {DistributionType} kafeES5 - A kafe package transpilied into ECMAScript 5.
+   * @property {DistributionType} node - Node.js.
+   */
+
+
+  get DISTRIBUTION_TYPE() {
+    return Object.assign({}, this.DISTRIBUTION_WEB_TYPE, {
+      node: 'node'
+    });
+  }
+  /**
    * Tasks.
    *
    * @type {object<string, Task>}
-   * @property {string} install - Install task.
-   * @property {string} outdated - Outdated task.
-   * @property {string} build - Build task.
-   * @property {string} watch - Watch task.
-   * @property {string} documentation - Documentation task.
-   * @property {string} prepare - Prepare task.
-   * @property {string} rebuild - Rebuild task.
-   * @property {string} publish - Publish task.
-   * @property {string} publishUnsafe - Unsafe publish task.
+   * @property {Task} install - Install task.
+   * @property {Task} outdated - Outdated task.
+   * @property {Task} build - Build task.
+   * @property {Task} watch - Watch task.
+   * @property {Task} documentation - Documentation task.
+   * @property {Task} prepare - Prepare task.
+   * @property {Task} rebuild - Rebuild task.
+   * @property {Task} publish - Publish task.
+   * @property {Task} publishUnsafe - Unsafe publish task.
    */
 
 

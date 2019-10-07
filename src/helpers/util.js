@@ -1,6 +1,7 @@
 //--------------------------------------------------------
 //-- Util
 //--------------------------------------------------------
+import chalk        from 'chalk';
 import figures      from 'figures';
 import inquirer     from 'inquirer';
 import kebabcase    from 'lodash.kebabcase';
@@ -16,7 +17,6 @@ import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
 import env          from './environment';
 import paths        from './paths';
-const { chalk } = terminal;
 
 
 const getTemporaryDirectory = (id = 'tmp') => {

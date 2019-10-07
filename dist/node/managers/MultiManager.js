@@ -4,8 +4,6 @@ exports.default = void 0;
 
 var _path = _interopRequireDefault(require("path"));
 
-var _webpackMerge = _interopRequireDefault(require("webpack-merge"));
-
 var _fss = _interopRequireDefault(require("@absolunet/fss"));
 
 var _privateRegistry = _interopRequireDefault(require("@absolunet/private-registry"));
@@ -15,8 +13,6 @@ var _terminal = require("@absolunet/terminal");
 var _builder = _interopRequireDefault(require("../helpers/builder"));
 
 var _documenter = _interopRequireDefault(require("../helpers/documenter"));
-
-var _environment = _interopRequireDefault(require("../helpers/environment"));
 
 var _paths = _interopRequireDefault(require("../helpers/paths"));
 
@@ -29,18 +25,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //--------------------------------------------------------
 //-- Multi
 //--------------------------------------------------------
-const {
-  chalk
-} = _terminal.terminal;
+
 /**
  * Multi package manager.
  *
  * @augments AbstractManager
  */
-
 class MultiManager extends _AbstractManager.default {
   /**
-   * Create a single package manager.
+   * Create a multi package manager.
    *
    * @inheritdoc
    */
@@ -83,7 +76,9 @@ class MultiManager extends _AbstractManager.default {
     return undefined;
   }
   /**
-   * xxx
+   * List of repository's subpackages.
+   *
+   * @type {Array<{root: string, source: string, destination: string, name: string}>}
    */
 
 
@@ -91,13 +86,17 @@ class MultiManager extends _AbstractManager.default {
     return (0, _privateRegistry.default)(this).get('subpackages');
   }
   /**
-   * xxx
+   * Execute async code within each subpackage.
+   *
+   * @async
+   * @param {Function} [toExecute] - Async function to execute.
+   * @returns {Promise} When all code is executed.
    */
 
 
-  async forEachSubpackage(callback) {
+  async forEachSubpackage(toExecute) {
     for (const subpackage of this.subpackages) {
-      await callback(subpackage); // eslint-disable-line no-await-in-loop
+      await toExecute(subpackage); // eslint-disable-line no-await-in-loop
     }
   }
   /**
@@ -105,8 +104,9 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async install(options) {
+  install(options) {
     return super.install(options, async () => {
+      // eslint-disable-line require-await
       // Let lerna do its subpackage interdependencies magic
       _terminal.terminal.println('Install subpackages dependencies and link siblings');
 
@@ -123,7 +123,7 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async outdated(options) {
+  outdated(options) {
     return super.outdated(options, async () => {
       // Check outdated dependencies for all subpackages
       await this.forEachSubpackage(async ({
@@ -138,7 +138,7 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async build(options) {
+  build(options) {
     return super.build(options, async () => {
       // Run builder for all subpackages
       await _builder.default.run((0, _privateRegistry.default)(this).get('dist'), this.subpackages);
@@ -149,7 +149,7 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async watch(options) {
+  watch(options) {
     return super.watch(options, async () => {
       // Run watcher for all subpackages
       await _builder.default.watch((0, _privateRegistry.default)(this).get('dist'), this.subpackages);
@@ -160,7 +160,7 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async documentation(options) {
+  documentation(options) {
     return super.documentation(options, async () => {
       // API and text documentation for all subpackages
       await this.forEachSubpackage(async ({
@@ -185,10 +185,11 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async prepare(options) {
+  prepare(options) {
     return super.prepare(options, async () => {
+      // eslint-disable-line require-await
       // Update license and current Node.js engine version for all subpackages
-      await this.forEachSubpackage(async ({
+      this.forEachSubpackage(({
         root
       }) => {
         _util.default.updateLicense(root);
@@ -204,7 +205,7 @@ class MultiManager extends _AbstractManager.default {
    */
 
 
-  async publish(options) {
+  publish(options) {
     return super.publish(options, async () => {
       // Pack a tarball for all subpackages
       const tarballs = [];
@@ -219,7 +220,9 @@ class MultiManager extends _AbstractManager.default {
 
       const tag = _util.default.getTag(this.version);
 
-      const restricted = (0, _privateRegistry.default)(this).get('publish').restricted;
+      const {
+        restricted
+      } = (0, _privateRegistry.default)(this).get('publish');
       const otp = await _util.default.getOTP((0, _privateRegistry.default)(this).get('publish').useOTP); // Publish the tarball for all subpackages
 
       for (const tarball of tarballs) {

@@ -1,11 +1,14 @@
 //--------------------------------------------------------
-//-- Tests
+//-- Tester
 //--------------------------------------------------------
-'use strict';
+'use strict';  // eslint-disable-line strict
 
-const tester = require('@absolunet/tester');
+const { tester } = require('@absolunet/tester');
 
-tester.npmPackage.validate();
+tester.init({
+	repositoryType: 'single-package',
+	packageType:    'simple'
+});
 
 
 //		const data = [

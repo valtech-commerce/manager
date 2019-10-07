@@ -1,10 +1,12 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-import { terminal } from '@absolunet/terminal';
-import env          from './helpers/environment';
-import util         from './helpers/util';
-const { chalk } = terminal;
+import chalk          from 'chalk';
+import Joi            from '@hapi/joi';
+import { terminal }   from '@absolunet/terminal';
+import dataValidation from './helpers/data-validation';
+import env            from './helpers/environment';
+import util           from './helpers/util';
 
 
 /**
@@ -14,7 +16,9 @@ const { chalk } = terminal;
  */
 class Manager {
 
-	// eslint-disable-next-line jsdoc/require-jsdoc
+	/**
+	 * Create a Manager.
+	 */
 	constructor() {
 		terminal.setDefault({
 			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
@@ -25,25 +29,17 @@ class Manager {
 
 
 	/**
-	 * Current package or multi-package version.
-	 *
-	 * @type {string}
-	 */
-	get version() {
-		return multi.version || single.version;
-	}
-
-
-	/**
 	 * Update package meta.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#updateNodeVersion} and {@link Util#updateLicense}.
+	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of the package.json / license.
 	 * @returns {Promise} When method completed.
 	 */
-	async updatePackageMeta(...parameters) {  // eslint-disable-line require-await
-		util.updateNodeVersion(...parameters);
-		util.updateLicense(...parameters);
+	async updatePackageMeta(absolutePath) {  // eslint-disable-line require-await
+		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
+
+		util.updateNodeVersion(absolutePath);
+		util.updateLicense(absolutePath);
 	}
 
 
@@ -51,11 +47,13 @@ class Manager {
 	 * Lists outdated packages.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmOutdated}.
+	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of the package.json.
 	 * @returns {Promise} When method completed.
 	 */
-	async testOutdated(...parameters) {
-		await util.npmOutdated(...parameters);
+	async testOutdated(absolutePath) {
+		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
+
+		await util.npmOutdated(absolutePath);
 	}
 
 
@@ -63,11 +61,13 @@ class Manager {
 	 * Reinstall packages.
 	 *
 	 * @async
-	 * @param {...*} parameters - Parameters of {@link Util#npmInstall}.
+	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of the package.json.
 	 * @returns {Promise} When method completed.
 	 */
-	async installPackage(...parameters) {
-		await util.npmInstall(...parameters);
+	async installPackage(absolutePath) {
+		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
+
+		await util.npmInstall(absolutePath);
 	}
 
 
@@ -94,22 +94,47 @@ class Manager {
 	 * 	}
 	 * });
 	 */
-	async init(options) {
+	async init(options = {}) {
+		dataValidation.argument('options', options, Joi.object({
+			repositoryType: Joi.string().valid(...Object.values(env.REPOSITORY_TYPE)),
+			restricted:     Joi.boolean(),
+			useOTP:         Joi.boolean(),
+
+			dist: Joi.object({
+				source:      dataValidation.absolutePath,
+				destination: dataValidation.absolutePath,
+				node:        Joi.boolean(),
+				web:         Joi.object({
+					types:     Joi.array().items(Joi.string().valid(...Object.values(env.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
+					name:      dataValidation.variableName.required(),
+					externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, dataValidation.variableName)
+				}),
+				include: Joi.array().items(Joi.string())
+			}).required(),
+
+			tasks: Joi.object(Object.values(env.TASK).reduce((list, task) => {
+				list[task] = {
+					preRun:  Joi.function(),
+					postRun: Joi.function()
+				};
+
+				return list;
+			}, {}))
+		}));
+
+
 		const { repositoryType } = options;
 		delete options.repositoryType;
 
 		let managerType;
 
 		if (repositoryType === env.REPOSITORY_TYPE.singlePackage) {
-			const SingleManager = require('./managers/SingleManager');
+			const SingleManager = require('./managers/SingleManager'); // eslint-disable-line global-require
 			managerType = new SingleManager(options);
 
 		} else if (repositoryType === env.REPOSITORY_TYPE.multiPackage) {
-			const MultiManager = require('./managers/MultiManager');
+			const MultiManager = require('./managers/MultiManager'); // eslint-disable-line global-require
 			managerType = new MultiManager(options);
-
-		} else {
-			throw new TypeError('repositoryType option is not valid');
 		}
 
 
@@ -130,6 +155,8 @@ class Manager {
 				await util.confirmUnsafePublish();
 				await managerType.publish({ unsafe: true });
 				break;
+
+			default: break;
 
 		}
 

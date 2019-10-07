@@ -1,16 +1,15 @@
 //--------------------------------------------------------
 //-- Single manger
 //--------------------------------------------------------
+import chalk           from 'chalk';
 import fss             from '@absolunet/fss';
 import __              from '@absolunet/private-registry';
 import { terminal }    from '@absolunet/terminal';
 import builder         from '../helpers/builder';
 import documenter      from '../helpers/documenter';
-import env             from '../helpers/environment';
 import paths           from '../helpers/paths';
 import util            from '../helpers/util';
 import AbstractManager from './AbstractManager';
-const { chalk } = terminal;
 
 
 /**
@@ -37,8 +36,8 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	async install(options) {
-		return super.install(options, async () => {
+	install(options) {
+		return super.install(options, async () => { // eslint-disable-line require-await
 
 			// Symlink if self-reference
 			const config = fss.readJson(paths.package.config);
@@ -55,7 +54,7 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	async build(options) {
+	build(options) {
 		return super.build(options, async () => {
 
 			// Run builder
@@ -68,7 +67,7 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	async watch(options) {
+	watch(options) {
 		return super.watch(options, async () => {
 
 			// Run watcher
@@ -81,7 +80,7 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	async documentation(options) {
+	documentation(options) {
 		return super.documentation(options, async () => {
 
 			// API documentation
@@ -97,8 +96,8 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	async prepare(options) {
-		return super.prepare(options, async () => {
+	prepare(options) {
+		return super.prepare(options, async () => { // eslint-disable-line require-await
 
 			// Current Node.js engine version
 			util.updateNodeVersion();
@@ -118,7 +117,7 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	async publish(options) {
+	publish(options) {
 		return super.publish(options, async () => {
 
 			// Pack a tarball

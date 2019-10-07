@@ -28,9 +28,9 @@ $github2-color: #24292e;
 $important-color: #e5133c;
 
 
-$base-font:  Lato, Helvetica, Arial, Verdana, sans-serif;
-$title-font: Poppins, Helvetica, Arial, Verdana, sans-serif;
-$code-font:  'Fira Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', Courier, monospace;
+$base-font:  Lato, $nwayo-sansserif-font;                                                                 // stylelint-disable-line value-keyword-case
+$title-font: Poppins, $nwayo-sansserif-font;                                                              // stylelint-disable-line value-keyword-case
+$code-font:  'Fira Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', Courier, monospace;  // stylelint-disable-line value-keyword-case
 
 
 @mixin inline-image-styles($file, $color) {

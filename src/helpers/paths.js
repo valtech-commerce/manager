@@ -1,11 +1,12 @@
 //--------------------------------------------------------
 //-- Paths
 //--------------------------------------------------------
-import fss from '@absolunet/fss';
+import pkgDir from 'pkg-dir';
+import fss    from '@absolunet/fss';
 
 
 const __ = {
-	root:        fss.realpath(`${__dirname}/../../..`),
+	root:        pkgDir.sync(__dirname),
 	packageRoot: fss.realpath(`.`)
 };
 
