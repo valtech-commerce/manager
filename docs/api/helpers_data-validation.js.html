@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>@absolunet/manager - @absolunet/manager API documentation</title>
+	<title>helpers/data-validation.js - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,217 +54,71 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">@absolunet/manager</h1>
+			<h1 class="page-title">helpers/data-validation.js</h1>
 		
 
 			
 
 
 
-
-<section>
-
-<div>
     
-        
-            
-        
-    
-</div>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description">Exports a default instance of the manager and also the main class.</div>
-            
-
-            
-                
-<div class="method">
+    <section>
+        <article>
+            <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
+//-- Data validation
+//--------------------------------------------------------
+import Joi, { ValidationError } from '@hapi/joi';
 
 
+/**
+ * Data validation helper.
+ *
+ * @hideconstructor
+ */
+class DataValidationHelper {
 
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre><code class="language-js">import { manager } from '@absolunet/manager';
-
-manager.init(options);</code></pre>
-
-    <pre><code class="language-js">import { Manager } from '@absolunet/manager';
-
-class MyManager extends Manager {
-	constructor(options) {
-		super(options);
+	/**
+	 * Absolute path {@link https://hapi.dev/family/joi/ Joi schema}.
+	 *
+	 * @type {Joi.StringSchema}
+	 */
+	get absolutePath() {
+		return Joi.string().pattern(/^\//u, 'absolute path');
 	}
-}</code></pre>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<div class="member">
-<h4 class="name" id=".manager"><span class="type-signature">(static) </span>manager<span class="type-signature"> :<a href="Manager.html">Manager</a></span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html#line-36">index.js:36</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Instance of Manager.
-</div>
-
-
-
-
-
-
-
-</div>
-
-        
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+	/**
+	 * Variable name {@link https://hapi.dev/family/joi/ Joi schema}.
+	 *
+	 * @type {Joi.StringSchema}
+	 */
+	get variableName() {
+		return Joi.string().pattern(/^[a-z]\w+$/ui, 'variable name');
+	}
+
+
+	/**
+	 * Validate method argument.
+	 *
+	 * @param {string} label - Name of the argument.
+	 * @param {*} value - Value of the argument.
+	 * @param {Joi.Schema} schema - {@link https://hapi.dev/family/joi/ Joi schema}.
+	 */
+	argument(label, value, schema) {
+		const { error } = Joi.object({ [label]: schema }).validate({ [label]: value });
+
+		if (error) {
+			throw new ValidationError(error.annotate(), error.details, error._original);
+		}
+	}
+
+}
+
+
+export default new DataValidationHelper();
+</code></pre>
+        </article>
+    </section>
 
 
 
