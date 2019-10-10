@@ -56,7 +56,7 @@ manager.multiScriptsRunner(options);
 
 ## Documentation
 
-View [documentation](https://absolunet.github.io/node-manager)
+View [documentation](https://documentation.absolunet.com/node-manager)
 
 
 
