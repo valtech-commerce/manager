@@ -1,6 +1,6 @@
 {
   "name": "@absolunet/manager",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-rc.1",
   "description": "Manager for Node.js projects",
   "definition": "",
   "homepage": "https://github.com/absolunet/node-manager",
@@ -43,7 +43,7 @@
     "test:endtoend": "node test --scope=endtoend"
   },
   "devDependencies": {
-    "@absolunet/manager": "2.0.0-beta.1",
+    "@absolunet/manager": "2.0.0-rc.1",
     "@absolunet/nwayo-toolbox": "3.7.0",
     "@absolunet/stylelint-config-nwayo": "1.2.1",
     "@absolunet/tester": "3.0.0-rc.1",
@@ -57,7 +57,7 @@
     "jquery.scrollto": "2.1.2",
     "prismjs": "1.17.1",
     "sass": "1.23.0",
-    "stylelint": "11.1.0"
+    "stylelint": "11.1.1"
   },
   "dependencies": {
     "@absolunet/fsp": "^1.6.2",
