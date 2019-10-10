@@ -39,7 +39,7 @@ class Documenter {
 	generateCommonAssets(destination = paths.package.documentation) {
 		terminal.println('Copy documentation common assets');
 
-		const commonPath = `${destination}/__assets`;
+		const commonPath = `${destination}/assets__`;
 		fss.remove(destination);
 		fss.ensureDir(commonPath);
 

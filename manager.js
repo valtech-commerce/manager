@@ -32,8 +32,8 @@ manager.init({
 						.pipe(gulpsass({
 							includePaths: [documenter.theme.styles],
 							functions:    {
-								'dart-read-file($file)': (paramFile) => {
-									const file = `${documenter.theme.images}/${paramFile.getValue()}`;
+								'dart-read-file($file)': (parameterFile) => {
+									const file = `${documenter.theme.images}/${parameterFile.getValue()}`;
 
 									if (fss.exists(file)) {
 										return new sass.types.String(fss.readFile(file, 'utf8'));

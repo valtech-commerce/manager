@@ -702,7 +702,7 @@ exports.publish = function(taffyData, opts, tutorials) {
 	var urlRoot = '..' + '/..'.repeat(depth - 1) ;
     var urls = {
         root:   urlRoot,
-        common: urlRoot + '/__assets',
+        common: urlRoot + '/assets__',
     };
     // /Absolunet modification
 
