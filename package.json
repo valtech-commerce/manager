@@ -22,7 +22,7 @@
     "url": "https://github.com/absolunet/node-manager/issues"
   },
   "engines": {
-    "node": ">= 12.11.1"
+    "node": ">= 12.0.0"
   },
   "main": "dist/node",
   "scripts": {
@@ -46,8 +46,8 @@
     "@absolunet/manager": "2.0.0-rc.1",
     "@absolunet/nwayo-toolbox": "3.7.0",
     "@absolunet/stylelint-config-nwayo": "1.2.1",
-    "@absolunet/tester": "3.0.0-rc.1",
-    "autoprefixer": "9.6.4",
+    "@absolunet/tester": "3.0.1",
+    "autoprefixer": "9.6.5",
     "cssnano": "4.1.10",
     "fibers": "4.0.1",
     "gulp": "4.0.2",
@@ -72,7 +72,7 @@
     "babel-plugin-add-module-exports": "^1.0.2",
     "chalk": "^2.4.2",
     "copy-webpack-plugin": "^5.0.4",
-    "core-js": "^3.2.1",
+    "core-js": "^3.3.2",
     "disable-output-webpack-plugin": "^1.0.1",
     "figures": "^3.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
@@ -88,7 +88,7 @@
     "string-length": "^3.1.0",
     "text-table": "^0.2.0",
     "tmp": "^0.1.0",
-    "webpack": "^4.41.0",
+    "webpack": "^4.41.2",
     "webpack-merge": "^4.2.2"
   }
 }
