@@ -188,13 +188,11 @@ class MultiManager extends _AbstractManager.default {
   prepare(options) {
     return super.prepare(options, async () => {
       // eslint-disable-line require-await
-      // Update license and current Node.js engine version for all subpackages
+      // Update license for all subpackages
       this.forEachSubpackage(({
         root
       }) => {
         _util.default.updateLicense(root);
-
-        _util.default.updateNodeVersion(root);
       }); // Update version for all subpackages
 
       _terminal.terminal.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);

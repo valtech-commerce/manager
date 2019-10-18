@@ -111,10 +111,7 @@ class SingleManager extends _AbstractManager.default {
   prepare(options) {
     return super.prepare(options, async () => {
       // eslint-disable-line require-await
-      // Current Node.js engine version
-      _util.default.updateNodeVersion(); // Update version if self-reference
-
-
+      // Update version if self-reference
       const config = _fss.default.readJson(_paths.default.package.config);
 
       if (Object.keys(config.devDependencies).includes(config.name)) {

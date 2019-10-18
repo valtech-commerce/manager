@@ -145,26 +145,6 @@ class Util {
     }
   }
   /**
-   * Update Node.js engine version in package.json.
-   *
-   * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
-   */
-
-
-  updateNodeVersion(root = _paths.default.package.root) {
-    const FILE = `${root}/package.json`;
-
-    _terminal.terminal.println(`Update Node version in ${_chalk.default.underline(this.relativizePath(FILE))}`);
-
-    const data = _fss.default.readJson(FILE);
-
-    data.engines.node = `>= ${process.versions.node}`;
-
-    _fss.default.writeJson(FILE, data, {
-      space: 2
-    });
-  }
-  /**
    * Copy license file from project root to sub-package root.
    *
    * @param {string} [root={@link PackagePaths}.root] - Directory path of the sub-package licence.

@@ -32,13 +32,12 @@ class Manager {
 	 * Update package meta.
 	 *
 	 * @async
-	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of the package.json / license.
+	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of license.
 	 * @returns {Promise} When method completed.
 	 */
 	async updatePackageMeta(absolutePath) {  // eslint-disable-line require-await
 		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
 
-		util.updateNodeVersion(absolutePath);
 		util.updateLicense(absolutePath);
 	}
 

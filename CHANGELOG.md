@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update tester
 - Maintenance updates
 
+### Removed
+- Update of Node.js version since it's now done by the tester
+
 
 
 ## [2.0.0-rc.1] - 2019-10-10

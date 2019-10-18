@@ -181,10 +181,9 @@ class MultiManager extends AbstractManager {
 	prepare(options) {
 		return super.prepare(options, async () => { // eslint-disable-line require-await
 
-			// Update license and current Node.js engine version for all subpackages
+			// Update license for all subpackages
 			this.forEachSubpackage(({ root }) => {
 				util.updateLicense(root);
-				util.updateNodeVersion(root);
 			});
 
 			// Update version for all subpackages

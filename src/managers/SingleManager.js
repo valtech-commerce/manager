@@ -99,9 +99,6 @@ class SingleManager extends AbstractManager {
 	prepare(options) {
 		return super.prepare(options, async () => { // eslint-disable-line require-await
 
-			// Current Node.js engine version
-			util.updateNodeVersion();
-
 			// Update version if self-reference
 			const config = fss.readJson(paths.package.config);
 			if (Object.keys(config.devDependencies).includes(config.name)) {
