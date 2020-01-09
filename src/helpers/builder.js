@@ -46,7 +46,7 @@ const nodeConfig = (source) => {
 				transform: (content) => {
 					return transformAsync(content, {
 						plugins: [
-							[babelTransformModules, { strict: true }],
+							[babelTransformModules, { strict: false }],
 							[babelAddModuleExports, { addDefaultProperty: true }]
 						]
 					})
