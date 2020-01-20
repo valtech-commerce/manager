@@ -60,7 +60,7 @@ const nodeConfig = source => {
       transform: content => {
         return (0, _core.transformAsync)(content, {
           plugins: [[_pluginTransformModulesCommonjs.default, {
-            strict: true
+            strict: false
           }], [_babelPluginAddModuleExports.default, {
             addDefaultProperty: true
           }]]
