@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- Remove strict mode on `@babel/plugin-transform-modules-commonjs` to expose `__esModule` property in builds
 - Update tester
 - Maintenance update
 

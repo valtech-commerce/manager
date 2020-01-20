@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/prevent-abbreviations, array-bracket-newline */
+/* eslint-disable unicorn/prevent-abbreviations */
 'use strict';
 
 const fss = require('@absolunet/fss');
