@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _chalk = _interopRequireDefault(require("chalk"));
+var _nodeEmoji = _interopRequireDefault(require("node-emoji"));
 
-var _joi = _interopRequireDefault(require("@hapi/joi"));
+var _brandGuidelines = _interopRequireDefault(require("@absolunet/brand-guidelines"));
+
+var _joi = require("@absolunet/joi");
 
 var _terminal = require("@absolunet/terminal");
-
-var _dataValidation = _interopRequireDefault(require("./helpers/data-validation"));
 
 var _environment = _interopRequireDefault(require("./helpers/environment"));
 
@@ -33,12 +33,19 @@ class Manager {
    * Create a Manager.
    */
   constructor() {
-    _terminal.terminal.setDefault({
-      logo: ['👨‍💻', '👩‍💻'].sort(() => {
+    const mainColor = _brandGuidelines.default.styleguide.color.greyscale.nevada;
+    const secondaryColor = _brandGuidelines.default.styleguide.color.greyscale.geyser;
+
+    _terminal.terminal.setTheme({
+      logo: [_nodeEmoji.default.get('male-technologist'), _nodeEmoji.default.get('female-technologist')].sort(() => {
         return 0.5 - Math.random();
       }).pop(),
-      textColor: _chalk.default.hex('#765432'),
-      bgColor: _chalk.default.bgHex('#654321')
+      // 👨‍💻👩‍💻
+      textColor: mainColor,
+      backgroundColor: mainColor,
+      textOnBackgroundColor: secondaryColor,
+      borderColor: mainColor,
+      spinnerColor: _terminal.terminal.basicColor.grey
     });
   }
   /**
@@ -52,7 +59,7 @@ class Manager {
 
   async updatePackageMeta(absolutePath) {
     // eslint-disable-line require-await
-    _dataValidation.default.argument('absolutePath', absolutePath, _dataValidation.default.absolutePath);
+    (0, _joi.validateArgument)('absolutePath', absolutePath, _joi.Joi.absolutePath());
 
     _util.default.updateLicense(absolutePath);
   }
@@ -66,8 +73,7 @@ class Manager {
 
 
   async testOutdated(absolutePath) {
-    _dataValidation.default.argument('absolutePath', absolutePath, _dataValidation.default.absolutePath);
-
+    (0, _joi.validateArgument)('absolutePath', absolutePath, _joi.Joi.absolutePath());
     await _util.default.npmOutdated(absolutePath);
   }
   /**
@@ -80,8 +86,7 @@ class Manager {
 
 
   async installPackage(absolutePath) {
-    _dataValidation.default.argument('absolutePath', absolutePath, _dataValidation.default.absolutePath);
-
+    (0, _joi.validateArgument)('absolutePath', absolutePath, _joi.Joi.absolutePath());
     await _util.default.npmInstall(absolutePath);
   }
   /**
@@ -110,30 +115,29 @@ class Manager {
 
 
   async init(options = {}) {
-    _dataValidation.default.argument('options', options, _joi.default.object({
-      repositoryType: _joi.default.string().valid(...Object.values(_environment.default.REPOSITORY_TYPE)),
-      restricted: _joi.default.boolean(),
-      useOTP: _joi.default.boolean(),
-      dist: _joi.default.object({
-        source: _dataValidation.default.absolutePath,
-        destination: _dataValidation.default.absolutePath,
-        node: _joi.default.boolean(),
-        web: _joi.default.object({
-          types: _joi.default.array().items(_joi.default.string().valid(...Object.values(_environment.default.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
-          name: _dataValidation.default.variableName.required(),
-          externals: _joi.default.object().pattern(/^[a-z0-9-/@]$/iu, _dataValidation.default.variableName)
+    (0, _joi.validateArgument)('options', options, _joi.Joi.object({
+      repositoryType: _joi.Joi.string().valid(...Object.values(_environment.default.REPOSITORY_TYPE)),
+      restricted: _joi.Joi.boolean(),
+      useOTP: _joi.Joi.boolean(),
+      dist: _joi.Joi.object({
+        source: _joi.Joi.absolutePath(),
+        destination: _joi.Joi.absolutePath(),
+        node: _joi.Joi.boolean(),
+        web: _joi.Joi.object({
+          types: _joi.Joi.array().items(_joi.Joi.string().valid(...Object.values(_environment.default.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
+          name: _joi.Joi.variableName().required(),
+          externals: _joi.Joi.object().pattern(/^[a-z0-9-/@]$/iu, _joi.Joi.variableName())
         }),
-        include: _joi.default.array().items(_joi.default.string())
+        include: _joi.Joi.array().items(_joi.Joi.string())
       }).required(),
-      tasks: _joi.default.object(Object.values(_environment.default.TASK).reduce((list, task) => {
+      tasks: _joi.Joi.object(Object.values(_environment.default.TASK).reduce((list, task) => {
         list[task] = {
-          preRun: _joi.default.function(),
-          postRun: _joi.default.function()
+          preRun: _joi.Joi.function(),
+          postRun: _joi.Joi.function()
         };
         return list;
       }, {}))
     }));
-
     const {
       repositoryType
     } = options;
@@ -196,7 +200,7 @@ class Manager {
         break;
     }
 
-    _terminal.terminal.completionBox('Completed');
+    _terminal.terminal.completionBox();
   }
 
 }

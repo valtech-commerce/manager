@@ -50,7 +50,7 @@ class Documenter {
 
 
   generateCommonAssets(destination = _paths.default.package.documentation) {
-    _terminal.terminal.println('Copy documentation common assets');
+    _terminal.terminal.print('Copy documentation common assets').spacer();
 
     const commonPath = `${destination}/assets__`;
 
@@ -77,7 +77,7 @@ class Documenter {
     destination = _paths.default.package.documentation,
     depth = 1
   } = {}) {
-    _terminal.terminal.println(`Build API documentation for ${_util.default.relativizePath(source)}`);
+    _terminal.terminal.print(`Build API documentation for ${_util.default.relativizePath(source)}`).spacer();
 
     const output = `${destination}/api`;
 
@@ -95,7 +95,11 @@ class Documenter {
       cwd: __dirname
     })}/jsdoc.js`;
 
-    _terminal.terminal.run(`export ${_environment.default.JSDOC_CLI_KEY}='${JSON.stringify(options)}'; node ${jsdocBin} --configure ${_paths.default.documentationTheme}/jsdoc/config.js`);
+    _terminal.terminal.process.run(`node ${jsdocBin} --configure ${_paths.default.documentationTheme}/jsdoc/config.js`, {
+      environment: {
+        [_environment.default.JSDOC_CLI_KEY]: JSON.stringify(options)
+      }
+    });
 
     _terminal.terminal.spacer(2);
   }
@@ -112,7 +116,7 @@ class Documenter {
     source = _paths.default.package.sources,
     destination = _paths.default.package.documentation
   } = {}) {
-    _terminal.terminal.println(`Build text documentation for ${_util.default.relativizePath(source)}`); // Temporarily redirect main url to API docs
+    _terminal.terminal.print(`Build text documentation for ${_util.default.relativizePath(source)}`).spacer(); // Temporarily redirect main url to API docs
 
 
     _fss.default.copy(`${_paths.default.documentationTheme}/redirect/index.html`, `${destination}/index.html`);

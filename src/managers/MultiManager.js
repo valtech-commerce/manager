@@ -28,7 +28,7 @@ class MultiManager extends AbstractManager {
 		super(options);
 
 		// Get a list of all subpackages from lerna
-		const rawList = terminal.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+		const rawList = terminal.process.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
 		const list    = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
 
 		const subpackagesList = list
@@ -98,9 +98,9 @@ class MultiManager extends AbstractManager {
 		return super.install(options, async () => { // eslint-disable-line require-await
 
 			// Let lerna do its subpackage interdependencies magic
-			terminal.println('Install subpackages dependencies and link siblings');
+			terminal.print('Install subpackages dependencies and link siblings').spacer();
 			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
-			terminal.run(`
+			terminal.process.run(`
 				lerna clean --yes
 				lerna bootstrap --no-ci
 			`);
@@ -187,7 +187,7 @@ class MultiManager extends AbstractManager {
 			});
 
 			// Update version for all subpackages
-			terminal.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+			terminal.process.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
 
 		});
 	}

@@ -224,7 +224,7 @@ class AbstractManager {
 				if (!unsafe) {
 					await this.outdated({ grouped: true });
 					await this.rebuild({ grouped: true });
-					terminal.run('npm test');
+					terminal.process.run('npm test');
 				}
 
 				await toExecute();

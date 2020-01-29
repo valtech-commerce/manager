@@ -43,7 +43,7 @@ class MultiManager extends _AbstractManager.default {
   constructor(options) {
     super(options); // Get a list of all subpackages from lerna
 
-    const rawList = _terminal.terminal.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+    const rawList = _terminal.terminal.process.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
 
     const list = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
     const subpackagesList = list.filter(item => {
@@ -111,11 +111,11 @@ class MultiManager extends _AbstractManager.default {
     return super.install(options, async () => {
       // eslint-disable-line require-await
       // Let lerna do its subpackage interdependencies magic
-      _terminal.terminal.println('Install subpackages dependencies and link siblings');
+      _terminal.terminal.print('Install subpackages dependencies and link siblings').spacer();
 
       _fss.default.removePattern(`${_paths.default.package.subpackages}/*/package-lock.json`);
 
-      _terminal.terminal.run(`
+      _terminal.terminal.process.run(`
 				lerna clean --yes
 				lerna bootstrap --no-ci
 			`);
@@ -198,7 +198,7 @@ class MultiManager extends _AbstractManager.default {
         _util.default.updateLicense(root);
       }); // Update version for all subpackages
 
-      _terminal.terminal.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+      _terminal.terminal.process.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
     });
   }
   /**

@@ -289,7 +289,7 @@ class AbstractManager {
             grouped: true
           });
 
-          _terminal.terminal.run('npm test');
+          _terminal.terminal.process.run('npm test');
         }
 
         await toExecute();

@@ -254,9 +254,7 @@ const webpackRunner = configs => {
     (0, _webpack.default)(configs).run((error, stats) => {
       _terminal.terminal.echo(stats.toString({
         colors: true
-      }));
-
-      _terminal.terminal.spacer(2);
+      })).spacer(2);
 
       resolve();
     });
