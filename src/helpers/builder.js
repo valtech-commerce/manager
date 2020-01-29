@@ -40,7 +40,7 @@ const nodeConfig = (source) => {
 			new WebpackDisableOutput(),
 			new WebpackCopy([{
 				context: source,
-				from: '**/!(*.d).js',
+				from: '**/!(*.d|*.test).js',
 				to: '',
 				cache: true,
 				transform: (content) => {

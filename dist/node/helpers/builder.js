@@ -57,7 +57,7 @@ const nodeConfig = source => {
     entry: `${_paths.default.webpackEntryPoints}/node.js`,
     plugins: [new _disableOutputWebpackPlugin.default(), new _copyWebpackPlugin.default([{
       context: source,
-      from: '**/!(*.d).js',
+      from: '**/!(*.d|*.test).js',
       to: '',
       cache: true,
       transform: content => {
