@@ -2,35 +2,42 @@
 //-- Configuration
 //--------------------------------------------------
 @import '../../../../node_modules/@absolunet/nwayo-toolbox/styles/config';
+@import '../../../../node_modules/@absolunet/brand-guidelines/dist/styleguide';
 
 
-$brand-color:         #ff5252;
-$primary-color:       #4ea4e7;
-$primary-light-color: #b6d8ee;
-$primary-dark-color:  #365f91;
+$brand-color:         absolunet-styleguide('color.primary.coral');
+$primary-color:       absolunet-styleguide('color.secondary.picton-blue');
+$primary-light-color: absolunet-styleguide('color.secondary.spindle');
+$primary-dark-color:  absolunet-styleguide('color.secondary.chambray');
 
-$grey1-color: #2b2d3c;
-$grey2-color: #3c475d;
-$grey3-color: #5c7480;
-$grey4-color: #798f9a;
-$grey5-color: #96aab4;
-$grey6-color: #b1c0c7;
-$grey7-color: #d6dfe4;
-$grey8-color: #e2e9ed;
-$grey9-color: #f2f6f7;
+$grey1-color: absolunet-styleguide('color.primary.navy');
+$grey2-color: absolunet-styleguide('color.secondary.oxford-blue');
+$grey3-color: absolunet-styleguide('color.greyscale.nevada');
+$grey4-color: absolunet-styleguide('color.greyscale.regent-grey');
+$grey5-color: absolunet-styleguide('color.greyscale.gull-grey');
+$grey6-color: absolunet-styleguide('color.greyscale.loblolly');
+$grey7-color: absolunet-styleguide('color.greyscale.geyser');
+$grey8-color: absolunet-styleguide('color.greyscale.mystic');
+$grey9-color: absolunet-styleguide('color.greyscale.aqua-haze');
 
-$code1-color: #71aa68;
-$code2-color: #1aabb6;
+$code1-color: absolunet-styleguide('color.rainbow.olivine');
+$code2-color: absolunet-styleguide('color.secondary.eastern-blue');
 
 $github1-color: #0366d6;
 $github2-color: #24292e;
 
-$important-color: #e5133c;
+$important-color: absolunet-styleguide('color.rainbow.crimson');
 
 
-$base-font:  Lato, $nwayo-sansserif-font;                                                                 // stylelint-disable-line value-keyword-case
-$title-font: Poppins, $nwayo-sansserif-font;                                                              // stylelint-disable-line value-keyword-case
-$code-font:  'Fira Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', Courier, monospace;  // stylelint-disable-line value-keyword-case
+/* stylelint-disable scss/function-unquote-no-unquoted-strings-inside */
+$base-font:  unquote(absolunet-styleguide('font.content'));
+$title-font: unquote(absolunet-styleguide('font.title'));
+$code-font:  unquote(absolunet-styleguide('font.code'));
+/* stylelint-enable scss/function-unquote-no-unquoted-strings-inside */
+
+$base-weight:  absolunet-styleguide('font-weight.content.base');
+$title-weight: absolunet-styleguide('font-weight.title.base');
+$code-weight:  absolunet-styleguide('font-weight.code.base');
 
 
 @mixin inline-image-styles($file, $color) {
