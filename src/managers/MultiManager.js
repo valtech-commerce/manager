@@ -27,8 +27,10 @@ class MultiManager extends AbstractManager {
 	constructor(options) {
 		super(options);
 
+		__(this).set('lerna-binary', `${path.dirname(require.resolve('lerna'))}/cli.js`);
+
 		// Get a list of all subpackages from lerna
-		const rawList = terminal.process.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+		const rawList = terminal.process.runAndRead(`${this.lernaBinary} exec --concurrency=1 --loglevel=silent -- pwd`);
 		const list    = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
 
 		const subpackagesList = list
@@ -78,6 +80,16 @@ class MultiManager extends AbstractManager {
 
 
 	/**
+	 * Lerna binary.
+	 *
+	 * @type {string}
+	 */
+	get lernaBinary() {
+		return `node ${__(this).get('lerna-binary')}`;
+	}
+
+
+	/**
 	 * Execute async code within each subpackage.
 	 *
 	 * @async
@@ -101,8 +113,8 @@ class MultiManager extends AbstractManager {
 			terminal.print('Install subpackages dependencies and link siblings').spacer();
 			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
 			terminal.process.run(`
-				lerna clean --yes
-				lerna bootstrap --no-ci
+				${this.lernaBinary} clean --yes
+				${this.lernaBinary} bootstrap --no-ci
 			`);
 
 		});
@@ -187,7 +199,7 @@ class MultiManager extends AbstractManager {
 			});
 
 			// Update version for all subpackages
-			terminal.process.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+			terminal.process.run(`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
 
 		});
 	}

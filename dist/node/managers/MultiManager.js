@@ -41,9 +41,10 @@ class MultiManager extends _AbstractManager.default {
    * @inheritdoc
    */
   constructor(options) {
-    super(options); // Get a list of all subpackages from lerna
+    super(options);
+    (0, _privateRegistry.default)(this).set('lerna-binary', `${_path.default.dirname(require.resolve('lerna'))}/cli.js`); // Get a list of all subpackages from lerna
 
-    const rawList = _terminal.terminal.process.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+    const rawList = _terminal.terminal.process.runAndRead(`${this.lernaBinary} exec --concurrency=1 --loglevel=silent -- pwd`);
 
     const list = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
     const subpackagesList = list.filter(item => {
@@ -89,6 +90,16 @@ class MultiManager extends _AbstractManager.default {
     return (0, _privateRegistry.default)(this).get('subpackages');
   }
   /**
+   * Lerna binary.
+   *
+   * @type {string}
+   */
+
+
+  get lernaBinary() {
+    return `node ${(0, _privateRegistry.default)(this).get('lerna-binary')}`;
+  }
+  /**
    * Execute async code within each subpackage.
    *
    * @async
@@ -116,8 +127,8 @@ class MultiManager extends _AbstractManager.default {
       _fss.default.removePattern(`${_paths.default.package.subpackages}/*/package-lock.json`);
 
       _terminal.terminal.process.run(`
-				lerna clean --yes
-				lerna bootstrap --no-ci
+				${this.lernaBinary} clean --yes
+				${this.lernaBinary} bootstrap --no-ci
 			`);
     });
   }
@@ -198,7 +209,7 @@ class MultiManager extends _AbstractManager.default {
         _util.default.updateLicense(root);
       }); // Update version for all subpackages
 
-      _terminal.terminal.process.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+      _terminal.terminal.process.run(`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
     });
   }
   /**
