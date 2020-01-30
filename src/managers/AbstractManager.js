@@ -196,8 +196,8 @@ class AbstractManager {
 			grouped,
 			toExecute: async () => {
 				await this.build({ grouped: true });
-				await this.documentation({ grouped: true });
 				await this.prepare({ grouped: true });
+				await this.documentation({ grouped: true });
 				await toExecute();
 			}
 		});

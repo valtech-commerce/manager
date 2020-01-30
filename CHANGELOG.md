@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `@absolunet/brand-guidelines` for documentation styles
 - Maintenance update
 
+### Fixed
+- Rebuild task on multi-package changes version in documentation on first run
+
 
 
 ## [2.0.1] - 2020-01-20
