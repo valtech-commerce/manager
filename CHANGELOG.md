@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Rebuild task on multi-package changes version in documentation on first run
+- Manager works on Windows
 
 
 

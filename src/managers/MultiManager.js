@@ -27,27 +27,22 @@ class MultiManager extends AbstractManager {
 	constructor(options) {
 		super(options);
 
+		// Resolve local Lerna binary
 		__(this).set('lerna-binary', `${path.dirname(require.resolve('lerna'))}/cli.js`);
 
-		// Get a list of all subpackages from lerna
-		const rawList = terminal.process.runAndRead(`${this.lernaBinary} exec --concurrency=1 --loglevel=silent -- pwd`);
-		const list    = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
+		// Get a list of all subpackages from Lerna
+		const rawList = JSON.parse(terminal.process.runAndRead(`${this.lernaBinary} list --all --json`));
 
-		const subpackagesList = list
-			.filter((item) => {
-				return Boolean(item);
-			})
-			.map((item) => {
-				const root = util.relativizePath(item);
+		const subpackagesList = rawList.map(({ location }) => {
+			const root = util.relativizePath(location);
 
-				return {
-					root,
-					source:      `${root}/${paths.subpackage.sources}`,
-					destination: `${root}/${paths.subpackage.distributions}`,
-					name:        path.basename(item)
-				};
-			})
-		;
+			return {
+				root,
+				source:      `${root}/${paths.subpackage.sources}`,
+				destination: `${root}/${paths.subpackage.distributions}`,
+				name:        path.basename(location)
+			};
+		});
 
 		__(this).set('subpackages', subpackagesList);
 	}
