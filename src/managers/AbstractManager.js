@@ -196,8 +196,8 @@ class AbstractManager {
 			grouped,
 			toExecute: async () => {
 				await this.build({ grouped: true });
-				await this.documentation({ grouped: true });
 				await this.prepare({ grouped: true });
+				await this.documentation({ grouped: true });
 				await toExecute();
 			}
 		});
@@ -224,7 +224,7 @@ class AbstractManager {
 				if (!unsafe) {
 					await this.outdated({ grouped: true });
 					await this.rebuild({ grouped: true });
-					terminal.run('npm test');
+					terminal.process.run('npm test');
 				}
 
 				await toExecute();

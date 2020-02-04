@@ -51,9 +51,7 @@ const getTemporaryDirectory = (id = 'tmp') => {
       unsafeCleanup: true
     }, (error, temporaryPath) => {
       if (error) {
-        _terminal.terminal.error(error);
-
-        _terminal.terminal.exit();
+        _terminal.terminal.error(error).exit();
       }
 
       resolve(temporaryPath);
@@ -126,7 +124,7 @@ class Util {
 
       _terminal.terminal.infoBox(`${name}: Generic runner`);
     } else {
-      _terminal.terminal.echo(`${_figures.default.pointer} ${name}: No custom pre-runner\n\n`);
+      _terminal.terminal.echo(`${_figures.default.pointer} ${name}: No custom pre-runner`).spacer(2);
     } // Generic runner
 
 
@@ -139,7 +137,7 @@ class Util {
         terminal: _terminal.terminal
       });
     } else {
-      _terminal.terminal.echo(`\n${_figures.default.pointer} ${name}: No custom post-runner`);
+      _terminal.terminal.spacer().echo(`${_figures.default.pointer} ${name}: No custom post-runner`);
     } // Completion banner
 
 
@@ -157,7 +155,7 @@ class Util {
   updateLicense(root = _paths.default.package.root) {
     const LICENSE = `${root}/license`;
 
-    _terminal.terminal.println(`Update license in ${_chalk.default.underline(this.relativizePath(LICENSE))}`);
+    _terminal.terminal.print(`Update license in ${_chalk.default.underline(this.relativizePath(LICENSE))}`).spacer();
 
     _fss.default.copy(`${_paths.default.package.root}/license`, LICENSE);
   }
@@ -172,7 +170,7 @@ class Util {
 
 
   async npmOutdated(root = _paths.default.package.root, verbose = false) {
-    _terminal.terminal.println(`Checking ${_chalk.default.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`); // Dependencies
+    _terminal.terminal.print(`Checking ${_chalk.default.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`).spacer(); // Dependencies
 
 
     const currentState = await (0, _npmCheck.default)({
@@ -222,9 +220,7 @@ class Util {
         stringLength: text => {
           return (0, _stringLength.default)(text);
         }
-      }));
-
-      _terminal.terminal.spacer();
+      })).spacer();
     } else {
       _terminal.terminal.success(`All is good`);
     }
@@ -241,12 +237,14 @@ class Util {
 
 
   async npmInstall(root = _paths.default.package.root) {
-    _terminal.terminal.println(`Install dependencies in ${_chalk.default.underline(this.relativizePath(root))}`);
+    _terminal.terminal.print(`Install dependencies in ${_chalk.default.underline(this.relativizePath(root))}`).spacer();
 
     await _fsp.default.remove(`${root}/node_modules`);
     await _fsp.default.remove(`${root}/package-lock.json`);
 
-    _terminal.terminal.run(`cd ${root} && npm install --no-audit`);
+    _terminal.terminal.process.run(`npm install --no-audit`, {
+      directory: root
+    });
 
     _terminal.terminal.spacer();
   }
@@ -260,14 +258,13 @@ class Util {
 
 
   async npmPack(root = _paths.default.package.root) {
-    _terminal.terminal.println(`Pack package in ${_chalk.default.underline(this.relativizePath(root))}`);
+    _terminal.terminal.print(`Pack package in ${_chalk.default.underline(this.relativizePath(root))}`).spacer();
 
     const directory = await getTemporaryDirectory('package-tarball');
 
-    _terminal.terminal.run(`
-			cd ${directory}
-			npm pack ${_fss.default.realpath(root)}
-		`);
+    _terminal.terminal.process.run(`npm pack ${_fss.default.realpath(root)}`, {
+      directory
+    });
 
     _terminal.terminal.spacer();
 
@@ -307,11 +304,9 @@ class Util {
     otp
   }) {
     // eslint-disable-line require-await
-    _terminal.terminal.println(`Publish tarball ${_chalk.default.underline(_path.default.basename(tarball))}`);
+    _terminal.terminal.print(`Publish tarball ${_chalk.default.underline(_path.default.basename(tarball))}`).spacer();
 
-    _terminal.terminal.run(`
-			npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}
-		`);
+    _terminal.terminal.process.run(`npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}`);
 
     _terminal.terminal.spacer();
   }

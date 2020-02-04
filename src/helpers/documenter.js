@@ -37,7 +37,7 @@ class Documenter {
 	 * @param {string} [destination={@link PackagePaths}.documentation] - Path to the generated documentation.
 	 */
 	generateCommonAssets(destination = paths.package.documentation) {
-		terminal.println('Copy documentation common assets');
+		terminal.print('Copy documentation common assets').spacer();
 
 		const commonPath = `${destination}/assets__`;
 		fss.remove(destination);
@@ -57,7 +57,7 @@ class Documenter {
 	 * @param {number} [options.depth=1] - Directory depth relative to the documentation root.
 	 */
 	generateAPI({ root = paths.package.root, source = paths.package.sources, destination = paths.package.documentation, depth = 1 } = {}) {
-		terminal.println(`Build API documentation for ${util.relativizePath(source)}`);
+		terminal.print(`Build API documentation for ${util.relativizePath(source)}`).spacer();
 
 		const output = `${destination}/api`;
 		fss.remove(output);
@@ -65,7 +65,9 @@ class Documenter {
 
 		const options = { root, source, destination: output, depth };
 		const jsdocBin = `${resolvePkg('jsdoc', { cwd: __dirname })}/jsdoc.js`;
-		terminal.run(`export ${env.JSDOC_CLI_KEY}='${JSON.stringify(options)}'; node ${jsdocBin} --configure ${paths.documentationTheme}/jsdoc/config.js`);
+		terminal.process.run(`node ${jsdocBin} --configure ${paths.documentationTheme}/jsdoc/config.js`, {
+			environment: { [env.JSDOC_CLI_KEY]: JSON.stringify(options) }
+		});
 		terminal.spacer(2);
 	}
 
@@ -78,7 +80,7 @@ class Documenter {
 	 * @param {string} [options.destination={@link PackagePaths}.documentation] - Path to the generated documentation.
 	 */
 	generateText({ source = paths.package.sources, destination = paths.package.documentation } = {}) {
-		terminal.println(`Build text documentation for ${util.relativizePath(source)}`);
+		terminal.print(`Build text documentation for ${util.relativizePath(source)}`).spacer();
 
 		// Temporarily redirect main url to API docs
 		fss.copy(`${paths.documentationTheme}/redirect/index.html`, `${destination}/index.html`);

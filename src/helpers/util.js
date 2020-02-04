@@ -25,8 +25,7 @@ const getTemporaryDirectory = (id = 'tmp') => {
 	return new Promise((resolve) => {
 		tmp.dir({ prefix: `absolunetmanager-${id}-`, unsafeCleanup: true }, (error, temporaryPath) => {
 			if (error) {
-				terminal.error(error);
-				terminal.exit();
+				terminal.error(error).exit();
 			}
 
 			resolve(temporaryPath);
@@ -93,7 +92,7 @@ class Util {
 			await hooks.preRun({ terminal });
 			terminal.infoBox(`${name}: Generic runner`);
 		} else {
-			terminal.echo(`${figures.pointer} ${name}: No custom pre-runner\n\n`);
+			terminal.echo(`${figures.pointer} ${name}: No custom pre-runner`).spacer(2);
 		}
 
 		// Generic runner
@@ -104,7 +103,7 @@ class Util {
 			terminal.infoBox(`${name}: Custom post-runner`);
 			await hooks.postRun({ terminal });
 		} else {
-			terminal.echo(`\n${figures.pointer} ${name}: No custom post-runner`);
+			terminal.spacer().echo(`${figures.pointer} ${name}: No custom post-runner`);
 		}
 
 		// Completion banner
@@ -123,7 +122,7 @@ class Util {
 	 */
 	updateLicense(root = paths.package.root) {
 		const LICENSE = `${root}/license`;
-		terminal.println(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`);
+		terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
 		fss.copy(`${paths.package.root}/license`, LICENSE);
 	}
 
@@ -139,7 +138,7 @@ class Util {
 	 * @returns {Promise} When method completed.
 	 */
 	async npmOutdated(root = paths.package.root, verbose = false) {
-		terminal.println(`Checking ${chalk.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`);
+		terminal.print(`Checking ${chalk.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`).spacer();
 
 		// Dependencies
 		const currentState = await npmCheck({ cwd: root });
@@ -186,11 +185,13 @@ class Util {
 
 		if (results.length !== 0) {
 			results.unshift([chalk.underline('Package'), ` ${chalk.underline('Current')}`, ` ${chalk.underline('Wanted')}`, ` ${chalk.underline('Latest')}`]);
-			terminal.echoIndent(textTable(results, {
-				align: ['l', 'r', 'r', 'r'],
-				stringLength: (text) => { return stringLength(text); }
-			}));
-			terminal.spacer();
+			terminal
+				.echoIndent(textTable(results, {
+					align: ['l', 'r', 'r', 'r'],
+					stringLength: (text) => { return stringLength(text); }
+				}))
+				.spacer()
+			;
 		} else {
 			terminal.success(`All is good`);
 		}
@@ -207,10 +208,10 @@ class Util {
 	 * @returns {Promise} When method completed.
 	 */
 	async npmInstall(root = paths.package.root) {
-		terminal.println(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`);
+		terminal.print(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`).spacer();
 		await fsp.remove(`${root}/node_modules`);
 		await fsp.remove(`${root}/package-lock.json`);
-		terminal.run(`cd ${root} && npm install --no-audit`);
+		terminal.process.run(`npm install --no-audit`, { directory: root });
 		terminal.spacer();
 	}
 
@@ -223,14 +224,11 @@ class Util {
 	 * @returns {Promise<object<{tarball: string, version: string}>>} Tarball path and version used.
 	 */
 	async npmPack(root = paths.package.root) {
-		terminal.println(`Pack package in ${chalk.underline(this.relativizePath(root))}`);
+		terminal.print(`Pack package in ${chalk.underline(this.relativizePath(root))}`).spacer();
 
 		const directory = await getTemporaryDirectory('package-tarball');
 
-		terminal.run(`
-			cd ${directory}
-			npm pack ${fss.realpath(root)}
-		`);
+		terminal.process.run(`npm pack ${fss.realpath(root)}`, { directory });
 		terminal.spacer();
 
 		const { name, version } = fss.readJson(`${root}/package.json`);
@@ -256,11 +254,8 @@ class Util {
 	 * @returns {Promise} When method completed.
 	 */
 	async npmPublish({ tarball, tag, restricted, otp }) {  	// eslint-disable-line require-await
-		terminal.println(`Publish tarball ${chalk.underline(path.basename(tarball))}`);
-
-		terminal.run(`
-			npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}
-		`);
+		terminal.print(`Publish tarball ${chalk.underline(path.basename(tarball))}`).spacer();
+		terminal.process.run(`npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}`);
 		terminal.spacer();
 	}
 

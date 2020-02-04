@@ -67,7 +67,7 @@ class SingleManager extends _AbstractManager.default {
 
         _fss.default.symlink(_paths.default.package.root, dependenciesPath);
 
-        _terminal.terminal.println(`Symlink self-reference dependency`);
+        _terminal.terminal.print(`Symlink self-reference dependency`).spacer();
       }
     });
   }
@@ -124,7 +124,7 @@ class SingleManager extends _AbstractManager.default {
           space: 2
         });
 
-        _terminal.terminal.println(`Update self-reference version in ${_chalk.default.underline(_util.default.relativizePath(_paths.default.package.config))}`);
+        _terminal.terminal.print(`Update self-reference version in ${_chalk.default.underline(_util.default.relativizePath(_paths.default.package.config))}`).spacer();
       }
     });
   }

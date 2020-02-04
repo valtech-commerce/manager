@@ -239,8 +239,7 @@ const getMultipleInOutConfigs = (options, multipleInOut, action) => {
 const webpackRunner = (configs) => {
 	return new Promise((resolve) => {
 		webpack(configs).run((error, stats) => {
-			terminal.echo(stats.toString({ colors: true }));
-			terminal.spacer(2);
+			terminal.echo(stats.toString({ colors: true })).spacer(2);
 			resolve();
 		});
 	});

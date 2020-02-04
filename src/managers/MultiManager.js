@@ -27,25 +27,22 @@ class MultiManager extends AbstractManager {
 	constructor(options) {
 		super(options);
 
-		// Get a list of all subpackages from lerna
-		const rawList = terminal.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
-		const list    = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
+		// Resolve local Lerna binary
+		__(this).set('lerna-binary', `${path.dirname(require.resolve('lerna'))}/cli.js`);
 
-		const subpackagesList = list
-			.filter((item) => {
-				return Boolean(item);
-			})
-			.map((item) => {
-				const root = util.relativizePath(item);
+		// Get a list of all subpackages from Lerna
+		const rawList = JSON.parse(terminal.process.runAndRead(`${this.lernaBinary} list --all --json`));
 
-				return {
-					root,
-					source:      `${root}/${paths.subpackage.sources}`,
-					destination: `${root}/${paths.subpackage.distributions}`,
-					name:        path.basename(item)
-				};
-			})
-		;
+		const subpackagesList = rawList.map(({ location }) => {
+			const root = util.relativizePath(location);
+
+			return {
+				root,
+				source:      `${root}/${paths.subpackage.sources}`,
+				destination: `${root}/${paths.subpackage.distributions}`,
+				name:        path.basename(location)
+			};
+		});
 
 		__(this).set('subpackages', subpackagesList);
 	}
@@ -78,6 +75,16 @@ class MultiManager extends AbstractManager {
 
 
 	/**
+	 * Lerna binary.
+	 *
+	 * @type {string}
+	 */
+	get lernaBinary() {
+		return `node ${__(this).get('lerna-binary')}`;
+	}
+
+
+	/**
 	 * Execute async code within each subpackage.
 	 *
 	 * @async
@@ -98,11 +105,11 @@ class MultiManager extends AbstractManager {
 		return super.install(options, async () => { // eslint-disable-line require-await
 
 			// Let lerna do its subpackage interdependencies magic
-			terminal.println('Install subpackages dependencies and link siblings');
+			terminal.print('Install subpackages dependencies and link siblings').spacer();
 			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
-			terminal.run(`
-				lerna clean --yes
-				lerna bootstrap --no-ci
+			terminal.process.run(`
+				${this.lernaBinary} clean --yes
+				${this.lernaBinary} bootstrap --no-ci
 			`);
 
 		});
@@ -187,7 +194,7 @@ class MultiManager extends AbstractManager {
 			});
 
 			// Update version for all subpackages
-			terminal.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+			terminal.process.run(`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
 
 		});
 	}

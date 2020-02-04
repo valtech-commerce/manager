@@ -247,10 +247,10 @@ class AbstractManager {
         await this.build({
           grouped: true
         });
-        await this.documentation({
+        await this.prepare({
           grouped: true
         });
-        await this.prepare({
+        await this.documentation({
           grouped: true
         });
         await toExecute();
@@ -289,7 +289,7 @@ class AbstractManager {
             grouped: true
           });
 
-          _terminal.terminal.run('npm test');
+          _terminal.terminal.process.run('npm test');
         }
 
         await toExecute();

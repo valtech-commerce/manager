@@ -45,7 +45,7 @@ class SingleManager extends AbstractManager {
 				const dependenciesPath = `${paths.package.root}/node_modules/${config.name}`;
 				fss.remove(dependenciesPath);
 				fss.symlink(paths.package.root, dependenciesPath);
-				terminal.println(`Symlink self-reference dependency`);
+				terminal.print(`Symlink self-reference dependency`).spacer();
 			}
 		});
 	}
@@ -104,7 +104,7 @@ class SingleManager extends AbstractManager {
 			if (Object.keys(config.devDependencies).includes(config.name)) {
 				config.devDependencies[config.name] = config.version;
 				fss.writeJson(paths.package.config, config, { space: 2 });
-				terminal.println(`Update self-reference version in ${chalk.underline(util.relativizePath(paths.package.config))}`);
+				terminal.print(`Update self-reference version in ${chalk.underline(util.relativizePath(paths.package.config))}`).spacer();
 			}
 		});
 

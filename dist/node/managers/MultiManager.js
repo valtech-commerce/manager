@@ -41,21 +41,21 @@ class MultiManager extends _AbstractManager.default {
    * @inheritdoc
    */
   constructor(options) {
-    super(options); // Get a list of all subpackages from lerna
+    super(options); // Resolve local Lerna binary
 
-    const rawList = _terminal.terminal.runAndRead('lerna exec --concurrency=1 --loglevel=silent -- pwd');
+    (0, _privateRegistry.default)(this).set('lerna-binary', `${_path.default.dirname(require.resolve('lerna'))}/cli.js`); // Get a list of all subpackages from Lerna
 
-    const list = rawList.replace(/^(?<header>info cli.+\n)(?<path>[\s\S]+)/u, '$<path>').split('\n');
-    const subpackagesList = list.filter(item => {
-      return Boolean(item);
-    }).map(item => {
-      const root = _util.default.relativizePath(item);
+    const rawList = JSON.parse(_terminal.terminal.process.runAndRead(`${this.lernaBinary} list --all --json`));
+    const subpackagesList = rawList.map(({
+      location
+    }) => {
+      const root = _util.default.relativizePath(location);
 
       return {
         root,
         source: `${root}/${_paths.default.subpackage.sources}`,
         destination: `${root}/${_paths.default.subpackage.distributions}`,
-        name: _path.default.basename(item)
+        name: _path.default.basename(location)
       };
     });
     (0, _privateRegistry.default)(this).set('subpackages', subpackagesList);
@@ -89,6 +89,16 @@ class MultiManager extends _AbstractManager.default {
     return (0, _privateRegistry.default)(this).get('subpackages');
   }
   /**
+   * Lerna binary.
+   *
+   * @type {string}
+   */
+
+
+  get lernaBinary() {
+    return `node ${(0, _privateRegistry.default)(this).get('lerna-binary')}`;
+  }
+  /**
    * Execute async code within each subpackage.
    *
    * @async
@@ -111,13 +121,13 @@ class MultiManager extends _AbstractManager.default {
     return super.install(options, async () => {
       // eslint-disable-line require-await
       // Let lerna do its subpackage interdependencies magic
-      _terminal.terminal.println('Install subpackages dependencies and link siblings');
+      _terminal.terminal.print('Install subpackages dependencies and link siblings').spacer();
 
       _fss.default.removePattern(`${_paths.default.package.subpackages}/*/package-lock.json`);
 
-      _terminal.terminal.run(`
-				lerna clean --yes
-				lerna bootstrap --no-ci
+      _terminal.terminal.process.run(`
+				${this.lernaBinary} clean --yes
+				${this.lernaBinary} bootstrap --no-ci
 			`);
     });
   }
@@ -198,7 +208,7 @@ class MultiManager extends _AbstractManager.default {
         _util.default.updateLicense(root);
       }); // Update version for all subpackages
 
-      _terminal.terminal.run(`lerna version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
+      _terminal.terminal.process.run(`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
     });
   }
   /**

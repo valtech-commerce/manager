@@ -1,12 +1,12 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-import chalk          from 'chalk';
-import Joi            from '@hapi/joi';
-import { terminal }   from '@absolunet/terminal';
-import dataValidation from './helpers/data-validation';
-import env            from './helpers/environment';
-import util           from './helpers/util';
+import emoji                     from 'node-emoji';
+import brand                     from '@absolunet/brand-guidelines';
+import { Joi, validateArgument } from '@absolunet/joi';
+import { terminal }              from '@absolunet/terminal';
+import env                       from './helpers/environment';
+import util                      from './helpers/util';
 
 
 /**
@@ -20,10 +20,16 @@ class Manager {
 	 * Create a Manager.
 	 */
 	constructor() {
-		terminal.setDefault({
-			logo:         ['👨‍💻', '👩‍💻'].sort(() => { return 0.5 - Math.random(); }).pop(),
-			textColor:    chalk.hex('#765432'),
-			bgColor:      chalk.bgHex('#654321')
+		const mainColor      = brand.styleguide.color.greyscale.nevada;
+		const secondaryColor = brand.styleguide.color.greyscale.geyser;
+
+		terminal.setTheme({
+			logo:                  [emoji.get('male-technologist'), emoji.get('female-technologist')].sort(() => { return 0.5 - Math.random(); }).pop(),  // 👨‍💻👩‍💻
+			textColor:             mainColor,
+			backgroundColor:       mainColor,
+			textOnBackgroundColor: secondaryColor,
+			borderColor:           mainColor,
+			spinnerColor:          terminal.basicColor.grey
 		});
 	}
 
@@ -36,7 +42,7 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 */
 	async updatePackageMeta(absolutePath) {  // eslint-disable-line require-await
-		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
+		validateArgument('absolutePath', absolutePath, Joi.absolutePath());
 
 		util.updateLicense(absolutePath);
 	}
@@ -50,7 +56,7 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 */
 	async testOutdated(absolutePath) {
-		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
+		validateArgument('absolutePath', absolutePath, Joi.absolutePath());
 
 		await util.npmOutdated(absolutePath);
 	}
@@ -64,7 +70,7 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 */
 	async installPackage(absolutePath) {
-		dataValidation.argument('absolutePath', absolutePath, dataValidation.absolutePath);
+		validateArgument('absolutePath', absolutePath, Joi.absolutePath());
 
 		await util.npmInstall(absolutePath);
 	}
@@ -94,19 +100,19 @@ class Manager {
 	 * });
 	 */
 	async init(options = {}) {
-		dataValidation.argument('options', options, Joi.object({
+		validateArgument('options', options, Joi.object({
 			repositoryType: Joi.string().valid(...Object.values(env.REPOSITORY_TYPE)),
 			restricted:     Joi.boolean(),
 			useOTP:         Joi.boolean(),
 
 			dist: Joi.object({
-				source:      dataValidation.absolutePath,
-				destination: dataValidation.absolutePath,
+				source:      Joi.absolutePath(),
+				destination: Joi.absolutePath(),
 				node:        Joi.boolean(),
 				web:         Joi.object({
 					types:     Joi.array().items(Joi.string().valid(...Object.values(env.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
-					name:      dataValidation.variableName.required(),
-					externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, dataValidation.variableName)
+					name:      Joi.variableName().required(),
+					externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, Joi.variableName())
 				}),
 				include: Joi.array().items(Joi.string())
 			}).required(),
@@ -159,7 +165,7 @@ class Manager {
 
 		}
 
-		terminal.completionBox('Completed');
+		terminal.completionBox();
 	}
 
 }

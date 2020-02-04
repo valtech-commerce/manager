@@ -25,7 +25,7 @@ manager.init({
 		documentation: {
 			preRun: ({ terminal }) => {
 				return new Promise((resolve) => {
-					terminal.println('Build documentation scripts/styles');
+					terminal.print('Build documentation scripts/styles').spacer();
 
 					// SCSS
 					gulp.src(`${documenter.theme.styles}/main.scss`)
@@ -48,7 +48,7 @@ manager.init({
 							cssnano({ autoprefixer: false, discardUnused: false, mergeIdents: false, reduceIdents: false, zindex: false })
 						]))
 						.pipe(gulp.dest(documenter.theme.output))
-						.on('finish', () => { terminal.println('Styles written'); resolve(); })
+						.on('finish', () => { terminal.print('Styles written').spacer(); resolve(); })
 					;
 				}).then(() => {
 					return builder.documentationTheme({
