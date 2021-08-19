@@ -29,7 +29,7 @@ class SingleManager extends AbstractManager {
 			return version;
 		}
 
-		return undefined;
+		return null;
 	}
 
 

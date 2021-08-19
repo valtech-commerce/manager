@@ -15,7 +15,7 @@ import tmp          from 'tmp';
 import fsp          from '@absolunet/fsp';
 import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
-import env          from './environment';
+import environment  from './environment';
 import paths        from './paths';
 
 
@@ -77,7 +77,7 @@ class Util {
 	 * @returns {Promise} When post-runner completed.
 	 */
 	async taskRunner({ task, hooks = {}, grouped = false }, main) {
-		const { name, banner } = env.TASK_DATA[task];
+		const { name, banner } = environment.TASK_DATA[task];
 
 		// Banner
 		if (grouped) {
@@ -116,14 +116,14 @@ class Util {
 
 
 	/**
-	 * Copy license file from project root to sub-package root.
+	 * Copy LICENSE file from project root to sub-package root.
 	 *
 	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the sub-package licence.
 	 */
 	updateLicense(root = paths.package.root) {
-		const LICENSE = `${root}/license`;
+		const LICENSE = `${root}/LICENSE`;
 		terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
-		fss.copy(`${paths.package.root}/license`, LICENSE);
+		fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
 	}
 
 
@@ -183,7 +183,7 @@ class Util {
 			}
 		}
 
-		if (results.length !== 0) {
+		if (results.length > 0) {
 			results.unshift([chalk.underline('Package'), ` ${chalk.underline('Current')}`, ` ${chalk.underline('Wanted')}`, ` ${chalk.underline('Latest')}`]);
 			terminal
 				.echoIndent(textTable(results, {
@@ -222,6 +222,7 @@ class Util {
 	 * @async
 	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
 	 * @returns {Promise<object<{tarball: string, version: string}>>} Tarball path and version used.
+	 * @throws {Error} If tarball name mismatches.
 	 */
 	async npmPack(root = paths.package.root) {
 		terminal.print(`Pack package in ${chalk.underline(this.relativizePath(root))}`).spacer();

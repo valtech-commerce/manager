@@ -10,7 +10,7 @@ const manager = new Manager();
 /**
  * Exports a default instance of the manager and also the main class.
  *
- * @module @absolunet/manager
+ * @module absolunet/manager
  *
  * @example
  * import { manager } from '@absolunet/manager';

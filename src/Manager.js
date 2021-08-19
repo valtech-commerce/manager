@@ -5,7 +5,7 @@ import emoji                     from 'node-emoji';
 import brand                     from '@absolunet/brand-guidelines';
 import { Joi, validateArgument } from '@absolunet/joi';
 import { terminal }              from '@absolunet/terminal';
-import env                       from './helpers/environment';
+import environment               from './helpers/environment';
 import util                      from './helpers/util';
 
 
@@ -101,7 +101,7 @@ class Manager {
 	 */
 	async init(options = {}) {
 		validateArgument('options', options, Joi.object({
-			repositoryType: Joi.string().valid(...Object.values(env.REPOSITORY_TYPE)),
+			repositoryType: Joi.string().valid(...Object.values(environment.REPOSITORY_TYPE)),
 			restricted:     Joi.boolean(),
 			useOTP:         Joi.boolean(),
 
@@ -110,14 +110,14 @@ class Manager {
 				destination: Joi.absolutePath(),
 				node:        Joi.boolean(),
 				web:         Joi.object({
-					types:     Joi.array().items(Joi.string().valid(...Object.values(env.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
+					types:     Joi.array().items(Joi.string().valid(...Object.values(environment.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
 					name:      Joi.variableName().required(),
 					externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, Joi.variableName())
 				}),
 				include: Joi.array().items(Joi.string())
 			}).required(),
 
-			tasks: Joi.object(Object.values(env.TASK).reduce((list, task) => {
+			tasks: Joi.object(Object.values(environment.TASK).reduce((list, task) => {
 				list[task] = {
 					preRun:  Joi.function(),
 					postRun: Joi.function()
@@ -133,30 +133,30 @@ class Manager {
 
 		let managerType;
 
-		if (repositoryType === env.REPOSITORY_TYPE.singlePackage) {
-			const SingleManager = require('./managers/SingleManager'); // eslint-disable-line global-require
+		if (repositoryType === environment.REPOSITORY_TYPE.singlePackage) {
+			const SingleManager = require('./managers/SingleManager'); // eslint-disable-line node/global-require
 			managerType = new SingleManager(options);
 
-		} else if (repositoryType === env.REPOSITORY_TYPE.multiPackage) {
-			const MultiManager = require('./managers/MultiManager'); // eslint-disable-line global-require
+		} else if (repositoryType === environment.REPOSITORY_TYPE.multiPackage) {
+			const MultiManager = require('./managers/MultiManager'); // eslint-disable-line node/global-require
 			managerType = new MultiManager(options);
 		}
 
 
 		switch (util.getTask()) {
 
-			case env.TASK.install:       await managerType.install(); break;
-			case env.TASK.outdated:      await managerType.outdated(); break;
+			case environment.TASK.install:       await managerType.install(); break;
+			case environment.TASK.outdated:      await managerType.outdated(); break;
 
-			case env.TASK.build:         await managerType.build(); break;
-			case env.TASK.watch:         await managerType.watch(); break;
-			case env.TASK.documentation: await managerType.documentation(); break;
-			case env.TASK.prepare:       await managerType.prepare(); break;
-			case env.TASK.rebuild:       await managerType.rebuild(); break;
+			case environment.TASK.build:         await managerType.build(); break;
+			case environment.TASK.watch:         await managerType.watch(); break;
+			case environment.TASK.documentation: await managerType.documentation(); break;
+			case environment.TASK.prepare:       await managerType.prepare(); break;
+			case environment.TASK.rebuild:       await managerType.rebuild(); break;
 
-			case env.TASK.publish:       await managerType.publish(); break;
+			case environment.TASK.publish:       await managerType.publish(); break;
 
-			case env.TASK.publishUnsafe:
+			case environment.TASK.publishUnsafe:
 				await util.confirmUnsafePublish();
 				await managerType.publish({ unsafe: true });
 				break;

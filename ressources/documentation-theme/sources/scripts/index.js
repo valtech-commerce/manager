@@ -22,7 +22,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 //-- Set highlighted line number in source
 const $line = $('#line');
 
-if ($line.length !== 0) {
+if ($line.length > 0) {
 	const { groups: { line } = {} } = location.hash.match(/^#line-(?<line>\d+)$/) || {};
 
 	if (line) {

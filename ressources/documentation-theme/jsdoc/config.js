@@ -1,10 +1,11 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 'use strict';
 
-const fss = require('@absolunet/fss');
-const env = require(`${__dirname}/../../../dist/node/helpers/environment`);
+const path = require('path');
+const fss  = require('@absolunet/fss');
+const env  = require(path.join(__dirname, '..', '..', '..', 'dist', 'node', 'helpers', 'environment'));
 
-const { source, destination } = JSON.parse(process.env[env.JSDOC_CLI_KEY]);  // eslint-disable-line no-process-env
+const { source, destination } = JSON.parse(process.env[env.JSDOC_CLI_KEY]);  // eslint-disable-line node/no-process-env
 const readme = fss.realpath(`${source}/../readme.md`);
 
 

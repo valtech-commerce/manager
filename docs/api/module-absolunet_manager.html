@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Builder - @absolunet/manager API documentation</title>
+	<title>absolunet/manager - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,7 +54,7 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">Builder</h1>
+			<h1 class="page-title">absolunet/manager</h1>
 		
 
 			
@@ -66,14 +66,112 @@
 
 <div>
     
-        </h2>
         
-            <div class="class-description">Distribution builder.</div>
+            
         
     
 </div>
 
 <article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description">Exports a default instance of the manager and also the main class.</div>
+            
+
+            
+                
+<div class="method">
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre><code class="language-js">import { manager } from '@absolunet/manager';
+
+manager.init(options);</code></pre>
+
+    <pre><code class="language-js">import { Manager } from '@absolunet/manager';
+
+class MyManager extends Manager {
+	constructor(options) {
+		super(options);
+	}
+}</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+            
+        
+        </div>
     
 
     
@@ -89,19 +187,13 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         
             
-<div class="method">
+<div class="member">
+<h4 class="name" id=".manager"><span class="type-signature">(static) </span>manager<span class="type-signature"> :<a href="Manager.html">Manager</a></span></h4>
 
-    
-
-    <h4 class="name" id="run"><span class="type-signature">(async) </span>run<span class="signature">(options, multipleInOut)</span><span class="type-signature"></span></h4>
-
-    
 
 
 
@@ -111,7 +203,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_builder.js.html#line-286">helpers/builder.js:286</a>
+        <a href="index.js.html#line-36">index.js:36</a>
     </li></ul></dd>
     
 
@@ -151,7 +243,7 @@
 
 
 <div class="description">
-    Build distributions.
+    Instance of Manager.
 </div>
 
 
@@ -160,131 +252,13 @@
 
 
 
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#DistributionOptions">DistributionOptions</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Options.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>multipleInOut</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;{source: string, destination: string}></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">List of source / destination.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When runner completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
 </div>
 
         
             
-<div class="method">
+<div class="member">
+<h4 class="name" id=".Manager"><span class="type-signature">(static) </span>Manager<span class="type-signature"> :class</span></h4>
 
-    
-
-    <h4 class="name" id="watch"><span class="type-signature">(async) </span>watch<span class="signature">(options, multipleInOut)</span><span class="type-signature"></span></h4>
-
-    
 
 
 
@@ -294,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_builder.js.html#line-299">helpers/builder.js:299</a>
+        <a href="index.js.html#line-43">index.js:43</a>
     </li></ul></dd>
     
 
@@ -334,7 +308,7 @@
 
 
 <div class="description">
-    Watch distributions builds.
+    Class definition of Manager.
 </div>
 
 
@@ -343,355 +317,11 @@
 
 
 
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#DistributionOptions">DistributionOptions</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Options.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>multipleInOut</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;{source: string, destination: string}></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">List of source / destination.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When watcher completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
 </div>
 
         
-            
-<div class="method">
-
     
 
-    <h4 class="name" id="documentationTheme"><span class="type-signature">(async) </span>documentationTheme<span class="signature">(options)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_builder.js.html#line-313">helpers/builder.js:313</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Build documentation theme scripts.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Options.
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>source</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Path to documentation source scripts.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>destination</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Path to documentation build script file.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    When builder completed.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-</div>
-
-        
     
 
     

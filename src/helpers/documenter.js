@@ -4,7 +4,7 @@
 import resolvePkg   from 'resolve-pkg';
 import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
-import env          from './environment';
+import environment  from './environment';
 import paths        from './paths';
 import util         from './util';
 
@@ -66,7 +66,7 @@ class Documenter {
 		const options = { root, source, destination: output, depth };
 		const jsdocBin = `${resolvePkg('jsdoc', { cwd: __dirname })}/jsdoc.js`;
 		terminal.process.run(`node ${jsdocBin} --configure ${paths.documentationTheme}/jsdoc/config.js`, {
-			environment: { [env.JSDOC_CLI_KEY]: JSON.stringify(options) }
+			environment: { [environment.JSDOC_CLI_KEY]: JSON.stringify(options) }
 		});
 		terminal.spacer(2);
 	}

@@ -4,17 +4,17 @@
 import babelAddModuleExports from 'babel-plugin-add-module-exports';
 import chalk                 from 'chalk';
 import WebpackCopy           from 'copy-webpack-plugin';
-import WebpackDisableOutput  from 'disable-output-webpack-plugin';
 import figures               from 'figures';
 import WebpackFriendlyErrors from 'friendly-errors-webpack-plugin';
 import path                  from 'path';
+import WebpackRemoveFiles    from 'remove-files-webpack-plugin';
 import webpack               from 'webpack';
 import merge                 from 'webpack-merge';
 import fss                   from '@absolunet/fss';
 import { terminal }          from '@absolunet/terminal';
 import { transformAsync }    from '@babel/core';
 import babelTransformModules from '@babel/plugin-transform-modules-commonjs';
-import env                   from './environment';
+import environement          from './environment';
 import paths                 from './paths';
 import util                  from './util';
 
@@ -26,8 +26,7 @@ const WATCH = 'Start watching in';
 
 //-- Common
 const COMMON_CONFIG = {
-	mode:    'none',
-	devtool: ''
+	mode: 'none'
 };
 
 
@@ -37,23 +36,29 @@ const nodeConfig = (source) => {
 		target: 'node',
 		entry:  `${paths.webpackEntryPoints}/node.js`,
 		plugins: [
-			new WebpackDisableOutput(),
-			new WebpackCopy([{
-				context: source,
-				from: '**/!(*.d|*.test).js',
-				to: '',
-				cache: true,
-				transform: (content) => {
-					return transformAsync(content, {
-						plugins: [
-							[babelTransformModules, { strict: false }],
-							[babelAddModuleExports, { addDefaultProperty: true }]
-						]
-					})
-						.then(({ code }) => { return code; })
-					;
+			new WebpackCopy({
+				patterns: [{
+					context: source,
+					from: '**/!(*.d|*.test).js',
+					to: '',
+					transform: (content) => {
+						return transformAsync(content, {
+							plugins: [
+								[babelTransformModules, { strict: false }],
+								[babelAddModuleExports, { addDefaultProperty: true }]
+							]
+						})
+							.then(({ code }) => { return code; })
+						;
+					}
+				}]
+			}),
+			new WebpackRemoveFiles({
+				after: {
+					root:    `${paths.package.distributions}/node`,
+					include: ['main.js']
 				}
-			}])
+			})
 		]
 	});
 };
@@ -64,7 +69,7 @@ const BROWSER_CONFIG = merge(COMMON_CONFIG, {
 	target: 'web',
 	entry:  `${paths.webpackEntryPoints}/browser.js`,
 	output: {
-		filename: `${env.DISTRIBUTION_TYPE.browser}.js`
+		filename: `${environement.DISTRIBUTION_TYPE.browser}.js`
 	}
 });
 
@@ -72,7 +77,7 @@ const BROWSER_CONFIG = merge(COMMON_CONFIG, {
 //-- Browser ES5
 const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
 	output: {
-		filename: `${env.DISTRIBUTION_TYPE.browserES5}.js`
+		filename: `${environement.DISTRIBUTION_TYPE.browserES5}.js`
 	},
 	module: {
 		rules: [
@@ -102,7 +107,7 @@ const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
 const KAFE_CONFIG = merge(BROWSER_CONFIG, {
 	entry:  `${paths.webpackEntryPoints}/kafe.js`,
 	output: {
-		filename: `${env.DISTRIBUTION_TYPE.kafe}.js`
+		filename: `${environement.DISTRIBUTION_TYPE.kafe}.js`
 	}
 });
 
@@ -111,7 +116,7 @@ const KAFE_CONFIG = merge(BROWSER_CONFIG, {
 const KAFE_ES5_CONFIG = merge(BROWSER_ES5_CONFIG, {
 	entry:  `${paths.webpackEntryPoints}/kafe.js`,
 	output: {
-		filename: `${env.DISTRIBUTION_TYPE.kafeES5}.js`
+		filename: `${environement.DISTRIBUTION_TYPE.kafeES5}.js`
 	}
 });
 
@@ -151,7 +156,7 @@ const getDistributionConfig = (mainConfig, { source, destination = paths.package
 		return !(pattern.startsWith('/') || pattern.startsWith('.'));
 	});
 
-	if (filtered.length !== 0) {
+	if (filtered.length > 0) {
 		config.plugins.push(new WebpackCopy(filtered.map((pattern) => {
 			return {
 				context: source,
@@ -184,27 +189,27 @@ const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action)
 	types.forEach((id) => {
 		switch (id) {
 
-			case env.DISTRIBUTION_TYPE.node:
+			case environement.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
 				configs.push(getDistributionConfig(nodeConfig(options.source), options));
 				break;
 
-			case env.DISTRIBUTION_TYPE.browser:
+			case environement.DISTRIBUTION_TYPE.browser:
 				terminal.print(`${figures.pointerSmall} Add browser distribution`);
 				configs.push(getDistributionConfig(BROWSER_CONFIG, webOptions));
 				break;
 
-			case env.DISTRIBUTION_TYPE.browserES5:
+			case environement.DISTRIBUTION_TYPE.browserES5:
 				terminal.print(`${figures.pointerSmall} Add browser ECMAScript 5 distribution`);
 				configs.push(getDistributionConfig(BROWSER_ES5_CONFIG, webOptions));
 				break;
 
-			case env.DISTRIBUTION_TYPE.kafe:
+			case environement.DISTRIBUTION_TYPE.kafe:
 				terminal.print(`${figures.pointerSmall} Add kafe distribution`);
 				configs.push(getDistributionConfig(KAFE_CONFIG, webOptions));
 				break;
 
-			case env.DISTRIBUTION_TYPE.kafeES5:
+			case environement.DISTRIBUTION_TYPE.kafeES5:
 				terminal.print(`${figures.pointerSmall} Add kafe ECMAScript 5 distribution`);
 				configs.push(getDistributionConfig(KAFE_ES5_CONFIG, webOptions));
 				break;
@@ -306,7 +311,7 @@ class Builder {
 	 * @returns {Promise} When builder completed.
 	 */
 	documentationTheme({ source, destination }) {
-		const [config] = getAllDistributionsConfigs({ web: { types: [env.DISTRIBUTION_WEB_TYPE.browserES5] }, source }, BUILD);
+		const [config] = getAllDistributionsConfigs({ web: { types: [environement.DISTRIBUTION_WEB_TYPE.browserES5] }, source }, BUILD);
 
 		return webpackRunner([merge(config, {
 			mode: 'production',

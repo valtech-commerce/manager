@@ -4,13 +4,13 @@
 import __           from '@absolunet/private-registry';
 import { terminal } from '@absolunet/terminal';
 import documenter   from '../helpers/documenter';
-import env          from '../helpers/environment';
+import environment  from '../helpers/environment';
 import util         from '../helpers/util';
 
 
 const runTask = ({ task, subtask = '', context, grouped, toExecute }) => {
 	return util.taskRunner({
-		task:  env.TASK[task + subtask],
+		task:  environment.TASK[task + subtask],
 		hooks: __(context).get('tasks')[task],
 		grouped
 	}, toExecute);
