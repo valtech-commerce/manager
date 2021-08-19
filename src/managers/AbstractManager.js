@@ -1,10 +1,12 @@
 //--------------------------------------------------------
 //-- Abstract manager
 //--------------------------------------------------------
+import fss          from '@absolunet/fss';
 import __           from '@absolunet/private-registry';
 import { terminal } from '@absolunet/terminal';
 import documenter   from '../helpers/documenter';
 import environment  from '../helpers/environment';
+import paths        from '../helpers/paths';
 import util         from '../helpers/util';
 
 
@@ -34,6 +36,12 @@ class AbstractManager {
 	 * @param {ManagerOptions} [options] - Options to customize the manager.
 	 */
 	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
+		if (dist.node && fss.exists(paths.package.config)) {
+			const { engines: { node: version } = {} } = fss.readJson(paths.package.config);
+
+			dist.nodeEngine = version;
+		}
+
 		__(this).set({
 			publish: { restricted, useOTP },
 			dist,

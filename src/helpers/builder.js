@@ -8,6 +8,7 @@ import figures               from 'figures';
 import WebpackFriendlyErrors from 'friendly-errors-webpack-plugin';
 import path                  from 'path';
 import WebpackRemoveFiles    from 'remove-files-webpack-plugin';
+import semver                from 'semver';
 import webpack               from 'webpack';
 import merge                 from 'webpack-merge';
 import fss                   from '@absolunet/fss';
@@ -31,7 +32,7 @@ const COMMON_CONFIG = {
 
 
 //-- Node.js
-const nodeConfig = (source) => {
+const nodeConfig = (source, nodeEngine) => {
 	return merge(COMMON_CONFIG, {
 		target: 'node',
 		entry:  `${paths.webpackEntryPoints}/node.js`,
@@ -46,7 +47,15 @@ const nodeConfig = (source) => {
 							plugins: [
 								[babelTransformModules, { strict: false }],
 								[babelAddModuleExports, { addDefaultProperty: true }]
-							]
+							],
+							presets: [[
+								'@babel/env',
+								{
+									targets: { node: semver.minVersion(nodeEngine).major },
+									useBuiltIns: 'entry',
+									corejs: '3'
+								}
+							]]
 						})
 							.then(({ code }) => { return code; })
 						;
@@ -173,7 +182,7 @@ const getDistributionConfig = (mainConfig, { source, destination = paths.package
 
 
 //-- Generate all distributions configs
-const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action) => {
+const getAllDistributionsConfigs = ({ node, nodeEngine, web = {}, ...options } = {}, action) => {
 	const configs = [];
 
 	const types = web.types || [];
@@ -191,7 +200,7 @@ const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action)
 
 			case environement.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getDistributionConfig(nodeConfig(options.source), options));
+				configs.push(getDistributionConfig(nodeConfig(options.source, nodeEngine), options));
 				break;
 
 			case environement.DISTRIBUTION_TYPE.browser:
