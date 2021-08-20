@@ -5,8 +5,10 @@ import emoji                     from 'node-emoji';
 import brand                     from '@absolunet/brand-guidelines';
 import { Joi, validateArgument } from '@absolunet/joi';
 import { terminal }              from '@absolunet/terminal';
-import environment               from './helpers/environment';
-import util                      from './helpers/util';
+import environment               from './helpers/environment.js';
+import util                      from './helpers/util.js';
+import SingleManager             from './managers/SingleManager.js';
+import MultiManager              from './managers/MultiManager.js';
 
 
 /**
@@ -134,11 +136,9 @@ class Manager {
 		let managerType;
 
 		if (repositoryType === environment.REPOSITORY_TYPE.singlePackage) {
-			const SingleManager = require('./managers/SingleManager'); // eslint-disable-line node/global-require
 			managerType = new SingleManager(options);
 
 		} else if (repositoryType === environment.REPOSITORY_TYPE.multiPackage) {
-			const MultiManager = require('./managers/MultiManager'); // eslint-disable-line node/global-require
 			managerType = new MultiManager(options);
 		}
 

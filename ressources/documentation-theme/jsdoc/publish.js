@@ -681,8 +681,7 @@ exports.publish = function(taffyData, opts, tutorials) {
 
 
     // Absolunet modification
-    var managerEnv = require(__dirname + '/../../../dist/node/helpers/environment');
-    var { root, depth } = JSON.parse(process.env[managerEnv.JSDOC_CLI_KEY]);
+    var { root, depth } = JSON.parse(process.env['__ABSOLUNET_MANAGER_JSDOC_CONFIG__']);
 
     var packageRawConfig = JSON.parse(fs.readFileSync(root + '/package.json', 'utf8'));
     var { domain, user, name } = packageRawConfig.repository.url.match(/^[a-z]+:\/\/(?<domain>[a-z0-9.-]+)\/(?<user>[a-z0-9._-]+)\/(?<name>[a-z0-9._-]+).git$/u).groups;

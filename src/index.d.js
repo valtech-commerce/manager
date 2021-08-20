@@ -32,6 +32,7 @@
  * @property {string} [source={@link PackagePaths}.sources] - Package source path.
  * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
  * @property {boolean} [node] - Add a Node.js distribution.
+ * @property {string} [nodeEngine] - Supported Node.js versions.
  * @property {object} [web] - Web distributions options.
  * @property {Array<DistributionType>} web.types - List of web distributions.
  * @property {string} web.name - Public exposed name of package.

@@ -1,13 +1,13 @@
 //--------------------------------------------------------
 //-- Util
 //--------------------------------------------------------
+import path         from 'node:path';  // eslint-disable-line node/no-missing-import
 import chalk        from 'chalk';
 import figures      from 'figures';
 import inquirer     from 'inquirer';
 import kebabcase    from 'lodash.kebabcase';
 import minimist     from 'minimist';
 import npmCheck     from 'npm-check';
-import path         from 'path';
 import semver       from 'semver';
 import stringLength from 'string-length';
 import textTable    from 'text-table';
@@ -15,8 +15,8 @@ import tmp          from 'tmp';
 import fsp          from '@absolunet/fsp';
 import fss          from '@absolunet/fss';
 import { terminal } from '@absolunet/terminal';
-import environment  from './environment';
-import paths        from './paths';
+import environment  from './environment.js';
+import paths        from './paths.js';
 
 
 const getTemporaryDirectory = (id = 'tmp') => {

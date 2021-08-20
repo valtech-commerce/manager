@@ -1,1 +1,1 @@
-// Decoy
+// @absolunet/manager decoy file

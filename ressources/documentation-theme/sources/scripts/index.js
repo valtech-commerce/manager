@@ -5,16 +5,16 @@ import $ from 'jquery';
 
 import 'jquery.scrollto';
 import 'prismjs';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-js-extras';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-yaml';
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-css-extras';
-import 'prismjs/components/prism-scss';
-import 'prismjs/plugins/line-highlight/prism-line-highlight';
-import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import 'prismjs/components/prism-javascript.js';
+import 'prismjs/components/prism-js-extras.js';
+import 'prismjs/components/prism-json.js';
+import 'prismjs/components/prism-yaml.js';
+import 'prismjs/components/prism-bash.js';
+import 'prismjs/components/prism-css.js';
+import 'prismjs/components/prism-css-extras.js';
+import 'prismjs/components/prism-scss.js';
+import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 
 
 

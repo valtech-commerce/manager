@@ -5,11 +5,11 @@ import chalk           from 'chalk';
 import fss             from '@absolunet/fss';
 import __              from '@absolunet/private-registry';
 import { terminal }    from '@absolunet/terminal';
-import builder         from '../helpers/builder';
-import documenter      from '../helpers/documenter';
-import paths           from '../helpers/paths';
-import util            from '../helpers/util';
-import AbstractManager from './AbstractManager';
+import builder         from '../helpers/builder.js';
+import documenter      from '../helpers/documenter.js';
+import paths           from '../helpers/paths.js';
+import util            from '../helpers/util.js';
+import AbstractManager from './AbstractManager.js';
 
 
 /**

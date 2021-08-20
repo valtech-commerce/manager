@@ -4,10 +4,10 @@
 import fss          from '@absolunet/fss';
 import __           from '@absolunet/private-registry';
 import { terminal } from '@absolunet/terminal';
-import documenter   from '../helpers/documenter';
-import environment  from '../helpers/environment';
-import paths        from '../helpers/paths';
-import util         from '../helpers/util';
+import documenter   from '../helpers/documenter.js';
+import environment  from '../helpers/environment.js';
+import paths        from '../helpers/paths.js';
+import util         from '../helpers/util.js';
 
 
 const runTask = ({ task, subtask = '', context, grouped, toExecute }) => {

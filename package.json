@@ -9,6 +9,7 @@
     "url": "https://absolunet.com"
   },
   "keywords": [
+    "babel",
     "lerna",
     "publish",
     "webpack"
@@ -24,7 +25,12 @@
   "engines": {
     "node": ">= 12"
   },
-  "main": "dist/node",
+  "type": "module",
+  "exports": {
+    ".": "./dist/node/index.js",
+    "./helpers/builder": "./dist/node/helpers/builder.js",
+    "./helpers/documenter": "./dist/node/helpers/documenter.js"
+  },
   "scripts": {
     "manager:install": "node manager --task=install",
     "manager:outdated": "node manager --task=outdated",
@@ -47,7 +53,7 @@
     "@absolunet/nwayo-toolbox": "3.8.2",
     "@absolunet/stylelint-config-scss": "2.0.1",
     "@absolunet/tester": "4.2.0",
-    "autoprefixer": "10.3.1",
+    "autoprefixer": "10.3.2",
     "cssnano": "5.0.8",
     "fibers": "5.0.0",
     "gulp": "4.0.2",
@@ -56,7 +62,7 @@
     "jquery": "3.6.0",
     "jquery.scrollto": "2.1.3",
     "prismjs": "1.24.1",
-    "sass": "1.38.0",
+    "sass": "1.38.1",
     "stylelint": "13.13.1"
   },
   "dependencies": {
@@ -67,15 +73,13 @@
     "@absolunet/private-registry": "^2.0.0",
     "@absolunet/terminal": "^3.1.0",
     "@babel/core": "^7.15.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
+    "@soda/friendly-errors-webpack-plugin": "^1.8.0",
     "babel-loader": "^8.2.2",
-    "babel-plugin-add-module-exports": "^1.0.4",
     "chalk": "^4.1.2",
     "copy-webpack-plugin": "^9.0.1",
     "core-js": "^3.16.2",
-    "figures": "^3.2.0",
-    "friendly-errors-webpack-plugin": "^1.7.0",
+    "figures": "^4.0.0",
     "glob": "^7.1.7",
     "inquirer": "^8.1.2",
     "jsdoc": "^3.6.7",
@@ -88,7 +92,7 @@
     "remove-files-webpack-plugin": "^1.4.5",
     "resolve-pkg": "^2.0.0",
     "semver": "^7.3.5",
-    "string-length": "^4.0.2",
+    "string-length": "^5.0.0",
     "text-table": "^0.2.0",
     "tmp": "^0.2.1",
     "webpack": "^5.51.1",
