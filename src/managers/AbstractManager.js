@@ -1,11 +1,13 @@
 //--------------------------------------------------------
 //-- Abstract manager
 //--------------------------------------------------------
+import fss          from '@absolunet/fss';
 import __           from '@absolunet/private-registry';
 import { terminal } from '@absolunet/terminal';
-import documenter   from '../helpers/documenter';
-import environment  from '../helpers/environment';
-import util         from '../helpers/util';
+import documenter   from '../helpers/documenter.js';
+import environment  from '../helpers/environment.js';
+import paths        from '../helpers/paths.js';
+import util         from '../helpers/util.js';
 
 
 const runTask = ({ task, subtask = '', context, grouped, toExecute }) => {
@@ -34,6 +36,12 @@ class AbstractManager {
 	 * @param {ManagerOptions} [options] - Options to customize the manager.
 	 */
 	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
+		if (dist.node && fss.exists(paths.package.config)) {
+			const { engines: { node: version } = {} } = fss.readJson(paths.package.config);
+
+			dist.nodeEngine = version;
+		}
+
 		__(this).set({
 			publish: { restricted, useOTP },
 			dist,

@@ -1,9 +1,7 @@
 //--------------------------------------------------------
 //-- Tester
 //--------------------------------------------------------
-'use strict';  // eslint-disable-line strict
-
-const { tester } = require('@absolunet/tester');
+import { tester } from '@absolunet/tester';
 
 tester.init({
 	repositoryType: 'single-package',

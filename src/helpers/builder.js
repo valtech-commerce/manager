@@ -1,22 +1,21 @@
 //--------------------------------------------------------
 //-- Builder
 //--------------------------------------------------------
-import babelAddModuleExports from 'babel-plugin-add-module-exports';
+import path                  from 'node:path';  // eslint-disable-line node/no-missing-import
 import chalk                 from 'chalk';
 import WebpackCopy           from 'copy-webpack-plugin';
 import figures               from 'figures';
-import WebpackFriendlyErrors from 'friendly-errors-webpack-plugin';
-import path                  from 'path';
 import WebpackRemoveFiles    from 'remove-files-webpack-plugin';
+import semver                from 'semver';
 import webpack               from 'webpack';
-import merge                 from 'webpack-merge';
+import { merge }             from 'webpack-merge';
 import fss                   from '@absolunet/fss';
 import { terminal }          from '@absolunet/terminal';
 import { transformAsync }    from '@babel/core';
-import babelTransformModules from '@babel/plugin-transform-modules-commonjs';
-import environement          from './environment';
-import paths                 from './paths';
-import util                  from './util';
+import WebpackFriendlyErrors from '@soda/friendly-errors-webpack-plugin';
+import environement          from './environment.js';
+import paths                 from './paths.js';
+import util                  from './util.js';
 
 
 //-- Actions
@@ -31,7 +30,7 @@ const COMMON_CONFIG = {
 
 
 //-- Node.js
-const nodeConfig = (source) => {
+const nodeConfig = (source, nodeEngine) => {
 	return merge(COMMON_CONFIG, {
 		target: 'node',
 		entry:  `${paths.webpackEntryPoints}/node.js`,
@@ -43,10 +42,18 @@ const nodeConfig = (source) => {
 					to: '',
 					transform: (content) => {
 						return transformAsync(content, {
-							plugins: [
-								[babelTransformModules, { strict: false }],
-								[babelAddModuleExports, { addDefaultProperty: true }]
-							]
+							compact: false,
+							retainLines: true,
+							presets: [[
+								'@babel/env',
+								{
+									targets: { node: semver.minVersion(nodeEngine).major },
+									useBuiltIns: 'entry',
+									corejs: '3',
+									modules: false,
+									exclude: ['@babel/plugin-transform-block-scoping']
+								}
+							]]
 						})
 							.then(({ code }) => { return code; })
 						;
@@ -56,7 +63,20 @@ const nodeConfig = (source) => {
 			new WebpackRemoveFiles({
 				after: {
 					root:    `${paths.package.distributions}/node`,
-					include: ['main.js']
+					log:     false,
+					test: [{
+						folder: './',
+						method: (absoluteItemPath) => {
+							if ((/\/main\.js$/u).test(absoluteItemPath)) {
+								const content = fss.readFile(absoluteItemPath, 'utf8');
+								if (content.includes('// @absolunet/manager decoy file')) {
+									return true;
+								}
+							}
+
+							return false;
+						}
+					}]
 				}
 			})
 		]
@@ -67,7 +87,7 @@ const nodeConfig = (source) => {
 //-- Browser
 const BROWSER_CONFIG = merge(COMMON_CONFIG, {
 	target: 'web',
-	entry:  `${paths.webpackEntryPoints}/browser.js`,
+	entry:  `${paths.webpackEntryPoints}/browser.cjs`,
 	output: {
 		filename: `${environement.DISTRIBUTION_TYPE.browser}.js`
 	}
@@ -105,7 +125,7 @@ const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
 
 //-- kafe
 const KAFE_CONFIG = merge(BROWSER_CONFIG, {
-	entry:  `${paths.webpackEntryPoints}/kafe.js`,
+	entry:  `${paths.webpackEntryPoints}/kafe.cjs`,
 	output: {
 		filename: `${environement.DISTRIBUTION_TYPE.kafe}.js`
 	}
@@ -173,7 +193,7 @@ const getDistributionConfig = (mainConfig, { source, destination = paths.package
 
 
 //-- Generate all distributions configs
-const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action) => {
+const getAllDistributionsConfigs = ({ node, nodeEngine, web = {}, ...options } = {}, action) => {
 	const configs = [];
 
 	const types = web.types || [];
@@ -191,7 +211,7 @@ const getAllDistributionsConfigs = ({ node, web = {}, ...options } = {}, action)
 
 			case environement.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getDistributionConfig(nodeConfig(options.source), options));
+				configs.push(getDistributionConfig(nodeConfig(options.source, nodeEngine), options));
 				break;
 
 			case environement.DISTRIBUTION_TYPE.browser:
@@ -252,10 +272,9 @@ const webpackRunner = (configs) => {
 
 
 //-- webpack watch wrapper
-const webpackWatcher = (configs, output) => {
+const webpackWatcher = (configs) => {
 	return new Promise((resolve) => {
 		webpack(configs).watch({
-			ignored: [output],
 			poll: 2000
 		}, (/* error, stats */) => {
 			resolve();

@@ -1,19 +1,16 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-'use strict';
-
-const autoprefixer = require('autoprefixer');
-const cssnano      = require('cssnano');
-const gulp         = require('gulp');
-const gulpsass     = require('gulp-dart-sass');
-const postcss      = require('gulp-postcss');
-const sass         = require('sass');
-const fss          = require('@absolunet/fss');
-const { manager }  = require('@absolunet/manager');
-const builder      = require('@absolunet/manager/dist/node/helpers/builder');
-const documenter   = require('@absolunet/manager/dist/node/helpers/documenter');
-
+import autoprefixer from 'autoprefixer';
+import cssnano      from 'cssnano';
+import gulp         from 'gulp';
+import gulpsass     from 'gulp-dart-sass';
+import postcss      from 'gulp-postcss';
+import sass         from 'sass';
+import fss          from '@absolunet/fss';
+import { manager }  from '@absolunet/manager';                     // eslint-disable-line node/no-missing-import
+import builder      from '@absolunet/manager/helpers/builder';     // eslint-disable-line node/no-missing-import
+import documenter   from '@absolunet/manager/helpers/documenter';  // eslint-disable-line node/no-missing-import
 
 
 manager.init({

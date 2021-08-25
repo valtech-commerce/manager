@@ -1,15 +1,16 @@
 //--------------------------------------------------------
 //-- Multi
 //--------------------------------------------------------
-import path            from 'path';
-import fss             from '@absolunet/fss';
-import __              from '@absolunet/private-registry';
-import { terminal }    from '@absolunet/terminal';
-import builder         from '../helpers/builder';
-import documenter      from '../helpers/documenter';
-import paths           from '../helpers/paths';
-import util            from '../helpers/util';
-import AbstractManager from './AbstractManager';
+import { createRequire } from 'node:module';  // eslint-disable-line node/no-missing-import
+import path              from 'node:path';    // eslint-disable-line node/no-missing-import
+import fss               from '@absolunet/fss';
+import __                from '@absolunet/private-registry';
+import { terminal }      from '@absolunet/terminal';
+import builder           from '../helpers/builder.js';
+import documenter        from '../helpers/documenter.js';
+import paths             from '../helpers/paths.js';
+import util              from '../helpers/util.js';
+import AbstractManager   from './AbstractManager.js';
 
 
 /**
@@ -28,6 +29,7 @@ class MultiManager extends AbstractManager {
 		super(options);
 
 		// Resolve local Lerna binary
+		const require = createRequire(import.meta.url);
 		__(this).set('lerna-binary', `${path.dirname(require.resolve('lerna'))}/cli.js`);
 
 		// Get a list of all subpackages from Lerna
