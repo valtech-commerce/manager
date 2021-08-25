@@ -2,23 +2,20 @@
 //-- Environment
 //--------------------------------------------------------
 
-
 /**
  * Environment.
  *
  * @hideconstructor
  */
 class EnvironmentHelper {
-
 	/**
 	 * Temporary env variable to pass custom config to JSDoc.
 	 *
 	 * @type {string}
 	 */
 	get JSDOC_CLI_KEY() {
-		return '__ABSOLUNET_MANAGER_JSDOC_CONFIG__';
+		return "__ABSOLUNET_MANAGER_JSDOC_CONFIG__";
 	}
-
 
 	/**
 	 * Types of repository.
@@ -29,11 +26,10 @@ class EnvironmentHelper {
 	 */
 	get REPOSITORY_TYPE() {
 		return {
-			singlePackage: 'single-package',
-			multiPackage:  'multi-package'
+			singlePackage: "single-package",
+			multiPackage: "multi-package",
 		};
 	}
-
 
 	/**
 	 * Types of web distribution.
@@ -46,13 +42,12 @@ class EnvironmentHelper {
 	 */
 	get DISTRIBUTION_WEB_TYPE() {
 		return {
-			browser:    'browser',
-			browserES5: 'browser-es5',
-			kafe:       'kafe',
-			kafeES5:    'kafe-es5'
+			browser: "browser",
+			browserES5: "browser-es5",
+			kafe: "kafe",
+			kafeES5: "kafe-es5",
 		};
 	}
-
 
 	/**
 	 * Types of distribution.
@@ -66,10 +61,9 @@ class EnvironmentHelper {
 	 */
 	get DISTRIBUTION_TYPE() {
 		return Object.assign({}, this.DISTRIBUTION_WEB_TYPE, {
-			node: 'node'
+			node: "node",
 		});
 	}
-
 
 	/**
 	 * Tasks.
@@ -87,18 +81,17 @@ class EnvironmentHelper {
 	 */
 	get TASK() {
 		return {
-			install:       'install',
-			outdated:      'outdated',
-			build:         'build',
-			watch:         'watch',
-			documentation: 'documentation',
-			prepare:       'prepare',
-			rebuild:       'rebuild',
-			publish:       'publish',
-			publishUnsafe: 'publish:unsafe'
+			install: "install",
+			outdated: "outdated",
+			build: "build",
+			watch: "watch",
+			documentation: "documentation",
+			prepare: "prepare",
+			rebuild: "rebuild",
+			publish: "publish",
+			publishUnsafe: "publish:unsafe",
 		};
 	}
-
 
 	/**
 	 * Tasks data.
@@ -107,19 +100,17 @@ class EnvironmentHelper {
 	 */
 	get TASK_DATA() {
 		return {
-			[this.TASK.install]:       { name: 'Install',       banner: 'Install extra stuff' },
-			[this.TASK.outdated]:      { name: 'Outdated',      banner: 'Check for outdated package dependencies' },
-			[this.TASK.build]:         { name: 'Build',         banner: 'Generate package distributions' },
-			[this.TASK.watch]:         { name: 'Watch',         banner: 'Watch changes in sources' },
-			[this.TASK.documentation]: { name: 'Documentation', banner: 'Generate documentation' },
-			[this.TASK.prepare]:       { name: 'Prepare',       banner: 'Prepare package for publication' },
-			[this.TASK.rebuild]:       { name: 'Rebuild',       banner: 'Rebuild package' },
-			[this.TASK.publish]:       { name: 'Publish',       banner: 'Publish package' },
-			[this.TASK.publishUnsafe]: { name: 'Publish',       banner: 'Publish package (unsafe)' }
+			[this.TASK.install]: { name: "Install", banner: "Install extra stuff" },
+			[this.TASK.outdated]: { name: "Outdated", banner: "Check for outdated package dependencies" },
+			[this.TASK.build]: { name: "Build", banner: "Generate package distributions" },
+			[this.TASK.watch]: { name: "Watch", banner: "Watch changes in sources" },
+			[this.TASK.documentation]: { name: "Documentation", banner: "Generate documentation" },
+			[this.TASK.prepare]: { name: "Prepare", banner: "Prepare package for publication" },
+			[this.TASK.rebuild]: { name: "Rebuild", banner: "Rebuild package" },
+			[this.TASK.publish]: { name: "Publish", banner: "Publish package" },
+			[this.TASK.publishUnsafe]: { name: "Publish", banner: "Publish package (unsafe)" },
 		};
 	}
-
 }
-
 
 export default new EnvironmentHelper();

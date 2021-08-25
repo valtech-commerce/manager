@@ -24,7 +24,6 @@
  * @property {Function} postRun - Post-run hook.
  */
 
-
 /**
  * Distribution options.
  *
@@ -40,7 +39,6 @@
  * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
  */
 
-
 /**
  * Manager options.
  *
@@ -51,8 +49,6 @@
  * @property {DistributionOptions} dist - Distribution options.
  * @property {object<Task, TaskHooks>} tasks - List of tasks with hooks to call before and after.
  */
-
-
 
 /**
  * Current package paths.

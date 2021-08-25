@@ -1,28 +1,21 @@
 //--------------------------------------------------------
 //-- Paths
 //--------------------------------------------------------
-import path   from 'node:path';  // eslint-disable-line node/no-missing-import
-import pkgDir from 'pkg-dir';
-import fss    from '@absolunet/fss';
-
+import path from "node:path"; // eslint-disable-line node/no-missing-import
+import pkgDir from "pkg-dir";
+import fss from "@absolunet/fss";
 
 const __ = {
-	root:        pkgDir.sync(path.dirname(import.meta.url)),
-	packageRoot: fss.realpath(`.`)
+	root: pkgDir.sync(path.dirname(import.meta.url)),
+	packageRoot: fss.realpath(`.`),
 };
 
-
-
-
-
-
- /**
-  * Paths.
-  *
-  * @hideconstructor
-  */
+/**
+ * Paths.
+ *
+ * @hideconstructor
+ */
 class Paths {
-
 	/**
 	 * Manager root.
 	 *
@@ -66,12 +59,12 @@ class Paths {
 	 */
 	get package() {
 		return {
-			root:          __.packageRoot,
-			config:        `${__.packageRoot}/package.json`,
+			root: __.packageRoot,
+			config: `${__.packageRoot}/package.json`,
 			distributions: `${__.packageRoot}/dist`,
 			documentation: `${__.packageRoot}/docs`,
-			subpackages:   `${__.packageRoot}/packages`,
-			sources:       `${__.packageRoot}/src`
+			subpackages: `${__.packageRoot}/packages`,
+			sources: `${__.packageRoot}/src`,
 		};
 	}
 
@@ -83,11 +76,9 @@ class Paths {
 	get subpackage() {
 		return {
 			distributions: `dist`,
-			sources:       `src`
+			sources: `src`,
 		};
 	}
-
 }
-
 
 export default new Paths();

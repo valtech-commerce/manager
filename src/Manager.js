@@ -1,15 +1,14 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-import emoji                     from 'node-emoji';
-import brand                     from '@absolunet/brand-guidelines';
-import { Joi, validateArgument } from '@absolunet/joi';
-import { terminal }              from '@absolunet/terminal';
-import environment               from './helpers/environment.js';
-import util                      from './helpers/util.js';
-import SingleManager             from './managers/SingleManager.js';
-import MultiManager              from './managers/MultiManager.js';
-
+import emoji from "node-emoji";
+import brand from "@absolunet/brand-guidelines";
+import { Joi, validateArgument } from "@absolunet/joi";
+import { terminal } from "@absolunet/terminal";
+import environment from "./helpers/environment.js";
+import util from "./helpers/util.js";
+import SingleManager from "./managers/SingleManager.js";
+import MultiManager from "./managers/MultiManager.js";
 
 /**
  * Absolunet's npm packages manager.
@@ -17,24 +16,22 @@ import MultiManager              from './managers/MultiManager.js';
  * @hideconstructor
  */
 class Manager {
-
 	/**
 	 * Create a Manager.
 	 */
 	constructor() {
-		const mainColor      = brand.styleguide.color.greyscale.nevada;
+		const mainColor = brand.styleguide.color.greyscale.nevada;
 		const secondaryColor = brand.styleguide.color.greyscale.geyser;
 
 		terminal.setTheme({
-			logo:                  [emoji.get('male-technologist'), emoji.get('female-technologist')].sort(() => { return 0.5 - Math.random(); }).pop(),  // 👨‍💻👩‍💻
-			textColor:             mainColor,
-			backgroundColor:       mainColor,
+			logo: emoji.get("technologist"), // 🧑‍💻
+			textColor: mainColor,
+			backgroundColor: mainColor,
 			textOnBackgroundColor: secondaryColor,
-			borderColor:           mainColor,
-			spinnerColor:          terminal.basicColor.grey
+			borderColor: mainColor,
+			spinnerColor: terminal.basicColor.grey,
 		});
 	}
-
 
 	/**
 	 * Update package meta.
@@ -43,12 +40,12 @@ class Manager {
 	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of license.
 	 * @returns {Promise} When method completed.
 	 */
-	async updatePackageMeta(absolutePath) {  // eslint-disable-line require-await
-		validateArgument('absolutePath', absolutePath, Joi.absolutePath());
+	// eslint-disable-next-line require-await
+	async updatePackageMeta(absolutePath) {
+		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
 		util.updateLicense(absolutePath);
 	}
-
 
 	/**
 	 * Lists outdated packages.
@@ -58,11 +55,10 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 */
 	async testOutdated(absolutePath) {
-		validateArgument('absolutePath', absolutePath, Joi.absolutePath());
+		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
 		await util.npmOutdated(absolutePath);
 	}
-
 
 	/**
 	 * Reinstall packages.
@@ -72,11 +68,10 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 */
 	async installPackage(absolutePath) {
-		validateArgument('absolutePath', absolutePath, Joi.absolutePath());
+		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
 		await util.npmInstall(absolutePath);
 	}
-
 
 	/**
 	 * Initialize the manager.
@@ -102,33 +97,42 @@ class Manager {
 	 * });
 	 */
 	async init(options = {}) {
-		validateArgument('options', options, Joi.object({
-			repositoryType: Joi.string().valid(...Object.values(environment.REPOSITORY_TYPE)),
-			restricted:     Joi.boolean(),
-			useOTP:         Joi.boolean(),
+		validateArgument(
+			"options",
+			options,
+			Joi.object({
+				repositoryType: Joi.string().valid(...Object.values(environment.REPOSITORY_TYPE)),
+				restricted: Joi.boolean(),
+				useOTP: Joi.boolean(),
 
-			dist: Joi.object({
-				source:      Joi.absolutePath(),
-				destination: Joi.absolutePath(),
-				node:        Joi.boolean(),
-				web:         Joi.object({
-					types:     Joi.array().items(Joi.string().valid(...Object.values(environment.DISTRIBUTION_WEB_TYPE))).min(1).unique().required(),
-					name:      Joi.variableName().required(),
-					externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, Joi.variableName())
-				}),
-				include: Joi.array().items(Joi.string())
-			}).required(),
+				dist: Joi.object({
+					source: Joi.absolutePath(),
+					destination: Joi.absolutePath(),
+					node: Joi.boolean(),
+					web: Joi.object({
+						types: Joi.array()
+							.items(Joi.string().valid(...Object.values(environment.DISTRIBUTION_WEB_TYPE)))
+							.min(1)
+							.unique()
+							.required(),
+						name: Joi.variableName().required(),
+						externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, Joi.variableName()),
+					}),
+					include: Joi.array().items(Joi.string()),
+				}).required(),
 
-			tasks: Joi.object(Object.values(environment.TASK).reduce((list, task) => {
-				list[task] = {
-					preRun:  Joi.function(),
-					postRun: Joi.function()
-				};
+				tasks: Joi.object(
+					Object.values(environment.TASK).reduce((list, task) => {
+						list[task] = {
+							preRun: Joi.function(),
+							postRun: Joi.function(),
+						};
 
-				return list;
-			}, {}))
-		}));
-
+						return list;
+					}, {})
+				),
+			})
+		);
 
 		const { repositoryType } = options;
 		delete options.repositoryType;
@@ -137,38 +141,49 @@ class Manager {
 
 		if (repositoryType === environment.REPOSITORY_TYPE.singlePackage) {
 			managerType = new SingleManager(options);
-
 		} else if (repositoryType === environment.REPOSITORY_TYPE.multiPackage) {
 			managerType = new MultiManager(options);
 		}
 
-
 		switch (util.getTask()) {
+			case environment.TASK.install:
+				await managerType.install();
+				break;
+			case environment.TASK.outdated:
+				await managerType.outdated();
+				break;
 
-			case environment.TASK.install:       await managerType.install(); break;
-			case environment.TASK.outdated:      await managerType.outdated(); break;
+			case environment.TASK.build:
+				await managerType.build();
+				break;
+			case environment.TASK.watch:
+				await managerType.watch();
+				break;
+			case environment.TASK.documentation:
+				await managerType.documentation();
+				break;
+			case environment.TASK.prepare:
+				await managerType.prepare();
+				break;
+			case environment.TASK.rebuild:
+				await managerType.rebuild();
+				break;
 
-			case environment.TASK.build:         await managerType.build(); break;
-			case environment.TASK.watch:         await managerType.watch(); break;
-			case environment.TASK.documentation: await managerType.documentation(); break;
-			case environment.TASK.prepare:       await managerType.prepare(); break;
-			case environment.TASK.rebuild:       await managerType.rebuild(); break;
-
-			case environment.TASK.publish:       await managerType.publish(); break;
+			case environment.TASK.publish:
+				await managerType.publish();
+				break;
 
 			case environment.TASK.publishUnsafe:
 				await util.confirmUnsafePublish();
 				await managerType.publish({ unsafe: true });
 				break;
 
-			default: break;
-
+			default:
+				break;
 		}
 
 		terminal.completionBox();
 	}
-
 }
-
 
 export default Manager;

@@ -1,17 +1,16 @@
 //--------------------------------------------------------
 //-- Multi
 //--------------------------------------------------------
-import { createRequire } from 'node:module';  // eslint-disable-line node/no-missing-import
-import path              from 'node:path';    // eslint-disable-line node/no-missing-import
-import fss               from '@absolunet/fss';
-import __                from '@absolunet/private-registry';
-import { terminal }      from '@absolunet/terminal';
-import builder           from '../helpers/builder.js';
-import documenter        from '../helpers/documenter.js';
-import paths             from '../helpers/paths.js';
-import util              from '../helpers/util.js';
-import AbstractManager   from './AbstractManager.js';
-
+import { createRequire } from "node:module"; // eslint-disable-line node/no-missing-import
+import path from "node:path"; // eslint-disable-line node/no-missing-import
+import fss from "@absolunet/fss";
+import __ from "@absolunet/private-registry";
+import { terminal } from "@absolunet/terminal";
+import builder from "../helpers/builder.js";
+import documenter from "../helpers/documenter.js";
+import paths from "../helpers/paths.js";
+import util from "../helpers/util.js";
+import AbstractManager from "./AbstractManager.js";
 
 /**
  * Multi package manager.
@@ -19,7 +18,6 @@ import AbstractManager   from './AbstractManager.js';
  * @augments AbstractManager
  */
 class MultiManager extends AbstractManager {
-
 	/**
 	 * Create a multi package manager.
 	 *
@@ -30,7 +28,7 @@ class MultiManager extends AbstractManager {
 
 		// Resolve local Lerna binary
 		const require = createRequire(import.meta.url);
-		__(this).set('lerna-binary', `${path.dirname(require.resolve('lerna'))}/cli.js`);
+		__(this).set("lerna-binary", `${path.dirname(require.resolve("lerna"))}/cli.js`);
 
 		// Get a list of all subpackages from Lerna
 		const rawList = JSON.parse(terminal.process.runAndRead(`${this.lernaBinary} list --all --json`));
@@ -40,15 +38,14 @@ class MultiManager extends AbstractManager {
 
 			return {
 				root,
-				source:      `${root}/${paths.subpackage.sources}`,
+				source: `${root}/${paths.subpackage.sources}`,
 				destination: `${root}/${paths.subpackage.distributions}`,
-				name:        path.basename(location)
+				name: path.basename(location),
 			};
 		});
 
-		__(this).set('subpackages', subpackagesList);
+		__(this).set("subpackages", subpackagesList);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -65,16 +62,14 @@ class MultiManager extends AbstractManager {
 		return null;
 	}
 
-
 	/**
 	 * List of repository's subpackages.
 	 *
 	 * @type {Array<{root: string, source: string, destination: string, name: string}>}
 	 */
 	get subpackages() {
-		return __(this).get('subpackages');
+		return __(this).get("subpackages");
 	}
-
 
 	/**
 	 * Lerna binary.
@@ -82,9 +77,8 @@ class MultiManager extends AbstractManager {
 	 * @type {string}
 	 */
 	get lernaBinary() {
-		return `node ${__(this).get('lerna-binary')}`;
+		return `node ${__(this).get("lerna-binary")}`;
 	}
-
 
 	/**
 	 * Execute async code within each subpackage.
@@ -95,119 +89,103 @@ class MultiManager extends AbstractManager {
 	 */
 	async forEachSubpackage(toExecute) {
 		for (const subpackage of this.subpackages) {
-			await toExecute(subpackage);  // eslint-disable-line no-await-in-loop
+			await toExecute(subpackage); // eslint-disable-line no-await-in-loop
 		}
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	install(options) {
-		return super.install(options, async () => { // eslint-disable-line require-await
-
+		// eslint-disable-next-line require-await
+		return super.install(options, async () => {
 			// Let lerna do its subpackage interdependencies magic
-			terminal.print('Install subpackages dependencies and link siblings').spacer();
+			terminal.print("Install subpackages dependencies and link siblings").spacer();
 			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
 			terminal.process.run(`
 				${this.lernaBinary} clean --yes
 				${this.lernaBinary} bootstrap --no-ci
 			`);
-
 		});
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	outdated(options) {
 		return super.outdated(options, async () => {
-
 			// Check outdated dependencies for all subpackages
 			await this.forEachSubpackage(async ({ root }) => {
 				await util.npmOutdated(root);
 			});
-
 		});
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	build(options) {
 		return super.build(options, async () => {
-
 			// Run builder for all subpackages
-			await builder.run(__(this).get('dist'), this.subpackages);
-
+			await builder.run(__(this).get("dist"), this.subpackages);
 		});
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	watch(options) {
 		return super.watch(options, async () => {
-
 			// Run watcher for all subpackages
-			await builder.watch(__(this).get('dist'), this.subpackages);
-
+			await builder.watch(__(this).get("dist"), this.subpackages);
 		});
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	documentation(options) {
 		return super.documentation(options, async () => {
-
 			// API and text documentation for all subpackages
 			await this.forEachSubpackage(async ({ root, name }) => {
 				await documenter.generateAPI({
 					root,
-					source:      `${root}/${paths.subpackage.sources}`,
+					source: `${root}/${paths.subpackage.sources}`,
 					destination: `${paths.package.documentation}/${name}`,
-					depth:       2
+					depth: 2,
 				});
 
 				await documenter.generateText({
-					source:      `${root}/${paths.subpackage.sources}`,
-					destination: `${paths.package.documentation}/${name}`
+					source: `${root}/${paths.subpackage.sources}`,
+					destination: `${paths.package.documentation}/${name}`,
 				});
 			});
-
 		});
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	prepare(options) {
-		return super.prepare(options, async () => { // eslint-disable-line require-await
-
+		// eslint-disable-next-line require-await
+		return super.prepare(options, async () => {
 			// Update license for all subpackages
 			this.forEachSubpackage(({ root }) => {
 				util.updateLicense(root);
 			});
 
 			// Update version for all subpackages
-			terminal.process.run(`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`);
-
+			terminal.process.run(
+				`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`
+			);
 		});
 	}
-
 
 	/**
 	 * @inheritdoc
 	 */
 	publish(options) {
 		return super.publish(options, async () => {
-
 			// Pack a tarball for all subpackages
 			const tarballs = [];
 			await this.forEachSubpackage(async ({ root }) => {
@@ -216,19 +194,16 @@ class MultiManager extends AbstractManager {
 			});
 
 			// Fetch generic config
-			const tag            = util.getTag(this.version);
-			const { restricted } = __(this).get('publish');
-			const otp            = await util.getOTP(__(this).get('publish').useOTP);
+			const tag = util.getTag(this.version);
+			const { restricted } = __(this).get("publish");
+			const otp = await util.getOTP(__(this).get("publish").useOTP);
 
 			// Publish the tarball for all subpackages
 			for (const tarball of tarballs) {
-				await util.npmPublish({ tarball, tag, restricted, otp });  // eslint-disable-line no-await-in-loop
+				await util.npmPublish({ tarball, tag, restricted, otp }); // eslint-disable-line no-await-in-loop
 			}
-
 		});
 	}
-
 }
-
 
 export default MultiManager;

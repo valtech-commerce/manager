@@ -1,25 +1,24 @@
 //--------------------------------------------------------
 //-- Util
 //--------------------------------------------------------
-import path         from 'node:path';  // eslint-disable-line node/no-missing-import
-import chalk        from 'chalk';
-import figures      from 'figures';
-import inquirer     from 'inquirer';
-import kebabcase    from 'lodash.kebabcase';
-import minimist     from 'minimist';
-import npmCheck     from 'npm-check';
-import semver       from 'semver';
-import stringLength from 'string-length';
-import textTable    from 'text-table';
-import tmp          from 'tmp';
-import fsp          from '@absolunet/fsp';
-import fss          from '@absolunet/fss';
-import { terminal } from '@absolunet/terminal';
-import environment  from './environment.js';
-import paths        from './paths.js';
+import path from "node:path"; // eslint-disable-line node/no-missing-import
+import chalk from "chalk";
+import figures from "figures";
+import inquirer from "inquirer";
+import kebabcase from "lodash.kebabcase";
+import minimist from "minimist";
+import npmCheck from "npm-check";
+import semver from "semver";
+import stringLength from "string-length";
+import textTable from "text-table";
+import tmp from "tmp";
+import fsp from "@absolunet/fsp";
+import fss from "@absolunet/fss";
+import { terminal } from "@absolunet/terminal";
+import environment from "./environment.js";
+import paths from "./paths.js";
 
-
-const getTemporaryDirectory = (id = 'tmp') => {
+const getTemporaryDirectory = (id = "tmp") => {
 	tmp.setGracefulCleanup();
 
 	return new Promise((resolve) => {
@@ -33,17 +32,12 @@ const getTemporaryDirectory = (id = 'tmp') => {
 	});
 };
 
-
-
-
-
 /**
  * Manager utils.
  *
  * @hideconstructor
  */
 class Util {
-
 	/**
 	 * Relativize path from package root.
 	 *
@@ -51,9 +45,8 @@ class Util {
 	 * @returns {string} Relativized path.
 	 */
 	relativizePath(absolutePath) {
-		return absolutePath.replace(paths.package.root, '.');
+		return absolutePath.replace(paths.package.root, ".");
 	}
-
 
 	/**
 	 * Post-runner wrapper.
@@ -63,7 +56,6 @@ class Util {
 	getTask() {
 		return minimist(process.argv.slice(2)).task;
 	}
-
 
 	/**
 	 * Task runner.
@@ -112,9 +104,6 @@ class Util {
 		}
 	}
 
-
-
-
 	/**
 	 * Copy LICENSE file from project root to sub-package root.
 	 *
@@ -126,9 +115,6 @@ class Util {
 		fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
 	}
 
-
-
-
 	/**
 	 * Check for outdated packages.
 	 *
@@ -138,67 +124,79 @@ class Util {
 	 * @returns {Promise} When method completed.
 	 */
 	async npmOutdated(root = paths.package.root, verbose = false) {
-		terminal.print(`Checking ${chalk.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`).spacer();
+		terminal
+			.print(`Checking ${chalk.underline(this.relativizePath(`${root}/package.json`))} for outdated dependencies`)
+			.spacer();
 
 		// Dependencies
 		const currentState = await npmCheck({ cwd: root });
 
 		const results = [];
-		for (const { moduleName: name, isInstalled, packageJson: wantedRaw, installed, latest: latestRaw } of currentState.get('packages')) {
-			const latest = latestRaw === undefined || latestRaw === null ? 'NOT FOUND' : latestRaw;
+		for (const {
+			moduleName: name,
+			isInstalled,
+			packageJson: wantedRaw,
+			installed,
+			latest: latestRaw,
+		} of currentState.get("packages")) {
+			const latest = latestRaw === undefined || latestRaw === null ? "NOT FOUND" : latestRaw;
 
 			if (wantedRaw) {
 				const wanted = semver.coerce(wantedRaw).version;
 
 				if (isInstalled) {
-
 					if (semver.coerce(latest) && semver.lte(installed, latest) && semver.lte(wanted, latest)) {
-
 						if (installed === latest && wanted === latest) {
-
 							// All is good
 							if (verbose) {
 								results.push([name, chalk.green(installed), chalk.green(wantedRaw), chalk.green(latest)]);
 							}
 
-						// Mismatch between versions
+							// Mismatch between versions
 						} else {
 							results.push([
 								chalk.yellow(name),
 								installed === latest ? installed : chalk.yellow(installed),
 								wanted === latest ? wantedRaw : chalk.red(wantedRaw),
-								chalk.magenta(latest)
+								chalk.magenta(latest),
 							]);
 						}
 
-					// Current or wanted greater than latest (wut?)
+						// Current or wanted greater than latest (wut?)
 					} else {
 						results.push([chalk.red(name), chalk.red(installed), chalk.red(wantedRaw), chalk.red(latest)]);
 					}
 
-				// Not installed
+					// Not installed
 				} else {
-					results.push([chalk.red(name), chalk.red('NOT INSTALLED'), chalk.red(wantedRaw), chalk.red(latest)]);
+					results.push([chalk.red(name), chalk.red("NOT INSTALLED"), chalk.red(wantedRaw), chalk.red(latest)]);
 				}
 			}
 		}
 
 		if (results.length > 0) {
-			results.unshift([chalk.underline('Package'), ` ${chalk.underline('Current')}`, ` ${chalk.underline('Wanted')}`, ` ${chalk.underline('Latest')}`]);
+			results.unshift([
+				chalk.underline("Package"),
+				` ${chalk.underline("Current")}`,
+				` ${chalk.underline("Wanted")}`,
+				` ${chalk.underline("Latest")}`,
+			]);
 			terminal
-				.echoIndent(textTable(results, {
-					align: ['l', 'r', 'r', 'r'],
-					stringLength: (text) => { return stringLength(text); }
-				}))
-				.spacer()
-			;
+				.echoIndent(
+					textTable(results, {
+						align: ["l", "r", "r", "r"],
+						stringLength: (text) => {
+							return stringLength(text);
+						},
+					})
+				)
+				.spacer();
 		} else {
 			terminal.success(`All is good`);
 		}
 
 		terminal.spacer();
 	}
-
 
 	/**
 	 * Install npm packages.
@@ -215,7 +213,6 @@ class Util {
 		terminal.spacer();
 	}
 
-
 	/**
 	 * Pack directory and return tarball path.
 	 *
@@ -227,7 +224,7 @@ class Util {
 	async npmPack(root = paths.package.root) {
 		terminal.print(`Pack package in ${chalk.underline(this.relativizePath(root))}`).spacer();
 
-		const directory = await getTemporaryDirectory('package-tarball');
+		const directory = await getTemporaryDirectory("package-tarball");
 
 		terminal.process.run(`npm pack ${fss.realpath(root)}`, { directory });
 		terminal.spacer();
@@ -242,7 +239,6 @@ class Util {
 		throw new Error(`Tarball name mismatch '${tarball}'`);
 	}
 
-
 	/**
 	 * Publish package.
 	 *
@@ -254,14 +250,16 @@ class Util {
 	 * @param {boolean} parameters.otp - Use the two-factor authentication if enabled.
 	 * @returns {Promise} When method completed.
 	 */
-	async npmPublish({ tarball, tag, restricted, otp }) {  	// eslint-disable-line require-await
+	// eslint-disable-next-line require-await
+	async npmPublish({ tarball, tag, restricted, otp }) {
 		terminal.print(`Publish tarball ${chalk.underline(path.basename(tarball))}`).spacer();
-		terminal.process.run(`npm publish ${tarball} --tag=${tag} --access=${restricted ? 'restricted' : 'public'} ${otp ? `--otp=${otp}` : ''}`);
+		terminal.process.run(
+			`npm publish ${tarball} --tag=${tag} --access=${restricted ? "restricted" : "public"} ${
+				otp ? `--otp=${otp}` : ""
+			}`
+		);
 		terminal.spacer();
 	}
-
-
-
 
 	/**
 	 * Get publish tag depending on version.
@@ -270,9 +268,8 @@ class Util {
 	 * @returns {string} Tag.
 	 */
 	getTag(version) {
-		return semver.prerelease(version) === null ? 'latest' : 'next';
+		return semver.prerelease(version) === null ? "latest" : "next";
 	}
-
 
 	/**
 	 * Ask user for npm's one-time password or confirm publication.
@@ -284,31 +281,34 @@ class Util {
 	async getOTP(useOTP) {
 		const { otp, confirm } = await inquirer.prompt([
 			{
-				name:     'otp',
-				message:  `Please write your npm OTP:`,
-				type:     'input',
-				when:     () => { return useOTP; },
+				name: "otp",
+				message: `Please write your npm OTP:`,
+				type: "input",
+				when: () => {
+					return useOTP;
+				},
 				validate: (value) => {
-					return (/^\d{6}$/u).test(value) ? true : `Your OTP isn't valid`;
-				}
+					return /^\d{6}$/u.test(value) ? true : `Your OTP isn't valid`;
+				},
 			},
 			{
-				name:     'confirm',
-				message:  `Are you sure you want to publish?`,
-				type:     'confirm',
-				when:     () => { return !useOTP; }
-			}
+				name: "confirm",
+				message: `Are you sure you want to publish?`,
+				type: "confirm",
+				when: () => {
+					return !useOTP;
+				},
+			},
 		]);
 
 		if (!(otp || confirm)) {
-			terminal.exit('Publication cancelled');
+			terminal.exit("Publication cancelled");
 		}
 
 		terminal.spacer();
 
 		return otp;
 	}
-
 
 	/**
 	 * Ask user for consent for unsafe publishing.
@@ -317,20 +317,20 @@ class Util {
 	 * @returns {Promise} Completes if user consents.
 	 */
 	async confirmUnsafePublish() {
-		const { confirm } = await inquirer.prompt([{
-			name:     'confirm',
-			message:  `Are you sure you want to publish without any safeguards?`,
-			type:     'confirm'
-		}]);
+		const { confirm } = await inquirer.prompt([
+			{
+				name: "confirm",
+				message: `Are you sure you want to publish without any safeguards?`,
+				type: "confirm",
+			},
+		]);
 
 		if (!confirm) {
-			terminal.exit('Publication cancelled');
+			terminal.exit("Publication cancelled");
 		}
 
 		terminal.spacer();
 	}
-
 }
-
 
 export default new Util();

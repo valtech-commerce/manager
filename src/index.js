@@ -1,11 +1,9 @@
 //--------------------------------------------------------
 //-- @absolunet/manager
 //--------------------------------------------------------
-import Manager from './Manager.js';
-
+import Manager from "./Manager.js";
 
 const manager = new Manager();
-
 
 /**
  * Exports a default instance of the manager and also the main class.
@@ -27,18 +25,16 @@ const manager = new Manager();
  * }
  */
 export {
-
 	/**
 	 * Instance of Manager.
 	 *
 	 * @type {Manager}
 	 */
 	manager,
-
 	/**
 	 * Class definition of Manager.
 	 *
 	 * @type {class}
 	 */
-	Manager
+	Manager,
 };
