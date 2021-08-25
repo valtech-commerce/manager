@@ -158,6 +158,29 @@ class AbstractManager {
 	}
 
 	/**
+	 * Reformat task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [toExecute] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	reformat(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
+		return runTask({
+			task: "reformat",
+			context: this,
+			grouped,
+			toExecute,
+		});
+	}
+
+	/**
 	 * Documentation task.
 	 *
 	 * @async
@@ -226,6 +249,7 @@ class AbstractManager {
 			context: this,
 			grouped,
 			toExecute: async () => {
+				await this.reformat({ grouped: true });
 				await this.build({ grouped: true });
 				await this.prepare({ grouped: true });
 				await this.documentation({ grouped: true });

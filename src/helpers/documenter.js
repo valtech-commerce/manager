@@ -2,6 +2,7 @@
 //-- Documenter
 //--------------------------------------------------------
 import path from "node:path"; // eslint-disable-line node/no-missing-import
+import { fileURLToPath } from "node:url"; // eslint-disable-line node/no-missing-import
 import resolvePkg from "resolve-pkg";
 import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
@@ -66,7 +67,7 @@ class Documenter {
 		fss.ensureDir(output);
 
 		const options = { root, source, destination: output, depth };
-		const jsdocBin = `${resolvePkg("jsdoc", { cwd: path.dirname(import.meta.url) })}/jsdoc.js`;
+		const jsdocBin = `${resolvePkg("jsdoc", { cwd: path.dirname(fileURLToPath(import.meta.url)) })}/jsdoc.js`;
 		terminal.process.run(`node ${jsdocBin} --configure ${paths.documentationTheme}/jsdoc/config.js`, {
 			environment: { [environment.JSDOC_CLI_KEY]: JSON.stringify(options) },
 		});

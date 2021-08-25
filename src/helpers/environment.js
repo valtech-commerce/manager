@@ -73,6 +73,7 @@ class EnvironmentHelper {
 	 * @property {Task} outdated - Outdated task.
 	 * @property {Task} build - Build task.
 	 * @property {Task} watch - Watch task.
+	 * @property {Task} reformat - Reformat task.
 	 * @property {Task} documentation - Documentation task.
 	 * @property {Task} prepare - Prepare task.
 	 * @property {Task} rebuild - Rebuild task.
@@ -85,6 +86,7 @@ class EnvironmentHelper {
 			outdated: "outdated",
 			build: "build",
 			watch: "watch",
+			reformat: "reformat",
 			documentation: "documentation",
 			prepare: "prepare",
 			rebuild: "rebuild",
@@ -104,6 +106,7 @@ class EnvironmentHelper {
 			[this.TASK.outdated]: { name: "Outdated", banner: "Check for outdated package dependencies" },
 			[this.TASK.build]: { name: "Build", banner: "Generate package distributions" },
 			[this.TASK.watch]: { name: "Watch", banner: "Watch changes in sources" },
+			[this.TASK.reformat]: { name: "Reformat", banner: "Reformat code" },
 			[this.TASK.documentation]: { name: "Documentation", banner: "Generate documentation" },
 			[this.TASK.prepare]: { name: "Prepare", banner: "Prepare package for publication" },
 			[this.TASK.rebuild]: { name: "Rebuild", banner: "Rebuild package" },

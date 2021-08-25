@@ -27,6 +27,7 @@ In your `./package.json` file add
 		"manager:outdated": "node manager --task=outdated",
 		"manager:build": "node manager --task=build",
 		"manager:watch": "node manager --task=watch",
+		"manager:reformat": "node manager --task=reformat",
 		"manager:documentation": "node manager --task=documentation",
 		"manager:prepare": "node manager --task=prepare",
 		"manager:rebuild": "node manager --task=rebuild",

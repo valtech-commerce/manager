@@ -1,12 +1,12 @@
 //--------------------------------------------------------
 //-- Paths
 //--------------------------------------------------------
-import path from "node:path"; // eslint-disable-line node/no-missing-import
+import { fileURLToPath } from "node:url"; // eslint-disable-line node/no-missing-import
 import pkgDir from "pkg-dir";
 import fss from "@absolunet/fss";
 
 const __ = {
-	root: pkgDir.sync(path.dirname(import.meta.url)),
+	root: pkgDir.sync(fileURLToPath(import.meta.url)),
 	packageRoot: fss.realpath(`.`),
 };
 

@@ -9,6 +9,7 @@ import { terminal } from "@absolunet/terminal";
 import builder from "../helpers/builder.js";
 import documenter from "../helpers/documenter.js";
 import paths from "../helpers/paths.js";
+import reformatter from "../helpers/reformatter.js";
 import util from "../helpers/util.js";
 import AbstractManager from "./AbstractManager.js";
 
@@ -138,6 +139,16 @@ class MultiManager extends AbstractManager {
 		return super.watch(options, async () => {
 			// Run watcher for all subpackages
 			await builder.watch(__(this).get("dist"), this.subpackages);
+		});
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	reformat(options) {
+		return super.reformat(options, async () => {
+			// Run reformatter
+			await reformatter.run();
 		});
 	}
 
