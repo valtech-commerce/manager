@@ -12,7 +12,9 @@ import { merge } from "webpack-merge";
 import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import { transformAsync } from "@babel/core";
+import babelTransformModules from "@babel/plugin-transform-modules-commonjs";
 import WebpackFriendlyErrors from "@soda/friendly-errors-webpack-plugin";
+
 import environement from "./environment.js";
 import paths from "./paths.js";
 import util from "./util.js";
@@ -27,7 +29,27 @@ const COMMON_CONFIG = {
 };
 
 //-- Node.js
-const nodeConfig = (source, nodeEngine) => {
+const nodeConfig = (source, nodeType, nodeEngine) => {
+	const babelOptions =
+		nodeType === "commonjs"
+			? {
+					plugins: [[babelTransformModules, { strict: false }]],
+			  }
+			: {
+					presets: [
+						[
+							"@babel/env",
+							{
+								targets: { node: semver.minVersion(nodeEngine).major },
+								useBuiltIns: "entry",
+								corejs: "3",
+								modules: false,
+								exclude: ["@babel/plugin-transform-block-scoping"],
+							},
+						],
+					],
+			  };
+
 	return merge(COMMON_CONFIG, {
 		target: "node",
 		entry: `${paths.webpackEntryPoints}/node.js`,
@@ -42,18 +64,7 @@ const nodeConfig = (source, nodeEngine) => {
 							return transformAsync(content, {
 								compact: false,
 								retainLines: true,
-								presets: [
-									[
-										"@babel/env",
-										{
-											targets: { node: semver.minVersion(nodeEngine).major },
-											useBuiltIns: "entry",
-											corejs: "3",
-											modules: false,
-											exclude: ["@babel/plugin-transform-block-scoping"],
-										},
-									],
-								],
+								...babelOptions,
 							}).then(({ code }) => {
 								return code;
 							});
@@ -195,7 +206,7 @@ const getDistributionConfig = (
 };
 
 //-- Generate all distributions configs
-const getAllDistributionsConfigs = ({ node, nodeEngine, web = {}, ...options } = {}, action) => {
+const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...options } = {}, action) => {
 	const configs = [];
 
 	const types = web.types || [];
@@ -212,7 +223,7 @@ const getAllDistributionsConfigs = ({ node, nodeEngine, web = {}, ...options } =
 		switch (id) {
 			case environement.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getDistributionConfig(nodeConfig(options.source, nodeEngine), options));
+				configs.push(getDistributionConfig(nodeConfig(options.source, nodeType, nodeEngine), options));
 				break;
 
 			case environement.DISTRIBUTION_TYPE.browser:

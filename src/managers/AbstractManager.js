@@ -33,9 +33,10 @@ class AbstractManager {
 	 */
 	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
 		if (dist.node && fss.exists(paths.package.config)) {
-			const { engines: { node: version } = {} } = fss.readJson(paths.package.config);
+			const { engines: { node: version } = {}, type = "commonjs" } = fss.readJson(paths.package.config);
 
 			dist.nodeEngine = version;
+			dist.nodeType = type;
 		}
 
 		__(this).set({

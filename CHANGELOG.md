@@ -12,10 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add `reformat` task which runs Prettier on all package files
+- Build pure ESM if package identifies as `module`
 - In Node.js distribution, use `package.json` engine to configure Babel build
 
 ### Changed
-- Output pure ESM package (no more CommonJS)
 - Update tester
 - Maintenance update
 
