@@ -7,6 +7,7 @@ import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
 import builder from "../helpers/builder.js";
 import documenter from "../helpers/documenter.js";
+import fixer from "../helpers/fixer.js";
 import paths from "../helpers/paths.js";
 import util from "../helpers/util.js";
 import AbstractManager from "./AbstractManager.js";
@@ -64,6 +65,16 @@ class SingleManager extends AbstractManager {
 		return super.watch(options, async () => {
 			// Run watcher
 			await builder.watch(__(this).get("dist"));
+		});
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	fix(options) {
+		return super.fix(options, async () => {
+			// Run fixer
+			await fixer.run();
 		});
 	}
 

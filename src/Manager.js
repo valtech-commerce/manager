@@ -159,6 +159,9 @@ class Manager {
 			case environment.TASK.watch:
 				await managerType.watch();
 				break;
+			case environment.TASK.fix:
+				await managerType.fix();
+				break;
 			case environment.TASK.documentation:
 				await managerType.documentation();
 				break;

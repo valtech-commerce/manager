@@ -8,7 +8,7 @@ import gulpsass from "gulp-dart-sass";
 import postcss from "gulp-postcss";
 import sass from "sass";
 import fss from "@absolunet/fss";
-import { manager } from "@absolunet/manager"; // eslint-disable-line node/no-missing-import
+import { manager } from "@absolunet/manager";
 import builder from "@absolunet/manager/helpers/builder"; // eslint-disable-line node/no-missing-import
 import documenter from "@absolunet/manager/helpers/documenter"; // eslint-disable-line node/no-missing-import
 

@@ -33,9 +33,10 @@ class AbstractManager {
 	 */
 	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
 		if (dist.node && fss.exists(paths.package.config)) {
-			const { engines: { node: version } = {} } = fss.readJson(paths.package.config);
+			const { engines: { node: version } = {}, type = "commonjs" } = fss.readJson(paths.package.config);
 
 			dist.nodeEngine = version;
+			dist.nodeType = type;
 		}
 
 		__(this).set({
@@ -158,6 +159,29 @@ class AbstractManager {
 	}
 
 	/**
+	 * Fix task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [toExecute] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	fix(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
+		return runTask({
+			task: "fix",
+			context: this,
+			grouped,
+			toExecute,
+		});
+	}
+
+	/**
 	 * Documentation task.
 	 *
 	 * @async
@@ -226,6 +250,7 @@ class AbstractManager {
 			context: this,
 			grouped,
 			toExecute: async () => {
+				await this.fix({ grouped: true });
 				await this.build({ grouped: true });
 				await this.prepare({ grouped: true });
 				await this.documentation({ grouped: true });
