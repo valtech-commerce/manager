@@ -1,7 +1,10 @@
 //--------------------------------------------------------
 //-- Util
 //--------------------------------------------------------
-import path from "node:path"; // eslint-disable-line node/no-missing-import
+import path from "node:path";
+import fsp from "@absolunet/fsp";
+import fss from "@absolunet/fss";
+import { terminal } from "@absolunet/terminal";
 import chalk from "chalk";
 import figures from "figures";
 import inquirer from "inquirer";
@@ -12,9 +15,6 @@ import semver from "semver";
 import stringLength from "string-length";
 import textTable from "text-table";
 import tmp from "tmp";
-import fsp from "@absolunet/fsp";
-import fss from "@absolunet/fss";
-import { terminal } from "@absolunet/terminal";
 import environment from "./environment.js";
 import paths from "./paths.js";
 

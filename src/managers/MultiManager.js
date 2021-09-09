@@ -1,8 +1,8 @@
 //--------------------------------------------------------
 //-- Multi
 //--------------------------------------------------------
-import { createRequire } from "node:module"; // eslint-disable-line node/no-missing-import
-import path from "node:path"; // eslint-disable-line node/no-missing-import
+import { createRequire } from "node:module";
+import path from "node:path";
 import fss from "@absolunet/fss";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";

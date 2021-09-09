@@ -1,10 +1,10 @@
 //--------------------------------------------------------
 //-- Single manger
 //--------------------------------------------------------
-import chalk from "chalk";
 import fss from "@absolunet/fss";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
+import chalk from "chalk";
 import builder from "../helpers/builder.js";
 import documenter from "../helpers/documenter.js";
 import fixer from "../helpers/fixer.js";

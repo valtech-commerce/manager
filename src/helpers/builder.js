@@ -1,7 +1,12 @@
 //--------------------------------------------------------
 //-- Builder
 //--------------------------------------------------------
-import path from "node:path"; // eslint-disable-line node/no-missing-import
+import path from "node:path";
+import fss from "@absolunet/fss";
+import { terminal } from "@absolunet/terminal";
+import { transformAsync } from "@babel/core";
+import babelTransformModules from "@babel/plugin-transform-modules-commonjs";
+import WebpackFriendlyErrors from "@soda/friendly-errors-webpack-plugin";
 import chalk from "chalk";
 import WebpackCopy from "copy-webpack-plugin";
 import figures from "figures";
@@ -9,12 +14,6 @@ import WebpackRemoveFiles from "remove-files-webpack-plugin";
 import semver from "semver";
 import webpack from "webpack";
 import { merge } from "webpack-merge";
-import fss from "@absolunet/fss";
-import { terminal } from "@absolunet/terminal";
-import { transformAsync } from "@babel/core";
-import babelTransformModules from "@babel/plugin-transform-modules-commonjs";
-import WebpackFriendlyErrors from "@soda/friendly-errors-webpack-plugin";
-
 import environement from "./environment.js";
 import paths from "./paths.js";
 import util from "./util.js";

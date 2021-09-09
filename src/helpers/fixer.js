@@ -1,10 +1,10 @@
 //--------------------------------------------------------
 //-- Fixer
 //--------------------------------------------------------
-import { createRequire } from "node:module"; // eslint-disable-line node/no-missing-import
-import pkgDir from "pkg-dir";
+import { createRequire } from "node:module";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
+import pkgDir from "pkg-dir";
 import paths from "./paths.js";
 
 /**

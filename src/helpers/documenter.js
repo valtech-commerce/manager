@@ -1,11 +1,11 @@
 //--------------------------------------------------------
 //-- Documenter
 //--------------------------------------------------------
-import path from "node:path"; // eslint-disable-line node/no-missing-import
-import { fileURLToPath } from "node:url"; // eslint-disable-line node/no-missing-import
-import resolvePkg from "resolve-pkg";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
+import resolvePkg from "resolve-pkg";
 import environment from "./environment.js";
 import paths from "./paths.js";
 import util from "./util.js";

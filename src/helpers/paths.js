@@ -1,9 +1,9 @@
 //--------------------------------------------------------
 //-- Paths
 //--------------------------------------------------------
-import { fileURLToPath } from "node:url"; // eslint-disable-line node/no-missing-import
-import pkgDir from "pkg-dir";
+import { fileURLToPath } from "node:url";
 import fss from "@absolunet/fss";
+import pkgDir from "pkg-dir";
 
 const __ = {
 	root: pkgDir.sync(fileURLToPath(import.meta.url)),

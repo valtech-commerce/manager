@@ -1,14 +1,14 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-import emoji from "node-emoji";
 import brand from "@absolunet/brand-guidelines";
 import { Joi, validateArgument } from "@absolunet/joi";
 import { terminal } from "@absolunet/terminal";
+import emoji from "node-emoji";
 import environment from "./helpers/environment.js";
 import util from "./helpers/util.js";
-import SingleManager from "./managers/SingleManager.js";
 import MultiManager from "./managers/MultiManager.js";
+import SingleManager from "./managers/SingleManager.js";
 
 /**
  * Absolunet's npm packages manager.
