@@ -105,7 +105,7 @@ class MultiManager extends AbstractManager {
 			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
 			terminal.process.run(`
 				${this.lernaBinary} clean --yes
-				${this.lernaBinary} bootstrap --no-ci
+				${this.lernaBinary} bootstrap --hoist --no-ci
 			`);
 		});
 	}

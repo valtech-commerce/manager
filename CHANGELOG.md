@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - In Node.js distribution, use `package.json` engine to configure Babel build
 
 ### Changed
+- Use [Lerna hoisting](https://github.com/lerna/lerna/blob/main/doc/hoist.md) for faster install and more stable tests
 - Update tester
 - Maintenance update
 
