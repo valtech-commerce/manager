@@ -1,19 +1,20 @@
-.DS_Store
 .github
 .editorconfig
 .eslintignore
 .eslintrc.yaml
 .gitignore
-.travis.yml
+.prettierignore
+.prettierrc.cjs
 bitbucket-pipelines.yml
-code_of_conduct.md
-contributing.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
 manager.js
-security.md
-support.md
+SECURITY.md
+SUPPORT.md
 docs
 src
 test
 !dist/**
+.DS_Store
 
 ressources/documentation-theme/sources

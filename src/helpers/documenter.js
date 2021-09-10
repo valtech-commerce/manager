@@ -1,13 +1,14 @@
 //--------------------------------------------------------
 //-- Documenter
 //--------------------------------------------------------
-import resolvePkg   from 'resolve-pkg';
-import fss          from '@absolunet/fss';
-import { terminal } from '@absolunet/terminal';
-import env          from './environment';
-import paths        from './paths';
-import util         from './util';
-
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import fss from "@absolunet/fss";
+import { terminal } from "@absolunet/terminal";
+import resolvePkg from "resolve-pkg";
+import environment from "./environment.js";
+import paths from "./paths.js";
+import util from "./util.js";
 
 /**
  * Documentation builder.
@@ -15,7 +16,6 @@ import util         from './util';
  * @hideconstructor
  */
 class Documenter {
-
 	/**
 	 * Documentation theme paths.
 	 *
@@ -23,13 +23,12 @@ class Documenter {
 	 */
 	get theme() {
 		return {
-			output:  `${paths.documentationTheme}/build`,
-			images:  `${paths.documentationTheme}/sources/images`,
+			output: `${paths.documentationTheme}/build`,
+			images: `${paths.documentationTheme}/sources/images`,
 			scripts: `${paths.documentationTheme}/sources/scripts`,
-			styles:  `${paths.documentationTheme}/sources/styles`
+			styles: `${paths.documentationTheme}/sources/styles`,
 		};
 	}
-
 
 	/**
 	 * Copy documentation common assets to output directory.
@@ -37,7 +36,7 @@ class Documenter {
 	 * @param {string} [destination={@link PackagePaths}.documentation] - Path to the generated documentation.
 	 */
 	generateCommonAssets(destination = paths.package.documentation) {
-		terminal.print('Copy documentation common assets').spacer();
+		terminal.print("Copy documentation common assets").spacer();
 
 		const commonPath = `${destination}/assets__`;
 		fss.remove(destination);
@@ -45,7 +44,6 @@ class Documenter {
 
 		fss.copy(`${paths.documentationTheme}/build`, commonPath);
 	}
-
 
 	/**
 	 * Build API documentation via JSDoc.
@@ -56,7 +54,12 @@ class Documenter {
 	 * @param {string} [options.destination={@link PackagePaths}.documentation] - Path to the generated documentation.
 	 * @param {number} [options.depth=1] - Directory depth relative to the documentation root.
 	 */
-	generateAPI({ root = paths.package.root, source = paths.package.sources, destination = paths.package.documentation, depth = 1 } = {}) {
+	generateAPI({
+		root = paths.package.root,
+		source = paths.package.sources,
+		destination = paths.package.documentation,
+		depth = 1,
+	} = {}) {
 		terminal.print(`Build API documentation for ${util.relativizePath(source)}`).spacer();
 
 		const output = `${destination}/api`;
@@ -64,13 +67,12 @@ class Documenter {
 		fss.ensureDir(output);
 
 		const options = { root, source, destination: output, depth };
-		const jsdocBin = `${resolvePkg('jsdoc', { cwd: __dirname })}/jsdoc.js`;
+		const jsdocBin = `${resolvePkg("jsdoc", { cwd: path.dirname(fileURLToPath(import.meta.url)) })}/jsdoc.js`;
 		terminal.process.run(`node ${jsdocBin} --configure ${paths.documentationTheme}/jsdoc/config.js`, {
-			environment: { [env.JSDOC_CLI_KEY]: JSON.stringify(options) }
+			environment: { [environment.JSDOC_CLI_KEY]: JSON.stringify(options) },
 		});
 		terminal.spacer(2);
 	}
-
 
 	/**
 	 * Build text documentation.
@@ -85,8 +87,6 @@ class Documenter {
 		// Temporarily redirect main url to API docs
 		fss.copy(`${paths.documentationTheme}/redirect/index.html`, `${destination}/index.html`);
 	}
-
 }
-
 
 export default new Documenter();

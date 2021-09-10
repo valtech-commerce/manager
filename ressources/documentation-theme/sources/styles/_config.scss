@@ -1,6 +1,7 @@
 //--------------------------------------------------
 //-- Configuration
 //--------------------------------------------------
+@use 'sass:string';
 @import '../../../../node_modules/@absolunet/nwayo-toolbox/styles/config';
 @import '../../../../node_modules/@absolunet/brand-guidelines/dist/styleguide';
 
@@ -30,9 +31,9 @@ $important-color: absolunet-styleguide('color.rainbow.crimson');
 
 
 /* stylelint-disable scss/function-unquote-no-unquoted-strings-inside */
-$base-font:  unquote(absolunet-styleguide('font.content'));
-$title-font: unquote(absolunet-styleguide('font.title'));
-$code-font:  unquote(absolunet-styleguide('font.code'));
+$base-font:  string.unquote(absolunet-styleguide('font.content'));
+$title-font: string.unquote(absolunet-styleguide('font.title'));
+$code-font:  string.unquote(absolunet-styleguide('font.code'));
 /* stylelint-enable scss/function-unquote-no-unquoted-strings-inside */
 
 $base-weight:  absolunet-styleguide('font-weight.content.base');

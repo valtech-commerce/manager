@@ -1,15 +1,12 @@
 //--------------------------------------------------------
 //-- Tester
 //--------------------------------------------------------
-'use strict';  // eslint-disable-line strict
-
-const { tester } = require('@absolunet/tester');
+import { tester } from "@absolunet/tester";
 
 tester.init({
-	repositoryType: 'single-package',
-	packageType:    'simple'
+	repositoryType: "single-package",
+	packageType: "simple",
 });
-
 
 //		const data = [
 //			{ moduleName: 'not', isInstalled: false, installed: '1.0.0', packageJson: '1.0.0', latest: '1.0.0' },

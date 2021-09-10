@@ -1,3 +1,4 @@
+// eslint-disable-line import/unambiguous
 /**
  * Type of repository: 'single-package', 'multi-package'.
  *
@@ -24,7 +25,6 @@
  * @property {Function} postRun - Post-run hook.
  */
 
-
 /**
  * Distribution options.
  *
@@ -32,13 +32,14 @@
  * @property {string} [source={@link PackagePaths}.sources] - Package source path.
  * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
  * @property {boolean} [node] - Add a Node.js distribution.
+ * @property {string} [nodeEngine] - Supported Node.js versions.
+ * @property {string} [nodeType] - CommonJS or Module.
  * @property {object} [web] - Web distributions options.
  * @property {Array<DistributionType>} web.types - List of web distributions.
  * @property {string} web.name - Public exposed name of package.
  * @property {object<string, string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
  * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
  */
-
 
 /**
  * Manager options.
@@ -50,8 +51,6 @@
  * @property {DistributionOptions} dist - Distribution options.
  * @property {object<Task, TaskHooks>} tasks - List of tasks with hooks to call before and after.
  */
-
-
 
 /**
  * Current package paths.

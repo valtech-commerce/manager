@@ -13,6 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [3.0.0-beta.1] - 2021-09-10
+### Added
+- Add `fix` task which runs ESLint autofix and Prettier format on all package files
+- Build pure ESM if package identifies as `module`
+- In Node.js distribution, use `package.json` engine to configure Babel build
+
+### Changed
+- Use [Lerna hoisting](https://github.com/lerna/lerna/blob/main/doc/hoist.md) for faster install and more stable tests
+- Update tester
+- Maintenance update
+
+
+
 ## [2.1.0] - 2020-02-04
 ### Added
 - Bundle Lerna with the manager
@@ -160,7 +173,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/2.1.0...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.1...HEAD
+[3.0.0-beta.1]:  https://github.com/absolunet/node-manager/compare/2.1.0...3.0.0-beta.1
 [2.1.0]:         https://github.com/absolunet/node-manager/compare/2.0.1...2.1.0
 [2.0.1]:         https://github.com/absolunet/node-manager/compare/2.0.0...2.0.1
 [2.0.0]:         https://github.com/absolunet/node-manager/compare/2.0.0-rc.1...2.0.0

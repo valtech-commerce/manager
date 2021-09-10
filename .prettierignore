@@ -1,0 +1,9 @@
+*.*
+!*.js
+!*.cjs
+!*.mjs
+
+dist
+docs
+ressources/documentation-theme/build
+ressources/documentation-theme/jsdoc/publish.js

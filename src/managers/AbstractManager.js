@@ -1,25 +1,24 @@
 //--------------------------------------------------------
 //-- Abstract manager
 //--------------------------------------------------------
-import __           from '@absolunet/private-registry';
-import { terminal } from '@absolunet/terminal';
-import documenter   from '../helpers/documenter';
-import env          from '../helpers/environment';
-import util         from '../helpers/util';
+import fss from "@absolunet/fss";
+import __ from "@absolunet/private-registry";
+import { terminal } from "@absolunet/terminal";
+import documenter from "../helpers/documenter.js";
+import environment from "../helpers/environment.js";
+import paths from "../helpers/paths.js";
+import util from "../helpers/util.js";
 
-
-const runTask = ({ task, subtask = '', context, grouped, toExecute }) => {
-	return util.taskRunner({
-		task:  env.TASK[task + subtask],
-		hooks: __(context).get('tasks')[task],
-		grouped
-	}, toExecute);
+const runTask = ({ task, subtask = "", context, grouped, toExecute }) => {
+	return util.taskRunner(
+		{
+			task: environment.TASK[task + subtask],
+			hooks: __(context).get("tasks")[task],
+			grouped,
+		},
+		toExecute
+	);
 };
-
-
-
-
-
 
 /**
  * Abstract manager class.
@@ -27,20 +26,25 @@ const runTask = ({ task, subtask = '', context, grouped, toExecute }) => {
  * @abstract
  */
 class AbstractManager {
-
 	/**
 	 * Create a package manager.
 	 *
 	 * @param {ManagerOptions} [options] - Options to customize the manager.
 	 */
 	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
+		if (dist.node && fss.exists(paths.package.config)) {
+			const { engines: { node: version } = {}, type = "commonjs" } = fss.readJson(paths.package.config);
+
+			dist.nodeEngine = version;
+			dist.nodeType = type;
+		}
+
 		__(this).set({
 			publish: { restricted, useOTP },
 			dist,
-			tasks
+			tasks,
 		});
 	}
-
 
 	/**
 	 * Current repository version.
@@ -48,9 +52,8 @@ class AbstractManager {
 	 * @type {string}
 	 */
 	get version() {
-		throw new Error('Not implemented');
+		throw new Error("Not implemented");
 	}
-
 
 	/**
 	 * Install task.
@@ -61,15 +64,19 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	install({ grouped } = {}, toExecute = async () => { /**/ }) {
+	install(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'install',
+			task: "install",
 			context: this,
 			grouped,
-			toExecute
+			toExecute,
 		});
 	}
-
 
 	/**
 	 * Outdated task.
@@ -80,18 +87,22 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	outdated({ grouped } = {}, toExecute = async () => { /**/ }) {
+	outdated(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'outdated',
+			task: "outdated",
 			context: this,
 			grouped,
 			toExecute: async () => {
 				await util.npmOutdated();
 				await toExecute();
-			}
+			},
 		});
 	}
-
 
 	/**
 	 * Build task.
@@ -102,19 +113,23 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	build({ grouped } = {}, toExecute = async () => { /**/ }) {
+	build(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'build',
+			task: "build",
 			context: this,
 			grouped,
 			toExecute: async () => {
-				if (__(this).get('dist')) {
+				if (__(this).get("dist")) {
 					await toExecute();
 				}
-			}
+			},
 		});
 	}
-
 
 	/**
 	 * Watch task.
@@ -125,19 +140,46 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	watch({ grouped } = {}, toExecute = async () => { /**/ }) {
+	watch(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'watch',
+			task: "watch",
 			context: this,
 			grouped,
 			toExecute: async () => {
-				if (__(this).get('dist')) {
+				if (__(this).get("dist")) {
 					await toExecute();
 				}
-			}
+			},
 		});
 	}
 
+	/**
+	 * Fix task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [toExecute] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	fix(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
+		return runTask({
+			task: "fix",
+			context: this,
+			grouped,
+			toExecute,
+		});
+	}
 
 	/**
 	 * Documentation task.
@@ -148,18 +190,22 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	documentation({ grouped } = {}, toExecute = async () => { /**/ }) {
+	documentation(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'documentation',
+			task: "documentation",
 			context: this,
 			grouped,
 			toExecute: async () => {
 				await documenter.generateCommonAssets();
 				await toExecute();
-			}
+			},
 		});
 	}
-
 
 	/**
 	 * Prepare task.
@@ -170,15 +216,19 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	prepare({ grouped } = {}, toExecute = async () => { /**/ }) {
+	prepare(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'prepare',
+			task: "prepare",
 			context: this,
 			grouped,
-			toExecute
+			toExecute,
 		});
 	}
-
 
 	/**
 	 * Rebuild task.
@@ -189,20 +239,25 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	rebuild({ grouped } = {}, toExecute = async () => { /**/ }) {
+	rebuild(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'rebuild',
+			task: "rebuild",
 			context: this,
 			grouped,
 			toExecute: async () => {
+				await this.fix({ grouped: true });
 				await this.build({ grouped: true });
 				await this.prepare({ grouped: true });
 				await this.documentation({ grouped: true });
 				await toExecute();
-			}
+			},
 		});
 	}
-
 
 	/**
 	 * Publish task.
@@ -214,25 +269,28 @@ class AbstractManager {
 	 * @param {Function} [toExecute] - Async function to execute.
 	 * @returns {Promise} When task completed.
 	 */
-	publish({ grouped, unsafe = false } = {}, toExecute = async () => { /**/ }) {
+	publish(
+		{ grouped, unsafe = false } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
 		return runTask({
-			task: 'publish',
-			subtask: unsafe ? 'Unsafe' : '',
+			task: "publish",
+			subtask: unsafe ? "Unsafe" : "",
 			context: this,
 			grouped,
 			toExecute: async () => {
 				if (!unsafe) {
 					await this.outdated({ grouped: true });
 					await this.rebuild({ grouped: true });
-					terminal.process.run('npm test');
+					terminal.process.run("npm test");
 				}
 
 				await toExecute();
-			}
+			},
 		});
 	}
-
 }
-
 
 export default AbstractManager;
