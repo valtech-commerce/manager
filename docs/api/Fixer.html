@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>managers/MultiManager.js - @absolunet/manager API documentation</title>
+	<title>Fixer - @absolunet/manager API documentation</title>
 
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta http-equiv="cleartype" content="on">
@@ -54,239 +54,143 @@
 
 		<div id="main">
 		
-			<h1 class="page-title">managers/MultiManager.js</h1>
+			<h1 class="page-title">Fixer</h1>
 		
 
 			
 
 
 
+
+<section>
+
+<div>
     
-    <section>
-        <article>
-            <pre id="line" class="line-numbers"><code class="language-js">//--------------------------------------------------------
-//-- Multi
-//--------------------------------------------------------
-import { createRequire } from "node:module";
-import path from "node:path";
-import fss from "@absolunet/fss";
-import __ from "@absolunet/private-registry";
-import { terminal } from "@absolunet/terminal";
-import builder from "../helpers/builder.js";
-import documenter from "../helpers/documenter.js";
-import fixer from "../helpers/fixer.js";
-import paths from "../helpers/paths.js";
-import util from "../helpers/util.js";
-import AbstractManager from "./AbstractManager.js";
+        </h2>
+        
+            <div class="class-description">Code fixer.</div>
+        
+    
+</div>
 
-/**
- * Multi package manager.
- *
- * @augments AbstractManager
- */
-class MultiManager extends AbstractManager {
-	/**
-	 * Create a multi package manager.
-	 *
-	 * @inheritdoc
-	 */
-	constructor(options) {
-		super(options);
+<article>
+    
 
-		// Resolve local Lerna binary
-		const require = createRequire(import.meta.url);
-		__(this).set("lerna-binary", `${path.dirname(require.resolve("lerna"))}/cli.js`);
+    
 
-		// Get a list of all subpackages from Lerna
-		const rawList = JSON.parse(terminal.process.runAndRead(`${this.lernaBinary} list --all --json`));
+    
 
-		const subpackagesList = rawList.map(({ location }) => {
-			const root = util.relativizePath(location);
+    
+    
+    
 
-			return {
-				root,
-				source: `${root}/${paths.subpackage.sources}`,
-				destination: `${root}/${paths.subpackage.distributions}`,
-				name: path.basename(location),
-			};
-		});
+     
 
-		__(this).set("subpackages", subpackagesList);
-	}
+    
 
-	/**
-	 * @inheritdoc
-	 */
-	get version() {
-		const file = `${paths.package.root}/lerna.json`;
+    
 
-		if (fss.exists(file)) {
-			const { version } = fss.readJson(file);
+    
+        <h3 class="subsection-title">Methods</h3>
 
-			return version;
-		}
+        
+            
+<div class="method">
 
-		return null;
-	}
+    
 
-	/**
-	 * List of repository's subpackages.
-	 *
-	 * @type {Array&lt;{root: string, source: string, destination: string, name: string}>}
-	 */
-	get subpackages() {
-		return __(this).get("subpackages");
-	}
+    <h4 class="name" id="run"><span class="type-signature"></span>run<span class="signature">()</span><span class="type-signature"></span></h4>
 
-	/**
-	 * Lerna binary.
-	 *
-	 * @type {string}
-	 */
-	get lernaBinary() {
-		return `node ${__(this).get("lerna-binary")}`;
-	}
+    
 
-	/**
-	 * Execute async code within each subpackage.
-	 *
-	 * @async
-	 * @param {Function} [toExecute] - Async function to execute.
-	 * @returns {Promise} When all code is executed.
-	 */
-	async forEachSubpackage(toExecute) {
-		for (const subpackage of this.subpackages) {
-			await toExecute(subpackage); // eslint-disable-line no-await-in-loop
-		}
-	}
 
-	/**
-	 * @inheritdoc
-	 */
-	install(options) {
-		// eslint-disable-next-line require-await
-		return super.install(options, async () => {
-			// Let lerna do its subpackage interdependencies magic
-			terminal.print("Install subpackages dependencies and link siblings").spacer();
-			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
-			terminal.process.run(`
-				${this.lernaBinary} clean --yes
-				${this.lernaBinary} bootstrap --hoist --no-ci
-			`);
-		});
-	}
 
-	/**
-	 * @inheritdoc
-	 */
-	outdated(options) {
-		return super.outdated(options, async () => {
-			// Check outdated dependencies for all subpackages
-			await this.forEachSubpackage(async ({ root }) => {
-				await util.npmOutdated(root);
-			});
-		});
-	}
 
-	/**
-	 * @inheritdoc
-	 */
-	build(options) {
-		return super.build(options, async () => {
-			// Run builder for all subpackages
-			await builder.run(__(this).get("dist"), this.subpackages);
-		});
-	}
+<dl class="details">
 
-	/**
-	 * @inheritdoc
-	 */
-	watch(options) {
-		return super.watch(options, async () => {
-			// Run watcher for all subpackages
-			await builder.watch(__(this).get("dist"), this.subpackages);
-		});
-	}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_fixer.js.html#line-28">helpers/fixer.js:28</a>
+    </li></ul></dd>
+    
 
-	/**
-	 * @inheritdoc
-	 */
-	fix(options) {
-		return super.fix(options, async () => {
-			// Run fixer
-			await fixer.run();
-		});
-	}
+    
 
-	/**
-	 * @inheritdoc
-	 */
-	documentation(options) {
-		return super.documentation(options, async () => {
-			// API and text documentation for all subpackages
-			await this.forEachSubpackage(async ({ root, name }) => {
-				await documenter.generateAPI({
-					root,
-					source: `${root}/${paths.subpackage.sources}`,
-					destination: `${paths.package.documentation}/${name}`,
-					depth: 2,
-				});
+    
 
-				await documenter.generateText({
-					source: `${root}/${paths.subpackage.sources}`,
-					destination: `${paths.package.documentation}/${name}`,
-				});
-			});
-		});
-	}
+    
 
-	/**
-	 * @inheritdoc
-	 */
-	prepare(options) {
-		// eslint-disable-next-line require-await
-		return super.prepare(options, async () => {
-			// Update license for all subpackages
-			this.forEachSubpackage(({ root }) => {
-				util.updateLicense(root);
-			});
+    
 
-			// Update version for all subpackages
-			terminal.process.run(
-				`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`
-			);
-		});
-	}
+    
 
-	/**
-	 * @inheritdoc
-	 */
-	publish(options) {
-		return super.publish(options, async () => {
-			// Pack a tarball for all subpackages
-			const tarballs = [];
-			await this.forEachSubpackage(async ({ root }) => {
-				const { tarball } = await util.npmPack(root);
-				tarballs.push(tarball);
-			});
+    
 
-			// Fetch generic config
-			const tag = util.getTag(this.version);
-			const { restricted } = __(this).get("publish");
-			const otp = await util.getOTP(__(this).get("publish").useOTP);
+    
 
-			// Publish the tarball for all subpackages
-			for (const tarball of tarballs) {
-				await util.npmPublish({ tarball, tag, restricted, otp }); // eslint-disable-line no-await-in-loop
-			}
-		});
-	}
-}
+    
 
-export default MultiManager;
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Run ESLint autofix and Prettier format on all package files.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
