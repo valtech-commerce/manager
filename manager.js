@@ -2,15 +2,15 @@
 //-- Manager
 //--------------------------------------------------------
 import fss from "@absolunet/fss";
-import { manager } from "@absolunet/manager"; // eslint-disable-line import/no-unresolved
-import builder from "@absolunet/manager/helpers/builder"; // eslint-disable-line import/no-unresolved, import/extensions
-import documenter from "@absolunet/manager/helpers/documenter"; // eslint-disable-line import/no-unresolved, import/extensions
+import { manager } from "@absolunet/manager-fixed"; // eslint-disable-line import/no-unresolved
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import gulp from "gulp";
 import gulpsass from "gulp-dart-sass";
 import postcss from "gulp-postcss";
 import sass from "sass";
+import builder from "./dist/node/helpers/builder.js";
+import documenter from "./dist/node/helpers/documenter.js";
 
 manager.init({
 	repositoryType: "single-package",

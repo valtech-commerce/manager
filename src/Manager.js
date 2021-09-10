@@ -122,6 +122,7 @@ class Manager {
 				}).required(),
 
 				tasks: Joi.object(
+					// eslint-disable-next-line unicorn/prefer-object-from-entries
 					Object.values(environment.TASK).reduce((list, task) => {
 						list[task] = {
 							preRun: Joi.function(),
