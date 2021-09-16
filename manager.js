@@ -9,8 +9,6 @@ import gulp from "gulp";
 import gulpsass from "gulp-dart-sass";
 import postcss from "gulp-postcss";
 import sass from "sass";
-import builder from "./dist/node/helpers/builder.js";
-import documenter from "./dist/node/helpers/documenter.js";
 
 manager.init({
 	repositoryType: "single-package",
@@ -19,7 +17,10 @@ manager.init({
 	},
 	tasks: {
 		documentation: {
-			preRun: ({ terminal }) => {
+			preRun: async ({ terminal }) => {
+				const { default: builder } = await import("./dist/node/helpers/builder.js"); // eslint-disable-line import/dynamic-import-chunkname
+				const { default: documenter } = await import("./dist/node/helpers/documenter.js"); // eslint-disable-line import/dynamic-import-chunkname
+
 				return new Promise((resolve) => {
 					terminal.print("Build documentation scripts/styles").spacer();
 

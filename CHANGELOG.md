@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+### Changed
+- Maintenance update
+
 ### Fixed
 - Fix sub-packages Node.js builds so the removal of `main.js` works 
 
