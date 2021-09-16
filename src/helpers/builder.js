@@ -28,7 +28,7 @@ const COMMON_CONFIG = {
 };
 
 //-- Node.js
-const nodeConfig = (source, nodeType, nodeEngine) => {
+const nodeConfig = (source, destination, nodeType, nodeEngine) => {
 	const babelOptions =
 		nodeType === "commonjs"
 			? {
@@ -73,7 +73,7 @@ const nodeConfig = (source, nodeType, nodeEngine) => {
 			}),
 			new WebpackRemoveFiles({
 				after: {
-					root: `${paths.package.distributions}/node`,
+					root: `${destination}/node`,
 					log: false,
 					test: [
 						{
@@ -214,6 +214,7 @@ const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...o
 	}
 
 	options.source = fss.realpath(options.source || paths.package.sources);
+	options.destination = fss.realpath(options.destination || paths.package.distributions);
 	terminal.print(`${action} ${chalk.underline(util.relativizePath(options.source))}`);
 
 	const webOptions = merge(web, options);
@@ -222,7 +223,9 @@ const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...o
 		switch (id) {
 			case environement.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getDistributionConfig(nodeConfig(options.source, nodeType, nodeEngine), options));
+				configs.push(
+					getDistributionConfig(nodeConfig(options.source, options.destination, nodeType, nodeEngine), options)
+				);
 				break;
 
 			case environement.DISTRIBUTION_TYPE.browser:

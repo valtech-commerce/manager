@@ -37,13 +37,13 @@
 	<link href="https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700|Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
 	
-	<!-- @absolunet/manager@3.0.0-beta.1 (c) 2011-2021 Absolunet -->
+	<!-- @absolunet/manager@3.0.0-beta.2 (c) 2011-2021 Absolunet -->
 </head>
 <body>
 	
 
 	<header>
-		<p class="package"><a href="../">@absolunet/manager</a><span class="version">3.0.0-beta.1</span></p>
+		<p class="package"><a href="../">@absolunet/manager</a><span class="version">3.0.0-beta.2</span></p>
 		<a href="https://github.com/absolunet/node-manager" class="github" data-external="external">View on GitHub</a>
 	</header>
 
@@ -94,7 +94,7 @@ const COMMON_CONFIG = {
 };
 
 //-- Node.js
-const nodeConfig = (source, nodeType, nodeEngine) => {
+const nodeConfig = (source, destination, nodeType, nodeEngine) => {
 	const babelOptions =
 		nodeType === "commonjs"
 			? {
@@ -139,7 +139,7 @@ const nodeConfig = (source, nodeType, nodeEngine) => {
 			}),
 			new WebpackRemoveFiles({
 				after: {
-					root: `${paths.package.distributions}/node`,
+					root: `${destination}/node`,
 					log: false,
 					test: [
 						{
@@ -280,6 +280,7 @@ const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...o
 	}
 
 	options.source = fss.realpath(options.source || paths.package.sources);
+	options.destination = fss.realpath(options.destination || paths.package.distributions);
 	terminal.print(`${action} ${chalk.underline(util.relativizePath(options.source))}`);
 
 	const webOptions = merge(web, options);
@@ -288,7 +289,9 @@ const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...o
 		switch (id) {
 			case environement.DISTRIBUTION_TYPE.node:
 				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
-				configs.push(getDistributionConfig(nodeConfig(options.source, nodeType, nodeEngine), options));
+				configs.push(
+					getDistributionConfig(nodeConfig(options.source, options.destination, nodeType, nodeEngine), options)
+				);
 				break;
 
 			case environement.DISTRIBUTION_TYPE.browser:
