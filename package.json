@@ -90,6 +90,7 @@
     "node-emoji": "^1.11.0",
     "npm-check": "^5.9.2",
     "pkg-dir": "^5.0.0",
+    "postcss": "^8.3.6",
     "remove-files-webpack-plugin": "^1.4.5",
     "resolve-pkg": "^2.0.0",
     "semver": "^7.3.5",
