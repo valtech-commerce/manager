@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+
+
+
+## [3.0.0-beta.5] - 2021-09-17
 ### Fixed
 - Add missing dependency
 
@@ -199,7 +203,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.5...HEAD
+[3.0.0-beta.5]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...3.0.0-beta.5
 [3.0.0-beta.4]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...3.0.0-beta.4
 [3.0.0-beta.3]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.2...3.0.0-beta.3
 [3.0.0-beta.2]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.1...3.0.0-beta.2
