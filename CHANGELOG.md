@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+
+
+
+## [3.0.0-beta.3] - 2021-09-17
 ### Changed
 - Maintenance update
 
@@ -187,7 +191,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.2...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...HEAD
+[3.0.0-beta.3]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.2...3.0.0-beta.3
 [3.0.0-beta.2]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.1...3.0.0-beta.2
 [3.0.0-beta.1]:  https://github.com/absolunet/node-manager/compare/2.1.0...3.0.0-beta.1
 [2.1.0]:         https://github.com/absolunet/node-manager/compare/2.0.1...2.1.0
