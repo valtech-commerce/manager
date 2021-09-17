@@ -213,8 +213,8 @@ const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...o
 		types.push("node");
 	}
 
-	options.source = fss.realpath(options.source || paths.package.sources);
-	options.destination = fss.realpath(options.destination || paths.package.distributions);
+	options.source = options.source || paths.package.sources;
+	options.destination = options.destination || paths.package.distributions;
 	terminal.print(`${action} ${chalk.underline(util.relativizePath(options.source))}`);
 
 	const webOptions = merge(web, options);

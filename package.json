@@ -51,7 +51,7 @@
     "@absolunet/manager-fixed": "npm:@absolunet/manager@3.0.0-beta.2",
     "@absolunet/nwayo-toolbox": "3.8.2",
     "@absolunet/stylelint-config-scss": "2.0.1",
-    "@absolunet/tester": "5.0.0-beta.2",
+    "@absolunet/tester": "5.0.0-beta.3",
     "autoprefixer": "10.3.4",
     "cssnano": "5.0.8",
     "fibers": "5.0.0",
