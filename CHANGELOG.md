@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [3.0.0-beta.4] - 2021-09-17
+### Changed
+- Tester update
+
+
+
 ## [3.0.0-beta.3] - 2021-09-17
 ### Changed
 - Maintenance update
@@ -191,7 +197,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...HEAD
+[3.0.0-beta.4]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...3.0.0-beta.4
 [3.0.0-beta.3]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.2...3.0.0-beta.3
 [3.0.0-beta.2]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.1...3.0.0-beta.2
 [3.0.0-beta.1]:  https://github.com/absolunet/node-manager/compare/2.1.0...3.0.0-beta.1
