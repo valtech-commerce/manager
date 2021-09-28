@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+
+
+
+## [3.0.0-beta.6] - 2021-09-28
 ### Changed
 - Maintenance updates
 
@@ -29,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0-beta.3] - 2021-09-17
 ### Changed
-- Maintenance update
+- Maintenance updates
 
 ### Fixed
 - Fix build when no original `dist` 
@@ -38,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0-beta.2] - 2021-09-16
 ### Changed
-- Maintenance update
+- Maintenance updates
 
 ### Fixed
 - Fix sub-packages Node.js builds so the removal of `main.js` works 
@@ -54,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use [Lerna hoisting](https://github.com/lerna/lerna/blob/main/doc/hoist.md) for faster install and more stable tests
 - Update tester
-- Maintenance update
+- Maintenance updates
 
 
 
@@ -64,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Use `@absolunet/brand-guidelines` for documentation styles
-- Maintenance update
+- Maintenance updates
 
 ### Fixed
 - Rebuild task on multi-package changes version in documentation on first run
@@ -76,7 +80,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Remove strict mode on `@babel/plugin-transform-modules-commonjs` to expose `__esModule` property in builds
 - Update tester
-- Maintenance update
+- Maintenance updates
 
 
 
@@ -205,7 +209,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.5...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.6...HEAD
+[3.0.0-beta.6]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.5...3.0.0-beta.6
 [3.0.0-beta.5]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...3.0.0-beta.5
 [3.0.0-beta.4]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...3.0.0-beta.4
 [3.0.0-beta.3]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.2...3.0.0-beta.3
