@@ -90,7 +90,7 @@ class MultiManager extends AbstractManager {
 	 */
 	async forEachSubpackage(toExecute) {
 		for (const subpackage of this.subpackages) {
-			await toExecute(subpackage); // eslint-disable-line no-await-in-loop
+			await toExecute(subpackage);
 		}
 	}
 
@@ -98,7 +98,6 @@ class MultiManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	install(options) {
-		// eslint-disable-next-line require-await
 		return super.install(options, async () => {
 			// Let lerna do its subpackage interdependencies magic
 			terminal.print("Install subpackages dependencies and link siblings").spacer();
@@ -178,7 +177,6 @@ class MultiManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	prepare(options) {
-		// eslint-disable-next-line require-await
 		return super.prepare(options, async () => {
 			// Update license for all subpackages
 			this.forEachSubpackage(({ root }) => {

@@ -40,7 +40,6 @@ class Manager {
 	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of license.
 	 * @returns {Promise} When method completed.
 	 */
-	// eslint-disable-next-line require-await
 	async updatePackageMeta(absolutePath) {
 		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
@@ -122,7 +121,6 @@ class Manager {
 				}).required(),
 
 				tasks: Joi.object(
-					// eslint-disable-next-line unicorn/prefer-object-from-entries
 					Object.values(environment.TASK).reduce((list, task) => {
 						list[task] = {
 							preRun: Joi.function(),

@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-globals,no-undef,node/no-process-env,strict,import/unambiguous,import/no-dynamic-require */
+/* eslint-disable no-undef */
 "use strict";
 
 window.kafe = window.kafe || {};

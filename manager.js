@@ -18,8 +18,8 @@ manager.init({
 	tasks: {
 		documentation: {
 			preRun: async ({ terminal }) => {
-				const { default: builder } = await import("./dist/node/helpers/builder.js");
-				const { default: documenter } = await import("./dist/node/helpers/documenter.js");
+				const { default: builder } = await import("./dist/node/helpers/builder.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
+				const { default: documenter } = await import("./dist/node/helpers/documenter.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
 
 				return new Promise((resolve) => {
 					terminal.print("Build documentation scripts/styles").spacer();

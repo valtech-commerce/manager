@@ -1,1 +1,2 @@
-extends: '@absolunet/node'
+parserOptions:
+  sourceType: script

@@ -35,7 +35,6 @@ class SingleManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	install(options) {
-		// eslint-disable-next-line require-await
 		return super.install(options, async () => {
 			// Symlink if self-reference
 			const config = fss.readJson(paths.package.config);
@@ -95,7 +94,6 @@ class SingleManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	prepare(options) {
-		// eslint-disable-next-line require-await
 		return super.prepare(options, async () => {
 			// Update version if self-reference
 			const config = fss.readJson(paths.package.config);
