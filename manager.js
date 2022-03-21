@@ -2,13 +2,13 @@
 //-- Manager
 //--------------------------------------------------------
 import fss from "@absolunet/fss";
-import { manager } from "@absolunet/manager-fixed"; // eslint-disable-line import/no-unresolved
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
 import gulp from "gulp";
 import gulpsass from "gulp-dart-sass";
 import postcss from "gulp-postcss";
 import sass from "sass";
+import { manager } from "./src/index.js";
 
 manager.init({
 	repositoryType: "single-package",
@@ -18,8 +18,8 @@ manager.init({
 	tasks: {
 		documentation: {
 			preRun: async ({ terminal }) => {
-				const { default: builder } = await import("./dist/node/helpers/builder.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
-				const { default: documenter } = await import("./dist/node/helpers/documenter.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
+				const { default: builder } = await import("./src/helpers/builder.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
+				const { default: documenter } = await import("./src/helpers/documenter.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
 
 				return new Promise((resolve) => {
 					terminal.print("Build documentation scripts/styles").spacer();

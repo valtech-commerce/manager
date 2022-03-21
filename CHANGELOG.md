@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Replace custom code styling config with generic config
 - Replace test package with custom tests
+- Simplify package management to keep things lean
 
 
 

@@ -27,26 +27,21 @@
   },
   "type": "module",
   "exports": {
-    ".": "./dist/node/index.js"
+    ".": "./src/index.js"
   },
   "scripts": {
-    "manager:install": "node manager --task=install",
     "manager:outdated": "node manager --task=outdated",
-    "manager:build": "node manager --task=build",
-    "manager:watch": "node manager --task=watch",
     "manager:fix": "node manager --task=fix",
     "manager:documentation": "node manager --task=documentation",
     "manager:prepare": "node manager --task=prepare",
-    "manager:rebuild": "node manager --task=rebuild",
     "manager:publish": "node manager --task=publish",
     "manager:publish:unsafe": "node manager --task=publish:unsafe",
     "test": "npm run test:prettier && npm run test:eslint && npm run test:stylelint",
     "test:prettier": "./node_modules/.bin/prettier --check .",
     "test:eslint": "./node_modules/.bin/eslint --report-unused-disable-directives .",
-    "test:stylelint": "./node_modules/.bin/stylelint --report-descriptionless-disables --report-invalid-scope-disables --report-needless-disables \"**/*.scss\"",
+    "test:stylelint": "./node_modules/.bin/stylelint --report-descriptionless-disables --report-invalid-scope-disables --report-needless-disables \"**/*.scss\""
   },
   "devDependencies": {
-    "@absolunet/manager-fixed": "npm:@absolunet/manager@3.0.0-beta.6",
     "@absolunet/nwayo-toolbox": "3.8.2",
     "autoprefixer": "10.3.6",
     "cssnano": "5.0.8",

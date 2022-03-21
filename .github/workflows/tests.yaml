@@ -22,5 +22,4 @@ jobs:
           check-latest: true
           node-version: ${{ matrix.node_version }}
       - run: npm ci
-      - run: npm run manager:build
       - run: npm test
