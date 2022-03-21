@@ -189,30 +189,6 @@ class MultiManager extends AbstractManager {
 			);
 		});
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	publish(options) {
-		return super.publish(options, async () => {
-			// Pack a tarball for all subpackages
-			const tarballs = [];
-			await this.forEachSubpackage(async ({ root }) => {
-				const { tarball } = await util.npmPack(root);
-				tarballs.push(tarball);
-			});
-
-			// Fetch generic config
-			const tag = util.getTag(this.version);
-			const { restricted } = __(this).get("publish");
-			const otp = await util.getOTP(__(this).get("publish").useOTP);
-
-			// Publish the tarball for all subpackages
-			for (const tarball of tarballs) {
-				await util.npmPublish({ tarball, tag, restricted, otp }); // eslint-disable-line no-await-in-loop
-			}
-		});
-	}
 }
 
 export default MultiManager;

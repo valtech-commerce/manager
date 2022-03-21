@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace test package with custom tests
 - Simplify package management to keep things lean
 
+### Removed
+- Remove `publish` and `publish:unsafe` tasks
+
 
 
 ## [3.0.0-beta.6] - 2021-09-28

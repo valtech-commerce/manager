@@ -5,7 +5,7 @@
  */
 
 /**
- * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild', 'publish', 'publish:unsafe'.
+ * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild'.
  *
  * @typedef {string} Task
  */
@@ -17,7 +17,7 @@
  */
 
 /**
- * Task hooks (install, outdated, build, watch, documentation, prepare, rebuild, publish).
+ * Task hooks (install, outdated, build, watch, documentation, prepare, rebuild).
  *
  * @typedef {object} TaskHooks
  * @property {Function} preRun - Pre-run hook.
@@ -45,8 +45,6 @@
  *
  * @typedef {object} ManagerOptions
  * @property {RepositoryType} repositoryType - Type of repository.
- * @property {boolean} [restricted=false] - When publishing, tell the registry if the package should be published restricted instead of public.
- * @property {boolean} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
  * @property {DistributionOptions} dist - Distribution options.
  * @property {object<Task, TaskHooks>} tasks - List of tasks with hooks to call before and after.
  */

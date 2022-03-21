@@ -101,8 +101,6 @@ class Manager {
 			options,
 			Joi.object({
 				repositoryType: Joi.string().valid(...Object.values(environment.REPOSITORY_TYPE)),
-				restricted: Joi.boolean(),
-				useOTP: Joi.boolean(),
 
 				dist: Joi.object({
 					source: Joi.absolutePath(),
@@ -169,15 +167,6 @@ class Manager {
 				break;
 			case environment.TASK.rebuild:
 				await managerType.rebuild();
-				break;
-
-			case environment.TASK.publish:
-				await managerType.publish();
-				break;
-
-			case environment.TASK.publishUnsafe:
-				await util.confirmUnsafePublish();
-				await managerType.publish({ unsafe: true });
 				break;
 
 			default:

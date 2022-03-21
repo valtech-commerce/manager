@@ -30,9 +30,7 @@ In your `./package.json` file add
 		"manager:fix": "node manager --task=fix",
 		"manager:documentation": "node manager --task=documentation",
 		"manager:prepare": "node manager --task=prepare",
-		"manager:rebuild": "node manager --task=rebuild",
-		"manager:publish": "node manager --task=publish",
-		"manager:publish:unsafe": "node manager --task=publish:unsafe"
+		"manager:rebuild": "node manager --task=rebuild"
 	}
 }
 ```

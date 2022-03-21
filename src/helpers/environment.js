@@ -77,8 +77,6 @@ class EnvironmentHelper {
 	 * @property {Task} documentation - Documentation task.
 	 * @property {Task} prepare - Prepare task.
 	 * @property {Task} rebuild - Rebuild task.
-	 * @property {Task} publish - Publish task.
-	 * @property {Task} publishUnsafe - Unsafe publish task.
 	 */
 	get TASK() {
 		return {
@@ -90,8 +88,6 @@ class EnvironmentHelper {
 			documentation: "documentation",
 			prepare: "prepare",
 			rebuild: "rebuild",
-			publish: "publish",
-			publishUnsafe: "publish:unsafe",
 		};
 	}
 
@@ -110,8 +106,6 @@ class EnvironmentHelper {
 			[this.TASK.documentation]: { name: "Documentation", banner: "Generate documentation" },
 			[this.TASK.prepare]: { name: "Prepare", banner: "Prepare package for publication" },
 			[this.TASK.rebuild]: { name: "Rebuild", banner: "Rebuild package" },
-			[this.TASK.publish]: { name: "Publish", banner: "Publish package" },
-			[this.TASK.publishUnsafe]: { name: "Publish", banner: "Publish package (unsafe)" },
 		};
 	}
 }

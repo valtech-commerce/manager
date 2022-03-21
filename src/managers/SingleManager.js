@@ -106,24 +106,6 @@ class SingleManager extends AbstractManager {
 			}
 		});
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	publish(options) {
-		return super.publish(options, async () => {
-			// Pack a tarball
-			const { tarball, version } = await util.npmPack();
-
-			// Publish the tarball
-			await util.npmPublish({
-				tarball,
-				tag: util.getTag(version),
-				restricted: __(this).get("publish").restricted,
-				otp: await util.getOTP(__(this).get("publish").useOTP),
-			});
-		});
-	}
 }
 
 export default SingleManager;

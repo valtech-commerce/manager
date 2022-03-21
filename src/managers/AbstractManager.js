@@ -3,7 +3,6 @@
 //--------------------------------------------------------
 import fss from "@absolunet/fss";
 import __ from "@absolunet/private-registry";
-import { terminal } from "@absolunet/terminal";
 import documenter from "../helpers/documenter.js";
 import environment from "../helpers/environment.js";
 import paths from "../helpers/paths.js";
@@ -31,7 +30,7 @@ class AbstractManager {
 	 *
 	 * @param {ManagerOptions} [options] - Options to customize the manager.
 	 */
-	constructor({ restricted = false, useOTP = true, dist, tasks = {} } = {}) {
+	constructor({ dist, tasks = {} } = {}) {
 		if (dist.node && fss.exists(paths.package.config)) {
 			const { engines: { node: version } = {}, type = "commonjs" } = fss.readJson(paths.package.config);
 
@@ -40,7 +39,6 @@ class AbstractManager {
 		}
 
 		__(this).set({
-			publish: { restricted, useOTP },
 			dist,
 			tasks,
 		});
@@ -254,39 +252,6 @@ class AbstractManager {
 				await this.build({ grouped: true });
 				await this.prepare({ grouped: true });
 				await this.documentation({ grouped: true });
-				await toExecute();
-			},
-		});
-	}
-
-	/**
-	 * Publish task.
-	 *
-	 * @async
-	 * @param {object} [options] - Options.
-	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-	 * @param {boolean} [options.unsafe=false] - Publish without testing.
-	 * @param {Function} [toExecute] - Async function to execute.
-	 * @returns {Promise} When task completed.
-	 */
-	publish(
-		{ grouped, unsafe = false } = {},
-		toExecute = async () => {
-			/**/
-		}
-	) {
-		return runTask({
-			task: "publish",
-			subtask: unsafe ? "Unsafe" : "",
-			context: this,
-			grouped,
-			toExecute: async () => {
-				if (!unsafe) {
-					await this.outdated({ grouped: true });
-					await this.rebuild({ grouped: true });
-					terminal.process.run("npm test");
-				}
-
 				await toExecute();
 			},
 		});
