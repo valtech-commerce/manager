@@ -60,6 +60,20 @@ class EnvironmentHelper {
 	}
 
 	/**
+	 * Browserlist query defaults for browser distributions.
+	 *
+	 * @type {object<BrowserType, string>}
+	 * @property {string} script - Query for standalone classic script.
+	 * @property {string} module - Query for ESM module system.
+	 */
+	get DEFAULT_BROWSER_TARGET() {
+		return {
+			script: "> 0.25%, not dead",
+			module: "last 1 version, not ie 11, not dead",
+		};
+	}
+
+	/**
 	 * Tasks.
 	 *
 	 * @type {object<string, Task>}

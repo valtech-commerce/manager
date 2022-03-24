@@ -18,8 +18,11 @@ manager.init({
 	tasks: {
 		documentation: {
 			preRun: async ({ terminal }) => {
-				const { default: builder } = await import("./src/helpers/builder.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
-				const { default: documenter } = await import("./src/helpers/documenter.js"); // eslint-disable-line node/no-unsupported-features/es-syntax
+				/* eslint-disable node/no-unsupported-features/es-syntax */
+				const { default: builder } = await import("./src/helpers/builder.js");
+				const { default: documenter } = await import("./src/helpers/documenter.js");
+				const { default: environment } = await import("./src/helpers/environment.js");
+				/* eslint-enable node/no-unsupported-features/es-syntax */
 
 				return new Promise((resolve) => {
 					terminal.print("Build documentation scripts/styles").spacer();
@@ -45,7 +48,7 @@ manager.init({
 						)
 						.pipe(
 							postcss([
-								autoprefixer({ overrideBrowserslist: ["> 0.25%", "not dead"] }),
+								autoprefixer({ overrideBrowserslist: environment.DEFAULT_BROWSER_TARGET.script }),
 								cssnano({
 									autoprefixer: false,
 									discardUnused: false,

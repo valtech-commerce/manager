@@ -112,7 +112,7 @@ const browserModuleConfig = (source, destination, target) => {
 		COMMON_CONFIG,
 		defaultConfig({
 			type: "web",
-			targets: target || "last 1 version, not ie 11, not dead",
+			targets: target || environment.DEFAULT_BROWSER_TARGET.module,
 			source,
 			destination,
 		})
@@ -139,7 +139,7 @@ const browserScriptConfig = (target) => {
 								[
 									"@babel/env",
 									{
-										targets: target || "> 0.25%, not dead",
+										targets: target || environment.DEFAULT_BROWSER_TARGET.script,
 										useBuiltIns: "usage",
 										corejs: "3",
 									},
