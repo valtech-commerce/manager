@@ -31,11 +31,13 @@ class AbstractManager {
 	 * @param {ManagerOptions} [options] - Options to customize the manager.
 	 */
 	constructor({ dist, tasks = {} } = {}) {
-		if (dist.node && fss.exists(paths.package.config)) {
-			const { engines: { node: version } = {}, type = "commonjs" } = fss.readJson(paths.package.config);
+		if (dist.node && !(dist.node.type && dist.node.target) && fss.exists(paths.package.config)) {
+			const { engines: { node: version } = {}, type = environment.DISTRIBUTION_NODE_TYPE.commonjs } = fss.readJson(
+				paths.package.config
+			);
 
-			dist.nodeEngine = version;
-			dist.nodeType = type;
+			dist.node.type = dist.node.type || type;
+			dist.node.target = dist.node.target || version;
 		}
 
 		__(this).set({

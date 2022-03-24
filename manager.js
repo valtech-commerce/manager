@@ -13,7 +13,7 @@ import { manager } from "./src/index.js";
 manager.init({
 	repositoryType: "single-package",
 	dist: {
-		node: true,
+		node: {},
 	},
 	tasks: {
 		documentation: {

@@ -10,13 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+### Added
+- Add target option for browser distribution
+
 ### Changed
 - Replace custom code styling config with generic config
 - Replace test package with custom tests
 - Simplify package management to keep things lean
+- Browser distribution choices are now `module` (latest browsers and ESM flavor) and `script` (major browsers and standalone drop-in flavor)
+- Standardized distribution initialization options format
 
 ### Removed
 - Remove `publish` and `publish:unsafe` tasks
+- Remove `browser-es5`, `kafe` and `kafe-es5` distribution choices
 
 
 

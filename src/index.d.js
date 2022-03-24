@@ -1,19 +1,35 @@
 /**
- * Type of repository: 'single-package', 'multi-package'.
- *
- * @typedef {string} RepositoryType
- */
-
-/**
  * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild'.
  *
  * @typedef {string} Task
  */
 
 /**
- * Types of distribution: 'browser', 'browser-es5', 'kafe', 'kafe-es5', 'node'.
+ * Type of repository: 'single-package', 'multi-package'.
  *
- * @typedef {string} DistributionType
+ * @typedef {string} RepositoryType
+ */
+
+/**
+ * Types of Node.js distribution: 'commonjs', 'module'.
+ *
+ * @typedef {string} NodeType
+ */
+
+/**
+ * Types of browser distribution: 'script', 'module'.
+ *
+ * @typedef {string} BrowserType
+ */
+
+/**
+ * Browser distribution options.
+ *
+ * @typedef {object} BrowserOptions
+ * @property {BrowserType} type - Type of browser distribution.
+ * @property {string} [target] - Supported browsers via a browserslist-compatible query ({@link https://babeljs.io/docs/en/options#targets docs}).
+ * @property {string} [name] - Public exposed name of package for "script" distribution.
+ * @property {object<string, string>} [externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
  */
 
 /**
@@ -30,13 +46,10 @@
  * @typedef {object} DistributionOptions
  * @property {string} [source={@link PackagePaths}.sources] - Package source path.
  * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
- * @property {boolean} [node] - Add a Node.js distribution.
- * @property {string} [nodeEngine] - Supported Node.js versions.
- * @property {string} [nodeType] - CommonJS or Module.
- * @property {object} [web] - Web distributions options.
- * @property {Array<DistributionType>} web.types - List of web distributions.
- * @property {string} web.name - Public exposed name of package.
- * @property {object<string, string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
+ * @property {object} [node] - Node.js distribution options.
+ * @property {NodeType} [node.type=package.json type field] - Type of Node.js module system.
+ * @property {string} [node.target=package.json engines.node field] - Node.js version to support ({@link https://babeljs.io/docs/en/options#targetsnode docs}).
+ * @property {Array<BrowserOptions>} [browser] - Browser distributions options.
  * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
  */
 

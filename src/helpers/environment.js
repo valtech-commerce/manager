@@ -32,37 +32,31 @@ class EnvironmentHelper {
 	}
 
 	/**
-	 * Types of web distribution.
+	 * Types of Node.js distribution.
 	 *
-	 * @type {object<string, DistributionType>}
-	 * @property {DistributionType} browser - Browser.
-	 * @property {DistributionType} browserES5 - Browser transpilied into ECMAScript 5.
-	 * @property {DistributionType} kafe - A kafe package.
-	 * @property {DistributionType} kafeES5 - A kafe package transpilied into ECMAScript 5.
+	 * @type {object<string, NodeType>}
+	 * @property {NodeType} commonjs - CommonJS module system.
+	 * @property {NodeType} module - ESM module system.
 	 */
-	get DISTRIBUTION_WEB_TYPE() {
+	get DISTRIBUTION_NODE_TYPE() {
 		return {
-			browser: "browser",
-			browserES5: "browser-es5",
-			kafe: "kafe",
-			kafeES5: "kafe-es5",
+			commonjs: "commonjs",
+			module: "module",
 		};
 	}
 
 	/**
-	 * Types of distribution.
+	 * Types of browser distribution.
 	 *
-	 * @type {object<string, DistributionType>}
-	 * @property {DistributionType} browser - Browser.
-	 * @property {DistributionType} browserES5 - Browser transpilied into ECMAScript 5.
-	 * @property {DistributionType} kafe - A kafe package.
-	 * @property {DistributionType} kafeES5 - A kafe package transpilied into ECMAScript 5.
-	 * @property {DistributionType} node - Node.js.
+	 * @type {object<string, BrowserType>}
+	 * @property {BrowserType} script - Standalone classic script.
+	 * @property {BrowserType} module - ESM module system.
 	 */
-	get DISTRIBUTION_TYPE() {
-		return Object.assign({}, this.DISTRIBUTION_WEB_TYPE, {
-			node: "node",
-		});
+	get DISTRIBUTION_BROWSER_TYPE() {
+		return {
+			script: "script",
+			module: "module",
+		};
 	}
 
 	/**
