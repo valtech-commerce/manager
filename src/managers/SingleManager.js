@@ -35,7 +35,6 @@ class SingleManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	install(options) {
-		// eslint-disable-next-line require-await
 		return super.install(options, async () => {
 			// Symlink if self-reference
 			const config = fss.readJson(paths.package.config);
@@ -95,7 +94,6 @@ class SingleManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	prepare(options) {
-		// eslint-disable-next-line require-await
 		return super.prepare(options, async () => {
 			// Update version if self-reference
 			const config = fss.readJson(paths.package.config);
@@ -106,24 +104,6 @@ class SingleManager extends AbstractManager {
 					.print(`Update self-reference version in ${chalk.underline(util.relativizePath(paths.package.config))}`)
 					.spacer();
 			}
-		});
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	publish(options) {
-		return super.publish(options, async () => {
-			// Pack a tarball
-			const { tarball, version } = await util.npmPack();
-
-			// Publish the tarball
-			await util.npmPublish({
-				tarball,
-				tag: util.getTag(version),
-				restricted: __(this).get("publish").restricted,
-				otp: await util.getOTP(__(this).get("publish").useOTP),
-			});
 		});
 	}
 }

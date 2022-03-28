@@ -1,2 +1,21 @@
+root: true
+parser: espree
+parserOptions:
+  ecmaVersion: 2022
+  sourceType: module
+  ecmaFeatures:
+    globalReturn: false
+    impliedStrict: false
+    jsx: false
+
+env:
+  es6: true
+  node: true
+
+plugins:
+  - node
+
 extends:
-  - '@absolunet/node-package'
+  - "eslint:recommended"
+  - "plugin:node/recommended"
+  - "prettier"

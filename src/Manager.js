@@ -40,7 +40,6 @@ class Manager {
 	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of license.
 	 * @returns {Promise} When method completed.
 	 */
-	// eslint-disable-next-line require-await
 	async updatePackageMeta(absolutePath) {
 		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
@@ -81,19 +80,22 @@ class Manager {
 	 * @returns {Promise} When method completed.
 	 * @example
 	 * manager.init({
-	 * 	repositoryType: 'single-package',
+	 * 	repositoryType: "single-package",
+	 * 	dist: {
+	 *  	node: {},
+	 *  },
 	 * 	tasks: {
 	 *		build: {
-	 *			postRun: async () => {}
+	 *			postRun: async () => {},
 	 * 		},
 	 *
-	 * 		deploy: {
+	 * 		prepare: {
 	 * 			preRun:  async () => {},
 	 * 			postRun: async ({ terminal }) => {
-	 * 				terminal.print('Enjoy');
-	 * 			}
-	 * 		}
-	 * 	}
+	 * 				terminal.print("Enjoy");
+	 * 			},
+	 * 		},
+	 * 	},
 	 * });
 	 */
 	async init(options = {}) {
@@ -102,27 +104,36 @@ class Manager {
 			options,
 			Joi.object({
 				repositoryType: Joi.string().valid(...Object.values(environment.REPOSITORY_TYPE)),
-				restricted: Joi.boolean(),
-				useOTP: Joi.boolean(),
 
 				dist: Joi.object({
 					source: Joi.absolutePath(),
 					destination: Joi.absolutePath(),
-					node: Joi.boolean(),
-					web: Joi.object({
-						types: Joi.array()
-							.items(Joi.string().valid(...Object.values(environment.DISTRIBUTION_WEB_TYPE)))
-							.min(1)
-							.unique()
-							.required(),
-						name: Joi.variableName().required(),
-						externals: Joi.object().pattern(/^[a-z0-9-/@]$/iu, Joi.variableName()),
+					node: Joi.object({
+						type: Joi.string().valid(...Object.values(environment.DISTRIBUTION_NODE_TYPE)),
+						target: Joi.string().empty(),
 					}),
+					browser: Joi.array()
+						.items(
+							Joi.object({
+								type: Joi.string()
+									.valid(...Object.values(environment.DISTRIBUTION_BROWSER_TYPE))
+									.required(),
+								target: Joi.string().empty(),
+								name: Joi.variableName().when("type", {
+									is: Joi.valid(environment.DISTRIBUTION_BROWSER_TYPE.script),
+									then: Joi.required(),
+								}),
+								externals: Joi.object().pattern(/^[a-z0-9/@-]+$/iu, Joi.variableName()),
+							})
+						)
+						.min(1)
+						.unique(),
 					include: Joi.array().items(Joi.string()),
-				}).required(),
+				})
+					.or("node", "browser")
+					.required(),
 
 				tasks: Joi.object(
-					// eslint-disable-next-line unicorn/prefer-object-from-entries
 					Object.values(environment.TASK).reduce((list, task) => {
 						list[task] = {
 							preRun: Joi.function(),
@@ -171,15 +182,6 @@ class Manager {
 				break;
 			case environment.TASK.rebuild:
 				await managerType.rebuild();
-				break;
-
-			case environment.TASK.publish:
-				await managerType.publish();
-				break;
-
-			case environment.TASK.publishUnsafe:
-				await util.confirmUnsafePublish();
-				await managerType.publish({ unsafe: true });
 				break;
 
 			default:

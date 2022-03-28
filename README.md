@@ -30,9 +30,7 @@ In your `./package.json` file add
 		"manager:fix": "node manager --task=fix",
 		"manager:documentation": "node manager --task=documentation",
 		"manager:prepare": "node manager --task=prepare",
-		"manager:rebuild": "node manager --task=rebuild",
-		"manager:publish": "node manager --task=publish",
-		"manager:publish:unsafe": "node manager --task=publish:unsafe"
+		"manager:rebuild": "node manager --task=rebuild"
 	}
 }
 ```
@@ -40,18 +38,38 @@ In your `./package.json` file add
 
 In a `./manager.js` file
 ```js
-import { manager } from '@absolunet/manager';
+import { manager } from "@absolunet/manager";
 
-manager.singleScriptsRunner(options);
+manager.init({
+	repositoryType: "single-package",
+	dist: {
+		node: {},
+		browser: [
+			{
+				type: "module",
+			},
+		],
+	},
+});
 ```
 
 or
 
 
 ```js
-import { manager } from '@absolunet/manager';
+import { manager } from "@absolunet/manager";
 
-manager.multiScriptsRunner(options);
+manager.init({
+	repositoryType: "multi-package",
+	dist: {
+		browser: [
+			{
+				type: "script",
+				name: "my-super-pacakge",
+			},
+		],
+	},
+});
 ```
 
 

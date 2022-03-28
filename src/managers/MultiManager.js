@@ -90,7 +90,7 @@ class MultiManager extends AbstractManager {
 	 */
 	async forEachSubpackage(toExecute) {
 		for (const subpackage of this.subpackages) {
-			await toExecute(subpackage); // eslint-disable-line no-await-in-loop
+			await toExecute(subpackage);
 		}
 	}
 
@@ -98,7 +98,6 @@ class MultiManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	install(options) {
-		// eslint-disable-next-line require-await
 		return super.install(options, async () => {
 			// Let lerna do its subpackage interdependencies magic
 			terminal.print("Install subpackages dependencies and link siblings").spacer();
@@ -178,7 +177,6 @@ class MultiManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	prepare(options) {
-		// eslint-disable-next-line require-await
 		return super.prepare(options, async () => {
 			// Update license for all subpackages
 			this.forEachSubpackage(({ root }) => {
@@ -189,30 +187,6 @@ class MultiManager extends AbstractManager {
 			terminal.process.run(
 				`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`
 			);
-		});
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	publish(options) {
-		return super.publish(options, async () => {
-			// Pack a tarball for all subpackages
-			const tarballs = [];
-			await this.forEachSubpackage(async ({ root }) => {
-				const { tarball } = await util.npmPack(root);
-				tarballs.push(tarball);
-			});
-
-			// Fetch generic config
-			const tag = util.getTag(this.version);
-			const { restricted } = __(this).get("publish");
-			const otp = await util.getOTP(__(this).get("publish").useOTP);
-
-			// Publish the tarball for all subpackages
-			for (const tarball of tarballs) {
-				await util.npmPublish({ tarball, tag, restricted, otp }); // eslint-disable-line no-await-in-loop
-			}
 		});
 	}
 }

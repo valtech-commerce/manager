@@ -1,11 +1,12 @@
-/* eslint-disable unicorn/prevent-abbreviations */
 "use strict";
 
+// eslint-disable-next-line no-undef
 const fss = require("@absolunet/fss");
 
-const { source, destination } = JSON.parse(process.env.__ABSOLUNET_MANAGER_JSDOC_CONFIG__); // eslint-disable-line node/no-process-env
+const { source, destination } = JSON.parse(process.env.__ABSOLUNET_MANAGER_JSDOC_CONFIG__);
 const readme = fss.realpath(`${source}/../readme.md`);
 
+// eslint-disable-next-line no-undef
 module.exports = {
 	plugins: ["plugins/underscore"],
 	recurseDepth: 10,
@@ -26,7 +27,7 @@ module.exports = {
 
 	opts: {
 		destination,
-		template: __dirname,
+		template: __dirname, // eslint-disable-line no-undef
 		encoding: "utf8",
 		recurse: true,
 		verbose: true,
