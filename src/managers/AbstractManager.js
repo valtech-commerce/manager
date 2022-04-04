@@ -56,29 +56,6 @@ class AbstractManager {
 	}
 
 	/**
-	 * Install task.
-	 *
-	 * @async
-	 * @param {object} [options] - Options.
-	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-	 * @param {Function} [toExecute] - Async function to execute.
-	 * @returns {Promise} When task completed.
-	 */
-	install(
-		{ grouped } = {},
-		toExecute = async () => {
-			/**/
-		}
-	) {
-		return runTask({
-			task: "install",
-			context: this,
-			grouped,
-			toExecute,
-		});
-	}
-
-	/**
 	 * Outdated task.
 	 *
 	 * @async

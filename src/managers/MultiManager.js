@@ -97,21 +97,6 @@ class MultiManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	install(options) {
-		return super.install(options, async () => {
-			// Let lerna do its subpackage interdependencies magic
-			terminal.print("Install subpackages dependencies and link siblings").spacer();
-			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
-			terminal.process.run(`
-				${this.lernaBinary} clean --yes
-				${this.lernaBinary} bootstrap --hoist --no-ci
-			`);
-		});
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	outdated(options) {
 		return super.outdated(options, async () => {
 			// Check outdated dependencies for all subpackages

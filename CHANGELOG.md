@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standardized distribution initialization options format
 
 ### Removed
+- Remove `install` task
 - Remove `publish` and `publish:unsafe` tasks
 - Remove `browser-es5`, `kafe` and `kafe-es5` distribution choices
 

@@ -77,7 +77,6 @@ class EnvironmentHelper {
 	 * Tasks.
 	 *
 	 * @type {object<string, Task>}
-	 * @property {Task} install - Install task.
 	 * @property {Task} outdated - Outdated task.
 	 * @property {Task} build - Build task.
 	 * @property {Task} watch - Watch task.
@@ -88,7 +87,6 @@ class EnvironmentHelper {
 	 */
 	get TASK() {
 		return {
-			install: "install",
 			outdated: "outdated",
 			build: "build",
 			watch: "watch",
@@ -106,7 +104,6 @@ class EnvironmentHelper {
 	 */
 	get TASK_DATA() {
 		return {
-			[this.TASK.install]: { name: "Install", banner: "Install extra stuff" },
 			[this.TASK.outdated]: { name: "Outdated", banner: "Check for outdated package dependencies" },
 			[this.TASK.build]: { name: "Build", banner: "Generate package distributions" },
 			[this.TASK.watch]: { name: "Watch", banner: "Watch changes in sources" },

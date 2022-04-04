@@ -22,8 +22,6 @@ In your `./package.json` file add
 ```json
 {
 	"scripts": {
-		"postinstall": "npm run manager:install",  // For multi-package repository
-		"manager:install": "node manager --task=install",
 		"manager:outdated": "node manager --task=outdated",
 		"manager:build": "node manager --task=build",
 		"manager:watch": "node manager --task=watch",

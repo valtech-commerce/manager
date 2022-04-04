@@ -158,9 +158,6 @@ class Manager {
 		}
 
 		switch (util.getTask()) {
-			case environment.TASK.install:
-				await managerType.install();
-				break;
 			case environment.TASK.outdated:
 				await managerType.outdated();
 				break;

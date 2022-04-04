@@ -34,22 +34,6 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	install(options) {
-		return super.install(options, async () => {
-			// Symlink if self-reference
-			const config = fss.readJson(paths.package.config);
-			if (Object.keys(config.devDependencies).includes(config.name)) {
-				const dependenciesPath = `${paths.package.root}/node_modules/${config.name}`;
-				fss.remove(dependenciesPath);
-				fss.symlink(paths.package.root, dependenciesPath);
-				terminal.print(`Symlink self-reference dependency`).spacer();
-			}
-		});
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	build(options) {
 		return super.build(options, async () => {
 			// Run builder
