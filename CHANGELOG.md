@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add target option for browser distribution
 
 ### Changed
+- Replace Lerna as main monorepo engine by native npm workspaces
 - Replace custom code styling config with generic config
 - Replace test package with custom tests
 - Simplify package management to keep things lean

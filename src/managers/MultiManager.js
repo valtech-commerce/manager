@@ -52,7 +52,7 @@ class MultiManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	get version() {
-		const file = `${paths.package.root}/lerna.json`;
+		const file = `${paths.package.root}/package.json`;
 
 		if (fss.exists(file)) {
 			const { version } = fss.readJson(file);
@@ -169,9 +169,24 @@ class MultiManager extends AbstractManager {
 			});
 
 			// Update version for all subpackages
-			terminal.process.run(
-				`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`
-			);
+			terminal.process.run(`
+				${[
+					`${this.lernaBinary} version ${this.version}`,
+					"--force-publish", // Update all subpackages
+					"--exact", // Update to the exact version (no range)
+					"--no-git-tag-version", // Don't git tag
+					"--no-push", // Don't git push
+					"--yes", // No confirmation prompts
+				].join(" ")}
+				${[
+					`npm version ${this.version}`,
+					"--workspaces", // Update all subpackages
+					"--include-workspace-root", // Update root package.json
+					"--workspaces-update", // Run an update
+					"--no-git-tag-version", // Don't git tag
+					"--allow-same-version", // Allow version rewrite
+				].join(" ")}
+			`);
 		});
 	}
 }
