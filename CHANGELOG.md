@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace Lerna as main monorepo engine by native npm workspaces
 - Replace custom code styling config with generic config
 - Replace test package with custom tests
+- Replace custom documentation assets building with Laravel Mix
 - Simplify package management to keep things lean
 - Browser distribution choices are now `module` (latest browsers and ESM flavor) and `script` (major browsers and standalone drop-in flavor)
 - Standardized distribution initialization options format
