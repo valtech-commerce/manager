@@ -3,6 +3,7 @@
 //--------------------------------------------------------
 import { createRequire } from "node:module";
 import path from "node:path";
+import chalk from "chalk";
 import fss from "@absolunet/fss";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
@@ -163,9 +164,11 @@ class MultiManager extends AbstractManager {
 	 */
 	prepare(options) {
 		return super.prepare(options, async () => {
-			// Update license for all subpackages
+			// Copy root license to all subpackages
 			this.forEachSubpackage(({ root }) => {
-				util.updateLicense(root);
+				const LICENSE = `${root}/LICENSE`;
+				terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
+				fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
 			});
 
 			// Update version for all subpackages

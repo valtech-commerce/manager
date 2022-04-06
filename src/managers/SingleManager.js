@@ -4,7 +4,6 @@
 import fss from "@absolunet/fss";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
-import chalk from "chalk";
 import builder from "../helpers/builder.js";
 import documenter from "../helpers/documenter.js";
 import fixer from "../helpers/fixer.js";
@@ -71,23 +70,6 @@ class SingleManager extends AbstractManager {
 
 			// Text documentation
 			await documenter.generateText();
-		});
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	prepare(options) {
-		return super.prepare(options, async () => {
-			// Update version if self-reference
-			const config = fss.readJson(paths.package.config);
-			if (Object.keys(config.devDependencies).includes(config.name)) {
-				config.devDependencies[config.name] = config.version;
-				fss.writeJson(paths.package.config, config, { space: 2 });
-				terminal
-					.print(`Update self-reference version in ${chalk.underline(util.relativizePath(paths.package.config))}`)
-					.spacer();
-			}
 		});
 	}
 }

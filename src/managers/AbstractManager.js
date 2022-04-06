@@ -203,7 +203,10 @@ class AbstractManager {
 			task: "prepare",
 			context: this,
 			grouped,
-			toExecute,
+			toExecute: async () => {
+				await util.updateLicense();
+				await toExecute();
+			},
 		});
 	}
 

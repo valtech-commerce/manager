@@ -2,7 +2,6 @@
 //-- Util
 //--------------------------------------------------------
 import fsp from "@absolunet/fsp";
-import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import chalk from "chalk";
 import figures from "figures";
@@ -87,14 +86,17 @@ class Util {
 	}
 
 	/**
-	 * Copy LICENSE file from project root to sub-package root.
-	 *
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the sub-package licence.
+	 * Update LICENSE file to current year.
 	 */
-	updateLicense(root = paths.package.root) {
-		const LICENSE = `${root}/LICENSE`;
-		terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
-		fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
+	async updateLicense() {
+		terminal.print("Update year in LICENSE").spacer();
+		const licenseFile = `${paths.package.root}/LICENSE`;
+		let licenseData = await fsp.readFile(licenseFile, "utf8");
+		licenseData = licenseData.replace(
+			/Copyright \(c\) (?<start>\d{4})-\d{4}/u,
+			`Copyright (c) $<start>-${new Date().getFullYear()}`
+		);
+		await fsp.writeFile(licenseFile, licenseData);
 	}
 
 	/**
@@ -177,21 +179,6 @@ class Util {
 			terminal.success(`All is good`);
 		}
 
-		terminal.spacer();
-	}
-
-	/**
-	 * Install npm packages.
-	 *
-	 * @async
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
-	 * @returns {Promise} When method completed.
-	 */
-	async npmInstall(root = paths.package.root) {
-		terminal.print(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`).spacer();
-		await fsp.remove(`${root}/node_modules`);
-		await fsp.remove(`${root}/package-lock.json`);
-		terminal.process.run(`npm install --no-audit`, { directory: root });
 		terminal.spacer();
 	}
 }

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add target option for browser distribution
+- Update license year via `prepare` task
 
 ### Changed
 - Replace Lerna as main monorepo engine by native npm workspaces
@@ -26,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove `install` task
 - Remove `publish` and `publish:unsafe` tasks
 - Remove `browser-es5`, `kafe` and `kafe-es5` distribution choices
+- Remove `updatePackageMeta` and `installPackage` public methods 
+- Remove self-reference update in `prepare` task  
 
 
 

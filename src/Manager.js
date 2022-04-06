@@ -34,19 +34,6 @@ class Manager {
 	}
 
 	/**
-	 * Update package meta.
-	 *
-	 * @async
-	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of license.
-	 * @returns {Promise} When method completed.
-	 */
-	async updatePackageMeta(absolutePath) {
-		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
-
-		util.updateLicense(absolutePath);
-	}
-
-	/**
 	 * Lists outdated packages.
 	 *
 	 * @async
@@ -57,19 +44,6 @@ class Manager {
 		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
 		await util.npmOutdated(absolutePath);
-	}
-
-	/**
-	 * Reinstall packages.
-	 *
-	 * @async
-	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of the package.json.
-	 * @returns {Promise} When method completed.
-	 */
-	async installPackage(absolutePath) {
-		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
-
-		await util.npmInstall(absolutePath);
 	}
 
 	/**
