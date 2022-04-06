@@ -116,12 +116,28 @@ class Util {
 	 */
 	incrementVersion(version) {
 		const release = this.getRelease();
+		const [releaseStep, prereleaseId] = release.split('-');
+		const isReleaseBump = /^(major|minor|patch)$/.test(release);
+		const isPrereleaseBump = /^pre(major|minor|patch)-(alpha|beta|rc)$/.test(release);
+		const isPrereleaseIncrement = /^prerelease-(alpha|beta|rc)$/.test(release);
 
-		if (!/^(major|minor|patch)$/.test(release)) {
-			return null;
+		if (!(isReleaseBump || isPrereleaseBump || isPrereleaseIncrement)) {
+			throw new Error(`Invalid release request "${release}"`);
 		}
 
-		return semver.inc(version, release);
+		if (isPrereleaseBump && semver.prerelease(version) !== null) {
+			throw new Error(`Cannot bump a prerelease to another prerelease: "${version}" → "${release}"`);
+		}
+
+		if (isPrereleaseIncrement && semver.prerelease(version) === null) {
+			throw new Error(`Cannot increment a prerelease from a release: "${version}" → "${release}"`);
+		}
+
+		if (isPrereleaseIncrement && semver.prerelease(version)[0] > prereleaseId) {
+			throw new Error(`Cannot increment a prerelease to a lower prerelease: "${version}" → "${release}"`);
+		}
+
+		return semver.inc(version, releaseStep, prereleaseId);
 	}
 
 	/**
