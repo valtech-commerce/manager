@@ -28,6 +28,7 @@ In your `./package.json` file add
 		"manager:fix": "node manager --task=fix",
 		"manager:documentation": "node manager --task=documentation",
 		"manager:prepare": "node manager --task=prepare",
+		"manager:version": "node manager --task=version --release=$npm_config_release",
 		"manager:rebuild": "node manager --task=rebuild"
 	}
 }

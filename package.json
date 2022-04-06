@@ -33,6 +33,7 @@
     "manager:fix": "node manager --task=fix",
     "manager:documentation": "node manager --task=documentation",
     "manager:prepare": "node manager --task=prepare",
+    "manager:version": "node manager --task=version --release=$npm_config_release",
     "test": "npm run test:prettier && npm run test:eslint && npm run test:stylelint",
     "test:prettier": "./node_modules/.bin/prettier --check .",
     "test:eslint": "./node_modules/.bin/eslint --report-unused-disable-directives .",

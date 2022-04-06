@@ -52,7 +52,7 @@ class MultiManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	get version() {
+	get currentVersion() {
 		const file = `${paths.package.root}/package.json`;
 
 		if (fss.exists(file)) {
@@ -170,11 +170,20 @@ class MultiManager extends AbstractManager {
 				terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
 				fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
 			});
+		});
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	version(options) {
+		return super.version(options, async () => {
+			const version = util.incrementVersion(this.currentVersion);
 
 			// Update version for all subpackages
 			terminal.process.run(`
 				${[
-					`${this.lernaBinary} version ${this.version}`,
+					`${this.lernaBinary} version ${version}`,
 					"--force-publish", // Update all subpackages
 					"--exact", // Update to the exact version (no range)
 					"--no-git-tag-version", // Don't git tag
@@ -182,7 +191,7 @@ class MultiManager extends AbstractManager {
 					"--yes", // No confirmation prompts
 				].join(" ")}
 				${[
-					`npm version ${this.version}`,
+					`npm version ${version}`,
 					"--workspaces", // Update all subpackages
 					"--include-workspace-root", // Update root package.json
 					"--workspaces-update", // Run an update

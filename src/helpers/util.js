@@ -30,12 +30,21 @@ class Util {
 	}
 
 	/**
-	 * Post-runner wrapper.
+	 * Fetch task from CLI.
 	 *
-	 * @returns {string} Task fetch from terminal.
+	 * @returns {string} Task fetched from terminal.
 	 */
 	getTask() {
 		return minimist(process.argv.slice(2)).task;
+	}
+
+	/**
+	 * Fetch release from CLI.
+	 *
+	 * @returns {string} Release fetched from terminal.
+	 */
+	getRelease() {
+		return minimist(process.argv.slice(2)).release;
 	}
 
 	/**
@@ -97,6 +106,22 @@ class Util {
 			`Copyright (c) $<start>-${new Date().getFullYear()}`
 		);
 		await fsp.writeFile(licenseFile, licenseData);
+	}
+
+	/**
+	 * Increment version.
+	 *
+	 * @param {string} version - Version to increment.
+	 * @returns {string} Incremented.
+	 */
+	incrementVersion(version) {
+		const release = this.getRelease();
+
+		if (!/^(major|minor|patch)$/.test(release)) {
+			return null;
+		}
+
+		return semver.inc(version, release);
 	}
 
 	/**

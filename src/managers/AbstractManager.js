@@ -51,7 +51,7 @@ class AbstractManager {
 	 *
 	 * @type {string}
 	 */
-	get version() {
+	get currentVersion() {
 		throw new Error("Not implemented");
 	}
 
@@ -207,6 +207,29 @@ class AbstractManager {
 				await util.updateLicense();
 				await toExecute();
 			},
+		});
+	}
+
+	/**
+	 * Version task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [toExecute] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	version(
+		{ grouped } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
+		return runTask({
+			task: "version",
+			context: this,
+			grouped,
+			toExecute,
 		});
 	}
 

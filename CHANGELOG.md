@@ -11,8 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Add target option for browser distribution
+- Add `version` task
 - Update license year via `prepare` task
+- Add target option for browser distribution
 
 ### Changed
 - Replace Lerna as main monorepo engine by native npm workspaces

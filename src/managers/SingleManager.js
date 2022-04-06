@@ -20,7 +20,7 @@ class SingleManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	get version() {
+	get currentVersion() {
 		if (fss.exists(paths.package.config)) {
 			const { version } = fss.readJson(paths.package.config);
 
@@ -70,6 +70,18 @@ class SingleManager extends AbstractManager {
 
 			// Text documentation
 			await documenter.generateText();
+		});
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	version(options) {
+		return super.version(options, async () => {
+			const version = util.incrementVersion(this.currentVersion);
+
+			// Update version
+			terminal.process.run(`npm version ${version} --no-git-tag-version`);
 		});
 	}
 }

@@ -151,6 +151,9 @@ class Manager {
 			case environment.TASK.prepare:
 				await managerType.prepare();
 				break;
+			case environment.TASK.version:
+				await managerType.version();
+				break;
 			case environment.TASK.rebuild:
 				await managerType.rebuild();
 				break;

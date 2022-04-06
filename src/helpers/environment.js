@@ -83,6 +83,7 @@ class EnvironmentHelper {
 	 * @property {Task} fix - Fix task.
 	 * @property {Task} documentation - Documentation task.
 	 * @property {Task} prepare - Prepare task.
+	 * @property {Task} version - Version task.
 	 * @property {Task} rebuild - Rebuild task.
 	 */
 	get TASK() {
@@ -93,6 +94,7 @@ class EnvironmentHelper {
 			fix: "fix",
 			documentation: "documentation",
 			prepare: "prepare",
+			version: "version",
 			rebuild: "rebuild",
 		};
 	}
@@ -110,6 +112,7 @@ class EnvironmentHelper {
 			[this.TASK.fix]: { name: "Fix", banner: "Fix code" },
 			[this.TASK.documentation]: { name: "Documentation", banner: "Generate documentation" },
 			[this.TASK.prepare]: { name: "Prepare", banner: "Prepare package for publication" },
+			[this.TASK.version]: { name: "Version", banner: "Bump version" },
 			[this.TASK.rebuild]: { name: "Rebuild", banner: "Rebuild package" },
 		};
 	}
