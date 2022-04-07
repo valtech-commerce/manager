@@ -116,10 +116,11 @@ class Util {
 	 */
 	incrementVersion(version) {
 		const release = this.getRelease();
-		const [releaseStep, prereleaseId] = release.split('-');
 		const isReleaseBump = /^(major|minor|patch)$/.test(release);
-		const isPrereleaseBump = /^pre(major|minor|patch)-(alpha|beta|rc)$/.test(release);
+		const isPrereleaseBump = /^(major|minor|patch)-(alpha|beta|rc)$/.test(release);
 		const isPrereleaseIncrement = /^prerelease-(alpha|beta|rc)$/.test(release);
+		let [releaseStep, prereleaseId] = release.split("-");
+		releaseStep = `${isPrereleaseBump ? "pre" : ""}${releaseStep}`;
 
 		if (!(isReleaseBump || isPrereleaseBump || isPrereleaseIncrement)) {
 			throw new Error(`Invalid release request "${release}"`);
