@@ -686,11 +686,15 @@ exports.publish = function(taffyData, opts, tutorials) {
     var packageRawConfig = JSON.parse(fs.readFileSync(root + '/package.json', 'utf8'));
     var { domain, user, name } = packageRawConfig.repository.url.match(/^[a-z]+:\/\/(?<domain>[a-z0-9.-]+)\/(?<user>[a-z0-9._-]+)\/(?<name>[a-z0-9._-]+).git$/u).groups;
 
-    var packageConfig = {
+    var packageLicense = fs.readFileSync(root + '/LICENSE', 'utf8');
+    var { years } = packageLicense.match(/Copyright \(c\) (?<years>\d{4}-\d{4})/u).groups;
+
+	var packageConfig = {
         name: packageRawConfig.name,
         version: packageRawConfig.version,
         home: `/${name}/`,
-        source: `https://${domain}/${user}/${name}`
+        source: `https://${domain}/${user}/${name}`,
+        licenseYears: years
     }
 
     var managerRawConfig = JSON.parse(fs.readFileSync(`${__dirname}/../../../package.json`, 'utf8'));

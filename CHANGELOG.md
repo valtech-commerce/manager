@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Browser distribution choices are now `module` (latest browsers and ESM flavor) and `script` (major browsers and standalone drop-in flavor)
 - Standardized distribution initialization options format
 - Valtechize the API documentation theme
+- Use LICENSE years for API documentation
 
 ### Removed
 - Remove `install` task
