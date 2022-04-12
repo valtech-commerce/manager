@@ -3,6 +3,7 @@
 //--------------------------------------------------------
 "use strict";
 
+const path = require("path");
 const autoprefixer = require("autoprefixer");
 const mix = require("laravel-mix");
 const sass = require("sass");
@@ -38,8 +39,14 @@ mix
 	.sass("styles/main.scss", "main.css", {
 		sassOptions: {
 			functions: {
-				"dart-read-file($file)": (parameterFile) => {
-					const file = `${__dirname}/images/${parameterFile.getValue()}`;
+				"dart-read-file($file, $component)": (parameterFile, component) => {
+					const file =
+						component.getValue() === "guidelines"
+							? `${path.dirname(
+									require.resolve("@absolunet/brand-guidelines")
+							  )}/../../resources/logos/${parameterFile.getValue()}`
+							: `${__dirname}/images/${parameterFile.getValue()}`;
+
 					if (fss.exists(file)) {
 						return new sass.types.String(fss.readFile(file, "utf8"));
 					}

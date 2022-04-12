@@ -1,7 +1,7 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-import brand from "@absolunet/brand-guidelines";
+import { guidelines } from "@absolunet/brand-guidelines";
 import { Joi, validateArgument } from "@absolunet/joi";
 import { terminal } from "@absolunet/terminal";
 import emoji from "node-emoji";
@@ -20,8 +20,8 @@ class Manager {
 	 * Create a Manager.
 	 */
 	constructor() {
-		const mainColor = brand.styleguide.color.greyscale.nevada;
-		const secondaryColor = brand.styleguide.color.greyscale.geyser;
+		const mainColor = guidelines.color.achromatic.gray;
+		const secondaryColor = guidelines.color.achromatic.gray;
 
 		terminal.setTheme({
 			logo: emoji.get("technologist"), // 🧑‍💻

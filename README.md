@@ -64,7 +64,7 @@ manager.init({
 		browser: [
 			{
 				type: "script",
-				name: "my-super-pacakge",
+				name: "my-super-package",
 			},
 		],
 	},

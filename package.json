@@ -40,7 +40,7 @@
     "test:stylelint": "./node_modules/.bin/stylelint --report-descriptionless-disables --report-invalid-scope-disables --report-needless-disables \"**/*.scss\""
   },
   "devDependencies": {
-    "@absolunet/nwayo-toolbox": "3.8.2",
+    "@absolunet/nwayo-toolbox": "3.9.1",
     "autoprefixer": "10.3.6",
     "eslint": "8.11.0",
     "eslint-config-prettier": "8.5.0",
@@ -59,7 +59,7 @@
     "stylelint-config-standard-scss": "3.0.0"
   },
   "dependencies": {
-    "@absolunet/brand-guidelines": "^0.1.1",
+    "@absolunet/brand-guidelines": "^1.0.0",
     "@absolunet/fsp": "^1.7.0",
     "@absolunet/fss": "^1.7.0",
     "@absolunet/joi": "^0.3.0",
