@@ -54,11 +54,11 @@ class Util {
 	 * @param {object} options - Options.
 	 * @param {Task} options.task - Task.
 	 * @param {TaskHooks} [options.hooks] - Custom hooks.
-	 * @param {boolean} [options.grouped=false] - Options.
+	 * @param {boolean} options.grouped - Options.
 	 * @param {Function} main - Main runner.
 	 * @returns {Promise} When post-runner completed.
 	 */
-	async taskRunner({ task, hooks = {}, grouped = false }, main) {
+	async taskRunner({ task, hooks = {}, grouped }, main) {
 		const { name, banner } = environment.TASK_DATA[task];
 
 		// Banner

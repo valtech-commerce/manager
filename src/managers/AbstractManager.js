@@ -65,7 +65,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	outdated(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -91,7 +91,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	build(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -118,7 +118,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	watch(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -145,7 +145,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	fix(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -168,7 +168,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	documentation(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -194,7 +194,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	prepare(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -220,7 +220,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	version(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -243,7 +243,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	rebuild(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
