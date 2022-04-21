@@ -51,31 +51,8 @@ class AbstractManager {
 	 *
 	 * @type {string}
 	 */
-	get version() {
+	get currentVersion() {
 		throw new Error("Not implemented");
-	}
-
-	/**
-	 * Install task.
-	 *
-	 * @async
-	 * @param {object} [options] - Options.
-	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
-	 * @param {Function} [toExecute] - Async function to execute.
-	 * @returns {Promise} When task completed.
-	 */
-	install(
-		{ grouped } = {},
-		toExecute = async () => {
-			/**/
-		}
-	) {
-		return runTask({
-			task: "install",
-			context: this,
-			grouped,
-			toExecute,
-		});
 	}
 
 	/**
@@ -88,7 +65,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	outdated(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -114,7 +91,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	build(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -141,7 +118,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	watch(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -168,7 +145,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	fix(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -191,7 +168,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	documentation(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
@@ -217,13 +194,39 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	prepare(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}
 	) {
 		return runTask({
 			task: "prepare",
+			context: this,
+			grouped,
+			toExecute: async () => {
+				await util.updateLicense();
+				await toExecute();
+			},
+		});
+	}
+
+	/**
+	 * Version task.
+	 *
+	 * @async
+	 * @param {object} [options] - Options.
+	 * @param {boolean} [options.grouped=false] - If is called in a grouped task.
+	 * @param {Function} [toExecute] - Async function to execute.
+	 * @returns {Promise} When task completed.
+	 */
+	version(
+		{ grouped = false } = {},
+		toExecute = async () => {
+			/**/
+		}
+	) {
+		return runTask({
+			task: "version",
 			context: this,
 			grouped,
 			toExecute,
@@ -240,7 +243,7 @@ class AbstractManager {
 	 * @returns {Promise} When task completed.
 	 */
 	rebuild(
-		{ grouped } = {},
+		{ grouped = false } = {},
 		toExecute = async () => {
 			/**/
 		}

@@ -22,14 +22,13 @@ In your `./package.json` file add
 ```json
 {
 	"scripts": {
-		"postinstall": "npm run manager:install",  // For multi-package repository
-		"manager:install": "node manager --task=install",
 		"manager:outdated": "node manager --task=outdated",
 		"manager:build": "node manager --task=build",
 		"manager:watch": "node manager --task=watch",
 		"manager:fix": "node manager --task=fix",
 		"manager:documentation": "node manager --task=documentation",
 		"manager:prepare": "node manager --task=prepare",
+		"manager:version": "node manager --task=version --release=$npm_config_release",
 		"manager:rebuild": "node manager --task=rebuild"
 	}
 }
@@ -65,7 +64,7 @@ manager.init({
 		browser: [
 			{
 				type: "script",
-				name: "my-super-pacakge",
+				name: "my-super-package",
 			},
 		],
 	},

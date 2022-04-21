@@ -11,18 +11,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Add `version` task
+- Update license year via `prepare` task
 - Add target option for browser distribution
 
 ### Changed
+- Replace Lerna as main monorepo engine by native npm workspaces
 - Replace custom code styling config with generic config
 - Replace test package with custom tests
+- Replace custom documentation assets building with Laravel Mix
 - Simplify package management to keep things lean
 - Browser distribution choices are now `module` (latest browsers and ESM flavor) and `script` (major browsers and standalone drop-in flavor)
 - Standardized distribution initialization options format
+- Valtechize the API documentation theme
+- Use LICENSE years for API documentation
 
 ### Removed
+- Remove `install` task
 - Remove `publish` and `publish:unsafe` tasks
 - Remove `browser-es5`, `kafe` and `kafe-es5` distribution choices
+- Remove `updatePackageMeta` and `installPackage` public methods 
+- Remove self-reference update in `prepare` task  
 
 
 

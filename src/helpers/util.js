@@ -2,7 +2,6 @@
 //-- Util
 //--------------------------------------------------------
 import fsp from "@absolunet/fsp";
-import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import chalk from "chalk";
 import figures from "figures";
@@ -31,12 +30,21 @@ class Util {
 	}
 
 	/**
-	 * Post-runner wrapper.
+	 * Fetch task from CLI.
 	 *
-	 * @returns {string} Task fetch from terminal.
+	 * @returns {string} Task fetched from terminal.
 	 */
 	getTask() {
 		return minimist(process.argv.slice(2)).task;
+	}
+
+	/**
+	 * Fetch release from CLI.
+	 *
+	 * @returns {string} Release fetched from terminal.
+	 */
+	getRelease() {
+		return minimist(process.argv.slice(2)).release;
 	}
 
 	/**
@@ -46,11 +54,11 @@ class Util {
 	 * @param {object} options - Options.
 	 * @param {Task} options.task - Task.
 	 * @param {TaskHooks} [options.hooks] - Custom hooks.
-	 * @param {boolean} [options.grouped=false] - Options.
+	 * @param {boolean} options.grouped - Options.
 	 * @param {Function} main - Main runner.
 	 * @returns {Promise} When post-runner completed.
 	 */
-	async taskRunner({ task, hooks = {}, grouped = false }, main) {
+	async taskRunner({ task, hooks = {}, grouped }, main) {
 		const { name, banner } = environment.TASK_DATA[task];
 
 		// Banner
@@ -87,14 +95,50 @@ class Util {
 	}
 
 	/**
-	 * Copy LICENSE file from project root to sub-package root.
-	 *
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the sub-package licence.
+	 * Update LICENSE file to current year.
 	 */
-	updateLicense(root = paths.package.root) {
-		const LICENSE = `${root}/LICENSE`;
-		terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
-		fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
+	async updateLicense() {
+		terminal.print("Update year in LICENSE").spacer();
+		const licenseFile = `${paths.package.root}/LICENSE`;
+		let licenseData = await fsp.readFile(licenseFile, "utf8");
+		licenseData = licenseData.replace(
+			/Copyright \(c\) (?<start>\d{4})-\d{4}/u,
+			`Copyright (c) $<start>-${new Date().getFullYear()}`
+		);
+		await fsp.writeFile(licenseFile, licenseData);
+	}
+
+	/**
+	 * Increment version.
+	 *
+	 * @param {string} version - Version to increment.
+	 * @returns {string} Incremented.
+	 */
+	incrementVersion(version) {
+		const release = this.getRelease();
+		const isReleaseBump = /^(major|minor|patch)$/.test(release);
+		const isPrereleaseBump = /^(major|minor|patch)-(alpha|beta|rc)$/.test(release);
+		const isPrereleaseIncrement = /^prerelease-(alpha|beta|rc)$/.test(release);
+		let [releaseStep, prereleaseId] = release.split("-");
+		releaseStep = `${isPrereleaseBump ? "pre" : ""}${releaseStep}`;
+
+		if (!(isReleaseBump || isPrereleaseBump || isPrereleaseIncrement)) {
+			throw new Error(`Invalid release request "${release}"`);
+		}
+
+		if (isPrereleaseBump && semver.prerelease(version) !== null) {
+			throw new Error(`Cannot bump a prerelease to another prerelease: "${version}" → "${release}"`);
+		}
+
+		if (isPrereleaseIncrement && semver.prerelease(version) === null) {
+			throw new Error(`Cannot increment a prerelease from a release: "${version}" → "${release}"`);
+		}
+
+		if (isPrereleaseIncrement && semver.prerelease(version)[0] > prereleaseId) {
+			throw new Error(`Cannot increment a prerelease to a lower prerelease: "${version}" → "${release}"`);
+		}
+
+		return semver.inc(version, releaseStep, prereleaseId);
 	}
 
 	/**
@@ -177,21 +221,6 @@ class Util {
 			terminal.success(`All is good`);
 		}
 
-		terminal.spacer();
-	}
-
-	/**
-	 * Install npm packages.
-	 *
-	 * @async
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
-	 * @returns {Promise} When method completed.
-	 */
-	async npmInstall(root = paths.package.root) {
-		terminal.print(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`).spacer();
-		await fsp.remove(`${root}/node_modules`);
-		await fsp.remove(`${root}/package-lock.json`);
-		terminal.process.run(`npm install --no-audit`, { directory: root });
 		terminal.spacer();
 	}
 }

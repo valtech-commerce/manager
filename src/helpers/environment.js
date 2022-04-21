@@ -77,24 +77,24 @@ class EnvironmentHelper {
 	 * Tasks.
 	 *
 	 * @type {object<string, Task>}
-	 * @property {Task} install - Install task.
 	 * @property {Task} outdated - Outdated task.
 	 * @property {Task} build - Build task.
 	 * @property {Task} watch - Watch task.
 	 * @property {Task} fix - Fix task.
 	 * @property {Task} documentation - Documentation task.
 	 * @property {Task} prepare - Prepare task.
+	 * @property {Task} version - Version task.
 	 * @property {Task} rebuild - Rebuild task.
 	 */
 	get TASK() {
 		return {
-			install: "install",
 			outdated: "outdated",
 			build: "build",
 			watch: "watch",
 			fix: "fix",
 			documentation: "documentation",
 			prepare: "prepare",
+			version: "version",
 			rebuild: "rebuild",
 		};
 	}
@@ -106,13 +106,13 @@ class EnvironmentHelper {
 	 */
 	get TASK_DATA() {
 		return {
-			[this.TASK.install]: { name: "Install", banner: "Install extra stuff" },
 			[this.TASK.outdated]: { name: "Outdated", banner: "Check for outdated package dependencies" },
 			[this.TASK.build]: { name: "Build", banner: "Generate package distributions" },
 			[this.TASK.watch]: { name: "Watch", banner: "Watch changes in sources" },
 			[this.TASK.fix]: { name: "Fix", banner: "Fix code" },
 			[this.TASK.documentation]: { name: "Documentation", banner: "Generate documentation" },
 			[this.TASK.prepare]: { name: "Prepare", banner: "Prepare package for publication" },
+			[this.TASK.version]: { name: "Version", banner: "Bump version" },
 			[this.TASK.rebuild]: { name: "Rebuild", banner: "Rebuild package" },
 		};
 	}

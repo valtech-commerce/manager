@@ -1,7 +1,7 @@
 //--------------------------------------------------------
 //-- Manager
 //--------------------------------------------------------
-import brand from "@absolunet/brand-guidelines";
+import { guidelines } from "@absolunet/brand-guidelines";
 import { Joi, validateArgument } from "@absolunet/joi";
 import { terminal } from "@absolunet/terminal";
 import emoji from "node-emoji";
@@ -20,8 +20,8 @@ class Manager {
 	 * Create a Manager.
 	 */
 	constructor() {
-		const mainColor = brand.styleguide.color.greyscale.nevada;
-		const secondaryColor = brand.styleguide.color.greyscale.geyser;
+		const mainColor = guidelines.color.achromatic.gray;
+		const secondaryColor = guidelines.color.achromatic.gray;
 
 		terminal.setTheme({
 			logo: emoji.get("technologist"), // 🧑‍💻
@@ -31,19 +31,6 @@ class Manager {
 			borderColor: mainColor,
 			spinnerColor: terminal.basicColor.grey,
 		});
-	}
-
-	/**
-	 * Update package meta.
-	 *
-	 * @async
-	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of license.
-	 * @returns {Promise} When method completed.
-	 */
-	async updatePackageMeta(absolutePath) {
-		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
-
-		util.updateLicense(absolutePath);
 	}
 
 	/**
@@ -57,19 +44,6 @@ class Manager {
 		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
 
 		await util.npmOutdated(absolutePath);
-	}
-
-	/**
-	 * Reinstall packages.
-	 *
-	 * @async
-	 * @param {string} [absolutePath={@link PackagePaths}.root] - Directory path of the package.json.
-	 * @returns {Promise} When method completed.
-	 */
-	async installPackage(absolutePath) {
-		validateArgument("absolutePath", absolutePath, Joi.absolutePath());
-
-		await util.npmInstall(absolutePath);
 	}
 
 	/**
@@ -158,9 +132,6 @@ class Manager {
 		}
 
 		switch (util.getTask()) {
-			case environment.TASK.install:
-				await managerType.install();
-				break;
 			case environment.TASK.outdated:
 				await managerType.outdated();
 				break;
@@ -179,6 +150,9 @@ class Manager {
 				break;
 			case environment.TASK.prepare:
 				await managerType.prepare();
+				break;
+			case environment.TASK.version:
+				await managerType.version();
 				break;
 			case environment.TASK.rebuild:
 				await managerType.rebuild();

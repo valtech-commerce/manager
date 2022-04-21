@@ -1,5 +1,5 @@
 /**
- * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild'.
+ * Task: 'outdated', 'build', 'watch', 'documentation', 'prepare', 'version', 'rebuild'.
  *
  * @typedef {string} Task
  */
@@ -33,7 +33,7 @@
  */
 
 /**
- * Task hooks (install, outdated, build, watch, documentation, prepare, rebuild).
+ * Task hooks (outdated, build, watch, documentation, prepare, version, rebuild).
  *
  * @typedef {object} TaskHooks
  * @property {Function} preRun - Pre-run hook.

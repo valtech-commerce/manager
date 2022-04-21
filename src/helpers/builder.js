@@ -1,7 +1,6 @@
 //--------------------------------------------------------
 //-- Builder
 //--------------------------------------------------------
-import path from "node:path";
 import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import { transformAsync } from "@babel/core";
@@ -317,32 +316,6 @@ class Builder {
 				? getMultipleInOutConfigs(options, multipleInOut, WATCH)
 				: getAllDistributionsConfigs(options, WATCH)
 		);
-	}
-
-	/**
-	 * Build documentation theme scripts.
-	 *
-	 * @async
-	 * @param {object} options - Options.
-	 * @param {string} options.source - Path to documentation source scripts.
-	 * @param {string} options.destination - Path to documentation build script file.
-	 * @returns {Promise} When builder completed.
-	 */
-	documentationTheme({ source, destination }) {
-		const [config] = getAllDistributionsConfigs(
-			{ browser: [{ type: environment.DISTRIBUTION_BROWSER_TYPE.script }], source },
-			BUILD
-		);
-
-		return webpackRunner([
-			merge(config, {
-				mode: "production",
-				output: {
-					filename: path.basename(destination),
-					path: path.dirname(destination),
-				},
-			}),
-		]);
 	}
 }
 
