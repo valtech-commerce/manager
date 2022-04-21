@@ -2,34 +2,34 @@
 // -- Configuration
 // --------------------------------------------------
 @use "sass:string";
-@import "../../../../node_modules/@absolunet/nwayo-toolbox/styles/config";
-@import "../../../../node_modules/@absolunet/brand-guidelines/dist/guidelines";
+@use "@absolunet/brand-guidelines/dist/guidelines";
+@import "@absolunet/nwayo-toolbox/styles/config";
 
-$brand-color: valtech-guidelines("color.primary.blue");
-$primary-color: valtech-guidelines("color.primary.blue");
-$primary-light-color: valtech-guidelines("color.primary.white");
-$primary-medium-color: valtech-guidelines("color.achromatic.gainsboro");
-$primary-dark-color: valtech-guidelines("color.primary.black");
+$brand-color: guidelines.get("color.primary.blue");
+$primary-color: guidelines.get("color.primary.blue");
+$primary-light-color: guidelines.get("color.primary.white");
+$primary-medium-color: guidelines.get("color.achromatic.gainsboro");
+$primary-dark-color: guidelines.get("color.primary.black");
 
-$code-background-color: valtech-guidelines("color.primary.black");
-$code-outline-color: valtech-guidelines("color.achromatic.davys-gray");
-$code-primary-color: valtech-guidelines("color.primary.blue");
-$code-token-color: valtech-guidelines("color.primary.white");
-$code-name-color: valtech-guidelines("color.secondary.disruptive-rose");
-$code-keyword-color: valtech-guidelines("color.secondary.transformative-turquoise");
-$code-selector-color: valtech-guidelines("color.secondary.agile-yellow");
+$code-background-color: guidelines.get("color.primary.black");
+$code-outline-color: guidelines.get("color.achromatic.davys-gray");
+$code-primary-color: guidelines.get("color.primary.blue");
+$code-token-color: guidelines.get("color.primary.white");
+$code-name-color: guidelines.get("color.secondary.disruptive-rose");
+$code-keyword-color: guidelines.get("color.secondary.transformative-turquoise");
+$code-selector-color: guidelines.get("color.secondary.agile-yellow");
 
 $github-color: #539bf5;
 
-$important-color: valtech-guidelines("secondary.disruptive-rose");
+$important-color: guidelines.get("secondary.disruptive-rose");
 
-$base-font: string.unquote(valtech-guidelines("font.safe"));
-$title-font: string.unquote(valtech-guidelines("font.safe"));
-$code-font: string.unquote(valtech-guidelines("font.code"));
+$base-font: string.unquote(guidelines.get("font.safe"));
+$title-font: string.unquote(guidelines.get("font.safe"));
+$code-font: string.unquote(guidelines.get("font.code"));
 
-$base-weight: valtech-guidelines("type.paragraph.weight");
-$title-weight: valtech-guidelines("type.title.weight");
-$code-weight: valtech-guidelines("type.paragraph.weight");
+$base-weight: guidelines.get("type.paragraph.weight");
+$title-weight: guidelines.get("type.title.weight");
+$code-weight: guidelines.get("type.paragraph.weight");
 
 @mixin inline-image-styles($file, $component:"default", $color:null) {
   background-image: #{nwayo-svg-data-uri(nwayo-color-replace(dart-read-file($file + ".svg", $component), $nwayo-svg-replacement-1-color, $color))};  // stylelint-disable-line max-line-length -- One tasty one-liner.

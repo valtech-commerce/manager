@@ -4,7 +4,7 @@
 import { createRequire } from "node:module";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
-import pkgDir from "pkg-dir";
+import { packageDirectorySync } from "pkg-dir";
 import paths from "./paths.js";
 
 /**
@@ -18,8 +18,8 @@ class Fixer {
 	 */
 	constructor() {
 		const require = createRequire(import.meta.url);
-		__(this).set("eslint-binary", `${pkgDir.sync(require.resolve("eslint"))}/bin/eslint.js`);
-		__(this).set("prettier-binary", `${pkgDir.sync(require.resolve("prettier"))}/bin-prettier.js`);
+		__(this).set("eslint-binary", `${packageDirectorySync({ cwd: require.resolve("eslint") })}/bin/eslint.js`);
+		__(this).set("prettier-binary", `${packageDirectorySync({ cwd: require.resolve("prettier") })}/bin-prettier.js`);
 	}
 
 	/**

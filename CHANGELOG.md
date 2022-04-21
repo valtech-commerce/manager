@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standardized distribution initialization options format
 - Valtechize the API documentation theme
 - Use LICENSE years for API documentation
+- Maintenance updates
 
 ### Removed
 - Remove `install` task
