@@ -1,36 +1,17 @@
 //--------------------------------------------------------
 //-- Util
 //--------------------------------------------------------
-import path from "node:path";
 import fsp from "@absolunet/fsp";
-import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import chalk from "chalk";
 import figures from "figures";
-import inquirer from "inquirer";
-import kebabcase from "lodash.kebabcase";
 import minimist from "minimist";
 import npmCheck from "npm-check";
 import semver from "semver";
 import stringLength from "string-length";
 import textTable from "text-table";
-import tmp from "tmp";
 import environment from "./environment.js";
 import paths from "./paths.js";
-
-const getTemporaryDirectory = (id = "tmp") => {
-	tmp.setGracefulCleanup();
-
-	return new Promise((resolve) => {
-		tmp.dir({ prefix: `absolunetmanager-${id}-`, unsafeCleanup: true }, (error, temporaryPath) => {
-			if (error) {
-				terminal.error(error).exit();
-			}
-
-			resolve(temporaryPath);
-		});
-	});
-};
 
 /**
  * Manager utils.
@@ -49,12 +30,21 @@ class Util {
 	}
 
 	/**
-	 * Post-runner wrapper.
+	 * Fetch task from CLI.
 	 *
-	 * @returns {string} Task fetch from terminal.
+	 * @returns {string} Task fetched from terminal.
 	 */
 	getTask() {
 		return minimist(process.argv.slice(2)).task;
+	}
+
+	/**
+	 * Fetch release from CLI.
+	 *
+	 * @returns {string} Release fetched from terminal.
+	 */
+	getRelease() {
+		return minimist(process.argv.slice(2)).release;
 	}
 
 	/**
@@ -64,11 +54,11 @@ class Util {
 	 * @param {object} options - Options.
 	 * @param {Task} options.task - Task.
 	 * @param {TaskHooks} [options.hooks] - Custom hooks.
-	 * @param {boolean} [options.grouped=false] - Options.
+	 * @param {boolean} options.grouped - Options.
 	 * @param {Function} main - Main runner.
 	 * @returns {Promise} When post-runner completed.
 	 */
-	async taskRunner({ task, hooks = {}, grouped = false }, main) {
+	async taskRunner({ task, hooks = {}, grouped }, main) {
 		const { name, banner } = environment.TASK_DATA[task];
 
 		// Banner
@@ -105,14 +95,50 @@ class Util {
 	}
 
 	/**
-	 * Copy LICENSE file from project root to sub-package root.
-	 *
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the sub-package licence.
+	 * Update LICENSE file to current year.
 	 */
-	updateLicense(root = paths.package.root) {
-		const LICENSE = `${root}/LICENSE`;
-		terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
-		fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
+	async updateLicense() {
+		terminal.print("Update year in LICENSE").spacer();
+		const licenseFile = `${paths.package.root}/LICENSE`;
+		let licenseData = await fsp.readFile(licenseFile, "utf8");
+		licenseData = licenseData.replace(
+			/Copyright \(c\) (?<start>\d{4})-\d{4}/u,
+			`Copyright (c) $<start>-${new Date().getFullYear()}`
+		);
+		await fsp.writeFile(licenseFile, licenseData);
+	}
+
+	/**
+	 * Increment version.
+	 *
+	 * @param {string} version - Version to increment.
+	 * @returns {string} Incremented.
+	 */
+	incrementVersion(version) {
+		const release = this.getRelease();
+		const isReleaseBump = /^(major|minor|patch)$/.test(release);
+		const isPrereleaseBump = /^(major|minor|patch)-(alpha|beta|rc)$/.test(release);
+		const isPrereleaseIncrement = /^prerelease-(alpha|beta|rc)$/.test(release);
+		let [releaseStep, prereleaseId] = release.split("-");
+		releaseStep = `${isPrereleaseBump ? "pre" : ""}${releaseStep}`;
+
+		if (!(isReleaseBump || isPrereleaseBump || isPrereleaseIncrement)) {
+			throw new Error(`Invalid release request "${release}"`);
+		}
+
+		if (isPrereleaseBump && semver.prerelease(version) !== null) {
+			throw new Error(`Cannot bump a prerelease to another prerelease: "${version}" → "${release}"`);
+		}
+
+		if (isPrereleaseIncrement && semver.prerelease(version) === null) {
+			throw new Error(`Cannot increment a prerelease from a release: "${version}" → "${release}"`);
+		}
+
+		if (isPrereleaseIncrement && semver.prerelease(version)[0] > prereleaseId) {
+			throw new Error(`Cannot increment a prerelease to a lower prerelease: "${version}" → "${release}"`);
+		}
+
+		return semver.inc(version, releaseStep, prereleaseId);
 	}
 
 	/**
@@ -193,140 +219,6 @@ class Util {
 				.spacer();
 		} else {
 			terminal.success(`All is good`);
-		}
-
-		terminal.spacer();
-	}
-
-	/**
-	 * Install npm packages.
-	 *
-	 * @async
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
-	 * @returns {Promise} When method completed.
-	 */
-	async npmInstall(root = paths.package.root) {
-		terminal.print(`Install dependencies in ${chalk.underline(this.relativizePath(root))}`).spacer();
-		await fsp.remove(`${root}/node_modules`);
-		await fsp.remove(`${root}/package-lock.json`);
-		terminal.process.run(`npm install --no-audit`, { directory: root });
-		terminal.spacer();
-	}
-
-	/**
-	 * Pack directory and return tarball path.
-	 *
-	 * @async
-	 * @param {string} [root={@link PackagePaths}.root] - Directory path of the package.json.
-	 * @returns {Promise<object<{tarball: string, version: string}>>} Tarball path and version used.
-	 * @throws {Error} If tarball name mismatches.
-	 */
-	async npmPack(root = paths.package.root) {
-		terminal.print(`Pack package in ${chalk.underline(this.relativizePath(root))}`).spacer();
-
-		const directory = await getTemporaryDirectory("package-tarball");
-
-		terminal.process.run(`npm pack ${fss.realpath(root)}`, { directory });
-		terminal.spacer();
-
-		const { name, version } = fss.readJson(`${root}/package.json`);
-		const tarball = `${directory}/${kebabcase(name)}-${version}.tgz`;
-
-		if (fss.exists(tarball)) {
-			return { tarball, version };
-		}
-
-		throw new Error(`Tarball name mismatch '${tarball}'`);
-	}
-
-	/**
-	 * Publish package.
-	 *
-	 * @async
-	 * @param {object} parameters - Parameters.
-	 * @param {string} parameters.tarball - Tarball path.
-	 * @param {string} parameters.tag - Tag to use.
-	 * @param {boolean} parameters.restricted - Tell the registry the package should be published restricted instead of public.
-	 * @param {boolean} parameters.otp - Use the two-factor authentication if enabled.
-	 * @returns {Promise} When method completed.
-	 */
-	// eslint-disable-next-line require-await
-	async npmPublish({ tarball, tag, restricted, otp }) {
-		terminal.print(`Publish tarball ${chalk.underline(path.basename(tarball))}`).spacer();
-		terminal.process.run(
-			`npm publish ${tarball} --tag=${tag} --access=${restricted ? "restricted" : "public"} ${
-				otp ? `--otp=${otp}` : ""
-			}`
-		);
-		terminal.spacer();
-	}
-
-	/**
-	 * Get publish tag depending on version.
-	 *
-	 * @param {string} version - Version to check.
-	 * @returns {string} Tag.
-	 */
-	getTag(version) {
-		return semver.prerelease(version) === null ? "latest" : "next";
-	}
-
-	/**
-	 * Ask user for npm's one-time password or confirm publication.
-	 *
-	 * @async
-	 * @param {boolean} useOTP - Get one-time password or confirm publication.
-	 * @returns {Promise<string|undefined>} User's one-time password.
-	 */
-	async getOTP(useOTP) {
-		const { otp, confirm } = await inquirer.prompt([
-			{
-				name: "otp",
-				message: `Please write your npm OTP:`,
-				type: "input",
-				when: () => {
-					return useOTP;
-				},
-				validate: (value) => {
-					return /^\d{6}$/u.test(value) ? true : `Your OTP isn't valid`;
-				},
-			},
-			{
-				name: "confirm",
-				message: `Are you sure you want to publish?`,
-				type: "confirm",
-				when: () => {
-					return !useOTP;
-				},
-			},
-		]);
-
-		if (!(otp || confirm)) {
-			terminal.exit("Publication cancelled");
-		}
-
-		terminal.spacer();
-
-		return otp;
-	}
-
-	/**
-	 * Ask user for consent for unsafe publishing.
-	 *
-	 * @async
-	 * @returns {Promise} Completes if user consents.
-	 */
-	async confirmUnsafePublish() {
-		const { confirm } = await inquirer.prompt([
-			{
-				name: "confirm",
-				message: `Are you sure you want to publish without any safeguards?`,
-				type: "confirm",
-			},
-		]);
-
-		if (!confirm) {
-			terminal.exit("Publication cancelled");
 		}
 
 		terminal.spacer();

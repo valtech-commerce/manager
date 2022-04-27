@@ -3,11 +3,11 @@
 //--------------------------------------------------------
 import { fileURLToPath } from "node:url";
 import fss from "@absolunet/fss";
-import pkgDir from "pkg-dir";
+import { packageDirectorySync } from "pkg-dir";
 
 const __ = {
-	root: pkgDir.sync(fileURLToPath(import.meta.url)),
-	packageRoot: fss.realpath(`.`),
+	root: packageDirectorySync({ cwd: fileURLToPath(import.meta.url) }),
+	packageRoot: fss.realpath("."),
 };
 
 /**
@@ -75,8 +75,8 @@ class Paths {
 	 */
 	get subpackage() {
 		return {
-			distributions: `dist`,
-			sources: `src`,
+			distributions: "dist",
+			sources: "src",
 		};
 	}
 }

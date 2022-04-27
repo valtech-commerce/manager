@@ -22,17 +22,14 @@ In your `./package.json` file add
 ```json
 {
 	"scripts": {
-		"postinstall": "npm run manager:install",  // For multi-package repository
-		"manager:install": "node manager --task=install",
 		"manager:outdated": "node manager --task=outdated",
 		"manager:build": "node manager --task=build",
 		"manager:watch": "node manager --task=watch",
 		"manager:fix": "node manager --task=fix",
 		"manager:documentation": "node manager --task=documentation",
 		"manager:prepare": "node manager --task=prepare",
-		"manager:rebuild": "node manager --task=rebuild",
-		"manager:publish": "node manager --task=publish",
-		"manager:publish:unsafe": "node manager --task=publish:unsafe"
+		"manager:version": "node manager --task=version --release=$npm_config_release",
+		"manager:rebuild": "node manager --task=rebuild"
 	}
 }
 ```
@@ -40,18 +37,38 @@ In your `./package.json` file add
 
 In a `./manager.js` file
 ```js
-import { manager } from '@absolunet/manager';
+import { manager } from "@absolunet/manager";
 
-manager.singleScriptsRunner(options);
+manager.init({
+	repositoryType: "single-package",
+	dist: {
+		node: {},
+		browser: [
+			{
+				type: "module",
+			},
+		],
+	},
+});
 ```
 
 or
 
 
 ```js
-import { manager } from '@absolunet/manager';
+import { manager } from "@absolunet/manager";
 
-manager.multiScriptsRunner(options);
+manager.init({
+	repositoryType: "multi-package",
+	dist: {
+		browser: [
+			{
+				type: "script",
+				name: "my-super-package",
+			},
+		],
+	},
+});
 ```
 
 

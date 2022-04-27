@@ -13,6 +13,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [3.0.0-rc.0] - 2022-04-21
+### Added
+- Add `version` task
+- Update license year via `prepare` task
+- Add target option for browser distribution
+
+### Changed
+- Replace Lerna as main monorepo engine by native npm workspaces
+- Replace custom code styling config with generic config
+- Replace test package with custom tests
+- Replace custom documentation assets building with Laravel Mix
+- Simplify package management to keep things lean
+- Browser distribution choices are now `module` (latest browsers and ESM flavor) and `script` (major browsers and standalone drop-in flavor)
+- Standardized distribution initialization options format
+- Valtechize the API documentation theme
+- Use LICENSE years for API documentation
+- Maintenance updates
+
+### Removed
+- Remove `install` task
+- Remove `publish` and `publish:unsafe` tasks
+- Remove `browser-es5`, `kafe` and `kafe-es5` distribution choices
+- Remove `updatePackageMeta` and `installPackage` public methods 
+- Remove self-reference update in `prepare` task  
+
+
+
 ## [3.0.0-beta.6] - 2021-09-28
 ### Changed
 - Maintenance updates
@@ -209,7 +236,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.6...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-rc.0...HEAD
+[3.0.0-rc.0]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.6...3.0.0-rc.0
 [3.0.0-beta.6]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.5...3.0.0-beta.6
 [3.0.0-beta.5]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...3.0.0-beta.5
 [3.0.0-beta.4]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...3.0.0-beta.4

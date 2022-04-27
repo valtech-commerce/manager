@@ -3,6 +3,7 @@
 //--------------------------------------------------------
 import { createRequire } from "node:module";
 import path from "node:path";
+import chalk from "chalk";
 import fss from "@absolunet/fss";
 import __ from "@absolunet/private-registry";
 import { terminal } from "@absolunet/terminal";
@@ -51,8 +52,8 @@ class MultiManager extends AbstractManager {
 	/**
 	 * @inheritdoc
 	 */
-	get version() {
-		const file = `${paths.package.root}/lerna.json`;
+	get currentVersion() {
+		const file = `${paths.package.root}/package.json`;
 
 		if (fss.exists(file)) {
 			const { version } = fss.readJson(file);
@@ -90,24 +91,8 @@ class MultiManager extends AbstractManager {
 	 */
 	async forEachSubpackage(toExecute) {
 		for (const subpackage of this.subpackages) {
-			await toExecute(subpackage); // eslint-disable-line no-await-in-loop
+			await toExecute(subpackage);
 		}
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	install(options) {
-		// eslint-disable-next-line require-await
-		return super.install(options, async () => {
-			// Let lerna do its subpackage interdependencies magic
-			terminal.print("Install subpackages dependencies and link siblings").spacer();
-			fss.removePattern(`${paths.package.subpackages}/*/package-lock.json`);
-			terminal.process.run(`
-				${this.lernaBinary} clean --yes
-				${this.lernaBinary} bootstrap --hoist --no-ci
-			`);
-		});
 	}
 
 	/**
@@ -178,41 +163,42 @@ class MultiManager extends AbstractManager {
 	 * @inheritdoc
 	 */
 	prepare(options) {
-		// eslint-disable-next-line require-await
 		return super.prepare(options, async () => {
-			// Update license for all subpackages
+			// Copy root license to all subpackages
 			this.forEachSubpackage(({ root }) => {
-				util.updateLicense(root);
+				const LICENSE = `${root}/LICENSE`;
+				terminal.print(`Update license in ${chalk.underline(this.relativizePath(LICENSE))}`).spacer();
+				fss.copy(`${paths.package.root}/LICENSE`, LICENSE);
 			});
-
-			// Update version for all subpackages
-			terminal.process.run(
-				`${this.lernaBinary} version ${this.version} --force-publish=* --exact --no-git-tag-version --no-push --yes`
-			);
 		});
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	publish(options) {
-		return super.publish(options, async () => {
-			// Pack a tarball for all subpackages
-			const tarballs = [];
-			await this.forEachSubpackage(async ({ root }) => {
-				const { tarball } = await util.npmPack(root);
-				tarballs.push(tarball);
-			});
+	version(options) {
+		return super.version(options, async () => {
+			const version = util.incrementVersion(this.currentVersion);
 
-			// Fetch generic config
-			const tag = util.getTag(this.version);
-			const { restricted } = __(this).get("publish");
-			const otp = await util.getOTP(__(this).get("publish").useOTP);
-
-			// Publish the tarball for all subpackages
-			for (const tarball of tarballs) {
-				await util.npmPublish({ tarball, tag, restricted, otp }); // eslint-disable-line no-await-in-loop
-			}
+			// Update version for all subpackages
+			terminal.process.run(`
+				${[
+					`${this.lernaBinary} version ${version}`,
+					"--force-publish", // Update all subpackages
+					"--exact", // Update to the exact version (no range)
+					"--no-git-tag-version", // Don't git tag
+					"--no-push", // Don't git push
+					"--yes", // No confirmation prompts
+				].join(" ")}
+				${[
+					`npm version ${version}`,
+					"--workspaces", // Update all subpackages
+					"--include-workspace-root", // Update root package.json
+					"--workspaces-update", // Run an update
+					"--no-git-tag-version", // Don't git tag
+					"--allow-same-version", // Allow version rewrite
+				].join(" ")}
+			`);
 		});
 	}
 }

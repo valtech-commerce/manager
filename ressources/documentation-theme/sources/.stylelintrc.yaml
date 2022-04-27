@@ -1,1 +1,9 @@
-extends: '@absolunet/stylelint-config-scss'
+extends: "stylelint-config-standard-scss"
+
+customSyntax: "postcss-scss"
+
+plugins:
+ - stylelint-scss
+
+rules:
+  scss/dollar-variable-empty-line-before: null

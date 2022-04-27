@@ -1,46 +1,36 @@
-//--------------------------------------------------
-//-- Configuration
-//--------------------------------------------------
-@use 'sass:string';
-@import '../../../../node_modules/@absolunet/nwayo-toolbox/styles/config';
-@import '../../../../node_modules/@absolunet/brand-guidelines/dist/styleguide';
+// --------------------------------------------------
+// -- Configuration
+// --------------------------------------------------
+@use "sass:string";
+@use "@absolunet/brand-guidelines/dist/guidelines";
+@import "@absolunet/nwayo-toolbox/styles/config";
 
+$brand-color: guidelines.get("color.primary.blue");
+$primary-color: guidelines.get("color.primary.blue");
+$primary-light-color: guidelines.get("color.primary.white");
+$primary-medium-color: guidelines.get("color.achromatic.gainsboro");
+$primary-dark-color: guidelines.get("color.primary.black");
 
-$brand-color:         absolunet-styleguide('color.primary.coral');
-$primary-color:       absolunet-styleguide('color.secondary.picton-blue');
-$primary-light-color: absolunet-styleguide('color.secondary.spindle');
-$primary-dark-color:  absolunet-styleguide('color.secondary.chambray');
+$code-background-color: guidelines.get("color.primary.black");
+$code-outline-color: guidelines.get("color.achromatic.davys-gray");
+$code-primary-color: guidelines.get("color.primary.blue");
+$code-token-color: guidelines.get("color.primary.white");
+$code-name-color: guidelines.get("color.secondary.disruptive-rose");
+$code-keyword-color: guidelines.get("color.secondary.transformative-turquoise");
+$code-selector-color: guidelines.get("color.secondary.agile-yellow");
 
-$grey1-color: absolunet-styleguide('color.primary.navy');
-$grey2-color: absolunet-styleguide('color.secondary.oxford-blue');
-$grey3-color: absolunet-styleguide('color.greyscale.nevada');
-$grey4-color: absolunet-styleguide('color.greyscale.regent-grey');
-$grey5-color: absolunet-styleguide('color.greyscale.gull-grey');
-$grey6-color: absolunet-styleguide('color.greyscale.loblolly');
-$grey7-color: absolunet-styleguide('color.greyscale.geyser');
-$grey8-color: absolunet-styleguide('color.greyscale.mystic');
-$grey9-color: absolunet-styleguide('color.greyscale.aqua-haze');
+$github-color: #539bf5;
 
-$code1-color: absolunet-styleguide('color.rainbow.olivine');
-$code2-color: absolunet-styleguide('color.secondary.eastern-blue');
+$important-color: guidelines.get("secondary.disruptive-rose");
 
-$github1-color: #0366d6;
-$github2-color: #24292e;
+$base-font: string.unquote(guidelines.get("font.safe"));
+$title-font: string.unquote(guidelines.get("font.safe"));
+$code-font: string.unquote(guidelines.get("font.code"));
 
-$important-color: absolunet-styleguide('color.rainbow.crimson');
+$base-weight: guidelines.get("type.paragraph.weight");
+$title-weight: guidelines.get("type.title.weight");
+$code-weight: guidelines.get("type.paragraph.weight");
 
-
-/* stylelint-disable scss/function-unquote-no-unquoted-strings-inside */
-$base-font:  string.unquote(absolunet-styleguide('font.content'));
-$title-font: string.unquote(absolunet-styleguide('font.title'));
-$code-font:  string.unquote(absolunet-styleguide('font.code'));
-/* stylelint-enable scss/function-unquote-no-unquoted-strings-inside */
-
-$base-weight:  absolunet-styleguide('font-weight.content.base');
-$title-weight: absolunet-styleguide('font-weight.title.base');
-$code-weight:  absolunet-styleguide('font-weight.code.base');
-
-
-@mixin inline-image-styles($file, $color) {
-	background-image: #{nwayo-svg-data-uri(nwayo-color-replace(dart-read-file($file + '.svg'), $nwayo-svg-replacement-1-color, $color))};
+@mixin inline-image-styles($file, $component:"default", $color:null) {
+  background-image: #{nwayo-svg-data-uri(nwayo-color-replace(dart-read-file($file + ".svg", $component), $nwayo-svg-replacement-1-color, $color))};  // stylelint-disable-line max-line-length -- One tasty one-liner.
 }

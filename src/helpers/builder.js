@@ -1,7 +1,6 @@
 //--------------------------------------------------------
 //-- Builder
 //--------------------------------------------------------
-import path from "node:path";
 import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import { transformAsync } from "@babel/core";
@@ -14,7 +13,7 @@ import WebpackRemoveFiles from "remove-files-webpack-plugin";
 import semver from "semver";
 import webpack from "webpack";
 import { merge } from "webpack-merge";
-import environement from "./environment.js";
+import environment from "./environment.js";
 import paths from "./paths.js";
 import util from "./util.js";
 
@@ -27,31 +26,10 @@ const COMMON_CONFIG = {
 	mode: "none",
 };
 
-//-- Node.js
-const nodeConfig = (source, destination, nodeType, nodeEngine) => {
-	const babelOptions =
-		nodeType === "commonjs"
-			? {
-					plugins: [[babelTransformModules, { strict: false }]],
-			  }
-			: {
-					presets: [
-						[
-							"@babel/env",
-							{
-								targets: { node: semver.minVersion(nodeEngine).major },
-								useBuiltIns: "entry",
-								corejs: "3",
-								modules: false,
-								exclude: ["@babel/plugin-transform-block-scoping"],
-							},
-						],
-					],
-			  };
-
-	return merge(COMMON_CONFIG, {
-		target: "node",
-		entry: `${paths.webpackEntryPoints}/node.js`,
+const defaultConfig = ({ type, targets, source, destination, transformModules = {} }) => {
+	return {
+		target: type,
+		entry: `${paths.webpackEntryPoints}/default.js`,
 		plugins: [
 			new WebpackCopy({
 				patterns: [
@@ -63,7 +41,19 @@ const nodeConfig = (source, destination, nodeType, nodeEngine) => {
 							return transformAsync(content, {
 								compact: false,
 								retainLines: true,
-								...babelOptions,
+								presets: [
+									[
+										"@babel/env",
+										{
+											targets,
+											useBuiltIns: "entry",
+											corejs: "3",
+											modules: false,
+											exclude: ["@babel/plugin-transform-block-scoping"],
+										},
+									],
+								],
+								...transformModules,
 							}).then(({ code }) => {
 								return code;
 							});
@@ -73,7 +63,7 @@ const nodeConfig = (source, destination, nodeType, nodeEngine) => {
 			}),
 			new WebpackRemoveFiles({
 				after: {
-					root: `${destination}/node`,
+					root: destination,
 					log: false,
 					test: [
 						{
@@ -93,72 +83,82 @@ const nodeConfig = (source, destination, nodeType, nodeEngine) => {
 				},
 			}),
 		],
-	});
+	};
 };
 
-//-- Browser
-const BROWSER_CONFIG = merge(COMMON_CONFIG, {
-	target: "web",
-	entry: `${paths.webpackEntryPoints}/browser.cjs`,
-	output: {
-		filename: `${environement.DISTRIBUTION_TYPE.browser}.js`,
-	},
-});
+//-- Node.js
+const nodeConfig = (source, destination, type, target) => {
+	return merge(
+		COMMON_CONFIG,
+		defaultConfig({
+			type: "node",
+			targets: { node: semver.minVersion(target).version },
+			source,
+			destination,
+			transformModules:
+				type === environment.DISTRIBUTION_NODE_TYPE.commonjs
+					? {
+							plugins: [[babelTransformModules, { strict: false }]],
+					  }
+					: {},
+		})
+	);
+};
 
-//-- Browser ES5
-const BROWSER_ES5_CONFIG = merge(BROWSER_CONFIG, {
-	output: {
-		filename: `${environement.DISTRIBUTION_TYPE.browserES5}.js`,
-	},
-	module: {
-		rules: [
-			{
-				test: /\.js$/u,
-				exclude: /node_modules/u,
-				use: {
-					loader: "babel-loader",
-					options: {
-						presets: [
-							[
-								"@babel/env",
-								{
-									targets: "> 0.25%, not dead",
-									useBuiltIns: "usage",
-									corejs: "3",
-								},
+//-- Browser module
+const browserModuleConfig = (source, destination, target) => {
+	return merge(
+		COMMON_CONFIG,
+		defaultConfig({
+			type: "web",
+			targets: target || environment.DEFAULT_BROWSER_TARGET.module,
+			source,
+			destination,
+		})
+	);
+};
+
+//-- Browser script
+const browserScriptConfig = (target) => {
+	return merge(COMMON_CONFIG, {
+		target: "web",
+		entry: `${paths.webpackEntryPoints}/browser-script.cjs`,
+		output: {
+			filename: `browser-standalone.js`,
+		},
+		module: {
+			rules: [
+				{
+					test: /\.js$/u,
+					exclude: /node_modules/u,
+					use: {
+						loader: "babel-loader",
+						options: {
+							presets: [
+								[
+									"@babel/env",
+									{
+										targets: target || environment.DEFAULT_BROWSER_TARGET.script,
+										useBuiltIns: "usage",
+										corejs: "3",
+									},
+								],
 							],
-						],
+						},
 					},
 				},
-			},
-		],
-	},
-});
-
-//-- kafe
-const KAFE_CONFIG = merge(BROWSER_CONFIG, {
-	entry: `${paths.webpackEntryPoints}/kafe.cjs`,
-	output: {
-		filename: `${environement.DISTRIBUTION_TYPE.kafe}.js`,
-	},
-});
-
-//-- kafe ES5
-const KAFE_ES5_CONFIG = merge(BROWSER_ES5_CONFIG, {
-	entry: `${paths.webpackEntryPoints}/kafe.js`,
-	output: {
-		filename: `${environement.DISTRIBUTION_TYPE.kafeES5}.js`,
-	},
-});
+			],
+		},
+	});
+};
 
 //-- Generate a specific distribution config
 const getDistributionConfig = (
 	mainConfig,
 	{ source, destination = paths.package.distributions, name = "", externals = {}, include = [] } = {}
 ) => {
-	const targetedDestination = `${destination}/${mainConfig.target}`;
-	fss.ensureDir(targetedDestination);
-	const finalDestination = fss.realpath(targetedDestination);
+	fss.ensureDir(destination);
+	const finalDestination = fss.realpath(destination);
 
 	if (mainConfig.output && mainConfig.output.filename) {
 		fss.remove(`${finalDestination}/${mainConfig.output.filename}`);
@@ -205,53 +205,40 @@ const getDistributionConfig = (
 };
 
 //-- Generate all distributions configs
-const getAllDistributionsConfigs = ({ node, nodeType, nodeEngine, web = {}, ...options } = {}, action) => {
+const getAllDistributionsConfigs = ({ node, browser, ...options } = {}, action) => {
 	const configs = [];
-
-	const types = web.types || [];
-	if (node) {
-		types.push("node");
-	}
 
 	options.source = options.source || paths.package.sources;
 	options.destination = options.destination || paths.package.distributions;
 	terminal.print(`${action} ${chalk.underline(util.relativizePath(options.source))}`);
 
-	const webOptions = merge(web, options);
+	if (node) {
+		const destination = `${options.destination}/node`;
+		terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
+		configs.push(
+			getDistributionConfig(nodeConfig(options.source, destination, node.type, node.target), {
+				...options,
+				destination,
+			})
+		);
+	}
 
-	types.forEach((id) => {
-		switch (id) {
-			case environement.DISTRIBUTION_TYPE.node:
-				terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
+	if (browser) {
+		browser.forEach(({ type, target, name, externals }) => {
+			if (type === environment.DISTRIBUTION_BROWSER_TYPE.module) {
+				const destination = `${options.destination}/browser`;
+				terminal.print(`${figures.pointerSmall} Add browser ESM distribution`);
 				configs.push(
-					getDistributionConfig(nodeConfig(options.source, options.destination, nodeType, nodeEngine), options)
+					getDistributionConfig(browserModuleConfig(options.source, destination, target), { ...options, destination })
 				);
-				break;
+			}
 
-			case environement.DISTRIBUTION_TYPE.browser:
-				terminal.print(`${figures.pointerSmall} Add browser distribution`);
-				configs.push(getDistributionConfig(BROWSER_CONFIG, webOptions));
-				break;
-
-			case environement.DISTRIBUTION_TYPE.browserES5:
-				terminal.print(`${figures.pointerSmall} Add browser ECMAScript 5 distribution`);
-				configs.push(getDistributionConfig(BROWSER_ES5_CONFIG, webOptions));
-				break;
-
-			case environement.DISTRIBUTION_TYPE.kafe:
-				terminal.print(`${figures.pointerSmall} Add kafe distribution`);
-				configs.push(getDistributionConfig(KAFE_CONFIG, webOptions));
-				break;
-
-			case environement.DISTRIBUTION_TYPE.kafeES5:
-				terminal.print(`${figures.pointerSmall} Add kafe ECMAScript 5 distribution`);
-				configs.push(getDistributionConfig(KAFE_ES5_CONFIG, webOptions));
-				break;
-
-			default:
-				break;
-		}
-	});
+			if (type === environment.DISTRIBUTION_BROWSER_TYPE.script) {
+				terminal.print(`${figures.pointerSmall} Add browser standalone script distribution`);
+				configs.push(getDistributionConfig(browserScriptConfig(target), { ...options, name, externals }));
+			}
+		});
+	}
 
 	terminal.spacer();
 
@@ -329,32 +316,6 @@ class Builder {
 				? getMultipleInOutConfigs(options, multipleInOut, WATCH)
 				: getAllDistributionsConfigs(options, WATCH)
 		);
-	}
-
-	/**
-	 * Build documentation theme scripts.
-	 *
-	 * @async
-	 * @param {object} options - Options.
-	 * @param {string} options.source - Path to documentation source scripts.
-	 * @param {string} options.destination - Path to documentation build script file.
-	 * @returns {Promise} When builder completed.
-	 */
-	documentationTheme({ source, destination }) {
-		const [config] = getAllDistributionsConfigs(
-			{ web: { types: [environement.DISTRIBUTION_WEB_TYPE.browserES5] }, source },
-			BUILD
-		);
-
-		return webpackRunner([
-			merge(config, {
-				mode: "production",
-				output: {
-					filename: path.basename(destination),
-					path: path.dirname(destination),
-				},
-			}),
-		]);
 	}
 }
 

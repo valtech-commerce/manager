@@ -32,66 +32,70 @@ class EnvironmentHelper {
 	}
 
 	/**
-	 * Types of web distribution.
+	 * Types of Node.js distribution.
 	 *
-	 * @type {object<string, DistributionType>}
-	 * @property {DistributionType} browser - Browser.
-	 * @property {DistributionType} browserES5 - Browser transpilied into ECMAScript 5.
-	 * @property {DistributionType} kafe - A kafe package.
-	 * @property {DistributionType} kafeES5 - A kafe package transpilied into ECMAScript 5.
+	 * @type {object<string, NodeType>}
+	 * @property {NodeType} commonjs - CommonJS module system.
+	 * @property {NodeType} module - ESM module system.
 	 */
-	get DISTRIBUTION_WEB_TYPE() {
+	get DISTRIBUTION_NODE_TYPE() {
 		return {
-			browser: "browser",
-			browserES5: "browser-es5",
-			kafe: "kafe",
-			kafeES5: "kafe-es5",
+			commonjs: "commonjs",
+			module: "module",
 		};
 	}
 
 	/**
-	 * Types of distribution.
+	 * Types of browser distribution.
 	 *
-	 * @type {object<string, DistributionType>}
-	 * @property {DistributionType} browser - Browser.
-	 * @property {DistributionType} browserES5 - Browser transpilied into ECMAScript 5.
-	 * @property {DistributionType} kafe - A kafe package.
-	 * @property {DistributionType} kafeES5 - A kafe package transpilied into ECMAScript 5.
-	 * @property {DistributionType} node - Node.js.
+	 * @type {object<string, BrowserType>}
+	 * @property {BrowserType} script - Standalone classic script.
+	 * @property {BrowserType} module - ESM module system.
 	 */
-	get DISTRIBUTION_TYPE() {
-		return Object.assign({}, this.DISTRIBUTION_WEB_TYPE, {
-			node: "node",
-		});
+	get DISTRIBUTION_BROWSER_TYPE() {
+		return {
+			script: "script",
+			module: "module",
+		};
+	}
+
+	/**
+	 * Browserlist query defaults for browser distributions.
+	 *
+	 * @type {object<BrowserType, string>}
+	 * @property {string} script - Query for standalone classic script.
+	 * @property {string} module - Query for ESM module system.
+	 */
+	get DEFAULT_BROWSER_TARGET() {
+		return {
+			script: "> 0.25%, not dead",
+			module: "last 1 version, not ie 11, not dead",
+		};
 	}
 
 	/**
 	 * Tasks.
 	 *
 	 * @type {object<string, Task>}
-	 * @property {Task} install - Install task.
 	 * @property {Task} outdated - Outdated task.
 	 * @property {Task} build - Build task.
 	 * @property {Task} watch - Watch task.
 	 * @property {Task} fix - Fix task.
 	 * @property {Task} documentation - Documentation task.
 	 * @property {Task} prepare - Prepare task.
+	 * @property {Task} version - Version task.
 	 * @property {Task} rebuild - Rebuild task.
-	 * @property {Task} publish - Publish task.
-	 * @property {Task} publishUnsafe - Unsafe publish task.
 	 */
 	get TASK() {
 		return {
-			install: "install",
 			outdated: "outdated",
 			build: "build",
 			watch: "watch",
 			fix: "fix",
 			documentation: "documentation",
 			prepare: "prepare",
+			version: "version",
 			rebuild: "rebuild",
-			publish: "publish",
-			publishUnsafe: "publish:unsafe",
 		};
 	}
 
@@ -102,16 +106,14 @@ class EnvironmentHelper {
 	 */
 	get TASK_DATA() {
 		return {
-			[this.TASK.install]: { name: "Install", banner: "Install extra stuff" },
 			[this.TASK.outdated]: { name: "Outdated", banner: "Check for outdated package dependencies" },
 			[this.TASK.build]: { name: "Build", banner: "Generate package distributions" },
 			[this.TASK.watch]: { name: "Watch", banner: "Watch changes in sources" },
 			[this.TASK.fix]: { name: "Fix", banner: "Fix code" },
 			[this.TASK.documentation]: { name: "Documentation", banner: "Generate documentation" },
 			[this.TASK.prepare]: { name: "Prepare", banner: "Prepare package for publication" },
+			[this.TASK.version]: { name: "Version", banner: "Bump version" },
 			[this.TASK.rebuild]: { name: "Rebuild", banner: "Rebuild package" },
-			[this.TASK.publish]: { name: "Publish", banner: "Publish package" },
-			[this.TASK.publishUnsafe]: { name: "Publish", banner: "Publish package (unsafe)" },
 		};
 	}
 }

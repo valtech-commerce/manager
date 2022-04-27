@@ -1,9 +1,9 @@
-/* stylelint-disable */
+/* stylelint-disable -- Vendor code. */
 /* PrismJS 1.16.0 */
 
 code[class*="language-"],
 pre[class*="language-"] {
-	color: $primary-color;
+	color: $code-primary-color;
         background: none;
 	font-family: $code-font;
 	font-size: 1em;
@@ -36,7 +36,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-	background: $grey1-color;
+	background: $code-background-color;
 }
 
 /* Inline code */
@@ -54,7 +54,7 @@ pre[class*="language-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-	color: $grey3-color;
+	color: $code-outline-color;
 	font-style: italic;
 }
 
@@ -62,7 +62,7 @@ pre[class*="language-"] {
 .token.boolean,
 .token.number,
 .token.function {
-		color: $brand-color;
+		color: $code-name-color;
 }
 .token.attr-name,
 .token.string,
@@ -71,17 +71,17 @@ pre[class*="language-"] {
 .token.constant,
 .token.symbol,
 .token.char {
-		color: $primary-light-color;
+		color: $code-token-color;
 }
 .token.entity,
 .token.url,
 .language-css .token.string,
 .style .token.string {
-		color: $primary-light-color;
+		color: $code-token-color;
 }
 .token.selector,
 .token.inserted {
-		color: $code1-color;
+		color: $code-selector-color;
 }
 .token.atrule,
 .token.attr-value,
@@ -89,16 +89,16 @@ pre[class*="language-"] {
 .token.important,
 .token.deleted,
 .token.builtin {
-		color: $code2-color;
+		color: $code-keyword-color;
 }
 .token.regex,
 .token.statement,
 .token.function-name {
-		color: $primary-color;
+		color: $code-primary-color;
 }
 .token.placeholder,
 .token.variable {
-		color: $grey9-color;
+		color: $code-token-color;
 }
 .token.important,
 .token.statement,
@@ -106,7 +106,7 @@ pre[class*="language-"] {
 		font-weight: bold;
 }
 .token.punctuation {
-		color: $primary-light-color;
+		color: $code-token-color;
 }
 
 .token.entity {
@@ -117,23 +117,23 @@ pre[class*="language-"] {
 }
 
 code.language-markup {
-		color: $grey9-color;
+		color: $code-token-color;
 }
 code.language-markup .token.tag {
-		color: $brand-color;
+		color: $code-name-color;
 }
 code.language-markup .token.attr-name {
-		color: $code1-color;
+		color: $code-selector-color;
 }
 code.language-markup .token.attr-value {
-		color: $primary-light-color;
+		color: $code-token-color;
 }
 code.language-markup .token.style,
 code.language-markup .token.script {
-		color: $primary-color;
+		color: $code-primary-color;
 }
 code.language-markup .token.script .token.keyword {
-		color: $primary-color;
+		color: $code-primary-color;
 }
 
 
@@ -151,8 +151,8 @@ code.language-markup .token.script .token.keyword {
 }
 
 .line-highlight {
-	border-bottom: 1px dashed $grey5-color;
-	border-top: 1px dashed $grey5-color;
+	border-bottom: 1px dashed rgba($primary-medium-color, .3);
+	border-top: 1px dashed rgba($primary-medium-color, .3);
 	left: 0;
 	line-height: inherit;
 	margin-top: 0.75em; /* Same as .prism’s padding-top */
@@ -200,9 +200,9 @@ pre[data-line] {
 	left: 0;
 	right: 0;
 	padding: inherit 0;
-	margin-top: 1em; /* Same as .prism’s padding-top */
+	margin-top: .625em; /* Same as .prism’s padding-top */
 
-	background: rgba($grey5-color, .2);
+	background: rgba($primary-medium-color, .18);
 
 	pointer-events: none;
 
@@ -261,7 +261,7 @@ pre[class*="language-"].line-numbers > code {
 	left: -3.8em;
 	width: 3em; /* works for line-numbers below 1000 lines */
 	letter-spacing: -1px;
-	border-right: 1px solid $grey3-color;
+	border-right: 1px solid $code-outline-color;
 
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -278,7 +278,7 @@ pre[class*="language-"].line-numbers > code {
 
 		.line-numbers-rows > span:before {
 			content: counter(linenumber);
-			color: $grey3-color;
+			color: $code-outline-color;
 			display: block;
 			padding-right: 0.8em;
 			text-align: right;

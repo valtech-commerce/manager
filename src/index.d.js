@@ -1,4 +1,9 @@
-// eslint-disable-line import/unambiguous
+/**
+ * Task: 'outdated', 'build', 'watch', 'documentation', 'prepare', 'version', 'rebuild'.
+ *
+ * @typedef {string} Task
+ */
+
 /**
  * Type of repository: 'single-package', 'multi-package'.
  *
@@ -6,19 +11,29 @@
  */
 
 /**
- * Task: 'install', 'outdated', 'build', 'watch', 'documentation', 'prepare', 'rebuild', 'publish', 'publish:unsafe'.
+ * Types of Node.js distribution: 'commonjs', 'module'.
  *
- * @typedef {string} Task
+ * @typedef {string} NodeType
  */
 
 /**
- * Types of distribution: 'browser', 'browser-es5', 'kafe', 'kafe-es5', 'node'.
+ * Types of browser distribution: 'script', 'module'.
  *
- * @typedef {string} DistributionType
+ * @typedef {string} BrowserType
  */
 
 /**
- * Task hooks (install, outdated, build, watch, documentation, prepare, rebuild, publish).
+ * Browser distribution options.
+ *
+ * @typedef {object} BrowserOptions
+ * @property {BrowserType} type - Type of browser distribution.
+ * @property {string} [target] - Supported browsers via a browserslist-compatible query ({@link https://babeljs.io/docs/en/options#targets docs}).
+ * @property {string} [name] - Public exposed name of package for "script" distribution.
+ * @property {object<string, string>} [externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
+ */
+
+/**
+ * Task hooks (outdated, build, watch, documentation, prepare, version, rebuild).
  *
  * @typedef {object} TaskHooks
  * @property {Function} preRun - Pre-run hook.
@@ -31,13 +46,10 @@
  * @typedef {object} DistributionOptions
  * @property {string} [source={@link PackagePaths}.sources] - Package source path.
  * @property {string} [destination={@link PackagePaths}.distributions] - Package distributions path.
- * @property {boolean} [node] - Add a Node.js distribution.
- * @property {string} [nodeEngine] - Supported Node.js versions.
- * @property {string} [nodeType] - CommonJS or Module.
- * @property {object} [web] - Web distributions options.
- * @property {Array<DistributionType>} web.types - List of web distributions.
- * @property {string} web.name - Public exposed name of package.
- * @property {object<string, string>} [web.externals] - List of required packages and their public name replacements ({@link https://webpack.js.org/configuration/externals docs}).
+ * @property {object} [node] - Node.js distribution options.
+ * @property {NodeType} [node.type=package.json type field] - Type of Node.js module system.
+ * @property {string} [node.target=package.json engines.node field] - Node.js version to support ({@link https://babeljs.io/docs/en/options#targetsnode docs}).
+ * @property {Array<BrowserOptions>} [browser] - Browser distributions options.
  * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
  */
 
@@ -46,8 +58,6 @@
  *
  * @typedef {object} ManagerOptions
  * @property {RepositoryType} repositoryType - Type of repository.
- * @property {boolean} [restricted=false] - When publishing, tell the registry if the package should be published restricted instead of public.
- * @property {boolean} [useOTP=true] - When publishing, use the two-factor authentication if enabled.
  * @property {DistributionOptions} dist - Distribution options.
  * @property {object<Task, TaskHooks>} tasks - List of tasks with hooks to call before and after.
  */
