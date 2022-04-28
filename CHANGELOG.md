@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+
+
+
+## [3.0.0-rc.1] - 2022-04-28
 ### Fixed
 - Publish `src` instead of `dist`
 
@@ -238,7 +242,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-rc.0...HEAD
+[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-rc.1...HEAD
+[3.0.0-rc.1]:    https://github.com/absolunet/node-manager/compare/3.0.0-rc.0...3.0.0-rc.1
 [3.0.0-rc.0]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.6...3.0.0-rc.0
 [3.0.0-beta.6]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.5...3.0.0-beta.6
 [3.0.0-beta.5]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...3.0.0-beta.5
