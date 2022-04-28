@@ -12,9 +12,8 @@ manager.js
 SECURITY.md
 SUPPORT.md
 docs
-src
 test
-!dist/**
+!src/**
 .DS_Store
 
 ressources/documentation-theme/sources
