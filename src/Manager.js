@@ -102,6 +102,7 @@ class Manager {
 						)
 						.min(1)
 						.unique(),
+					syntax: Joi.string().valid(...Object.values(environment.DISTRIBUTION_SYNTAX_TYPE)),
 					include: Joi.array().items(Joi.string()),
 				})
 					.or("node", "browser")

@@ -23,6 +23,12 @@
  */
 
 /**
+ * Types of code syntax: 'javascript', 'typescript'.
+ *
+ * @typedef {string} SyntaxType
+ */
+
+/**
  * Browser distribution options.
  *
  * @typedef {object} BrowserOptions
@@ -50,6 +56,7 @@
  * @property {NodeType} [node.type=package.json type field] - Type of Node.js module system.
  * @property {string} [node.target=package.json engines.node field] - Node.js version to support ({@link https://babeljs.io/docs/en/options#targetsnode docs}).
  * @property {Array<BrowserOptions>} [browser] - Browser distributions options.
+ * @property {SyntaxType} [syntax=depends if package.json types field is declared] - Type of syntax.
  * @property {Array<string>} [include] - List of globs or paths of extra files to copy from source to destination.
  */
 

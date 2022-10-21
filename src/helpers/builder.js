@@ -1,6 +1,7 @@
 //--------------------------------------------------------
 //-- Builder
 //--------------------------------------------------------
+import path from "node:path";
 import fss from "@absolunet/fss";
 import { terminal } from "@absolunet/terminal";
 import { transformAsync } from "@babel/core";
@@ -26,7 +27,14 @@ const COMMON_CONFIG = {
 	mode: "none",
 };
 
-const defaultConfig = ({ type, targets, source, destination, transformModules = {} }) => {
+const defaultConfig = ({ type, targets, source, destination, syntax, babelPlugins = [] }) => {
+	const isTypeScript = syntax === environment.DISTRIBUTION_SYNTAX_TYPE.typescript;
+
+	const transformBabelPlugins = [...babelPlugins];
+	if (isTypeScript) {
+		transformBabelPlugins.unshift("@babel/plugin-transform-typescript");
+	}
+
 	return {
 		target: type,
 		entry: `${paths.webpackEntryPoints}/default.js`,
@@ -35,8 +43,16 @@ const defaultConfig = ({ type, targets, source, destination, transformModules = 
 				patterns: [
 					{
 						context: source,
-						from: "**/!(*.d|*.test).js",
-						to: "",
+						from: `**/!(*.d|*.test).${isTypeScript ? "ts" : "js"}`,
+						to: ({ context, absoluteFilename }) => {
+							return isTypeScript
+								? path.format({
+										dir: path.resolve(destination + path.dirname(absoluteFilename.substring(context.length))),
+										name: path.basename(absoluteFilename, ".ts"),
+										ext: ".js",
+								  })
+								: "";
+						},
 						transform: (content) => {
 							return transformAsync(content, {
 								compact: false,
@@ -53,7 +69,7 @@ const defaultConfig = ({ type, targets, source, destination, transformModules = 
 										},
 									],
 								],
-								...transformModules,
+								plugins: transformBabelPlugins,
 							}).then(({ code }) => {
 								return code;
 							});
@@ -87,7 +103,7 @@ const defaultConfig = ({ type, targets, source, destination, transformModules = 
 };
 
 //-- Node.js
-const nodeConfig = (source, destination, type, target) => {
+const nodeConfig = (source, destination, syntax, type, target) => {
 	return merge(
 		COMMON_CONFIG,
 		defaultConfig({
@@ -95,18 +111,15 @@ const nodeConfig = (source, destination, type, target) => {
 			targets: { node: semver.minVersion(target).version },
 			source,
 			destination,
-			transformModules:
-				type === environment.DISTRIBUTION_NODE_TYPE.commonjs
-					? {
-							plugins: [[babelTransformModules, { strict: false }]],
-					  }
-					: {},
+			syntax,
+			babelPlugins:
+				type === environment.DISTRIBUTION_NODE_TYPE.commonjs ? [[babelTransformModules, { strict: false }]] : [],
 		})
 	);
 };
 
 //-- Browser module
-const browserModuleConfig = (source, destination, target) => {
+const browserModuleConfig = (source, destination, syntax, target) => {
 	return merge(
 		COMMON_CONFIG,
 		defaultConfig({
@@ -114,6 +127,7 @@ const browserModuleConfig = (source, destination, target) => {
 			targets: target || environment.DEFAULT_BROWSER_TARGET.module,
 			source,
 			destination,
+			syntax,
 		})
 	);
 };
@@ -216,7 +230,7 @@ const getAllDistributionsConfigs = ({ node, browser, ...options } = {}, action) 
 		const destination = `${options.destination}/node`;
 		terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
 		configs.push(
-			getDistributionConfig(nodeConfig(options.source, destination, node.type, node.target), {
+			getDistributionConfig(nodeConfig(options.source, destination, options.syntax, node.type, node.target), {
 				...options,
 				destination,
 			})
@@ -229,7 +243,10 @@ const getAllDistributionsConfigs = ({ node, browser, ...options } = {}, action) 
 				const destination = `${options.destination}/browser`;
 				terminal.print(`${figures.pointerSmall} Add browser ESM distribution`);
 				configs.push(
-					getDistributionConfig(browserModuleConfig(options.source, destination, target), { ...options, destination })
+					getDistributionConfig(browserModuleConfig(options.source, destination, options.syntax, target), {
+						...options,
+						destination,
+					})
 				);
 			}
 

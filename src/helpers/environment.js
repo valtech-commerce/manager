@@ -60,6 +60,20 @@ class EnvironmentHelper {
 	}
 
 	/**
+	 * Types of code syntax.
+	 *
+	 * @type {object<string, SyntaxType>}
+	 * @property {SyntaxType} javascript - Vanilla JavaScript.
+	 * @property {SyntaxType} typescript - TypeScript.
+	 */
+	get DISTRIBUTION_SYNTAX_TYPE() {
+		return {
+			javascript: "javascript",
+			typescript: "typescript",
+		};
+	}
+
+	/**
 	 * Browserlist query defaults for browser distributions.
 	 *
 	 * @type {object<BrowserType, string>}
