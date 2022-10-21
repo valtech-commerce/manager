@@ -10,7 +10,9 @@ import WebpackFriendlyErrors from "@soda/friendly-errors-webpack-plugin";
 import chalk from "chalk";
 import WebpackCopy from "copy-webpack-plugin";
 import figures from "figures";
+import HookShellScriptPlugin from "hook-shell-script-webpack-plugin";
 import WebpackRemoveFiles from "remove-files-webpack-plugin";
+import resolveBin from "resolve-bin";
 import semver from "semver";
 import webpack from "webpack";
 import { merge } from "webpack-merge";
@@ -19,20 +21,38 @@ import paths from "./paths.js";
 import util from "./util.js";
 
 //-- Actions
-const BUILD = "Build distribution for";
-const WATCH = "Start watching in";
+const BUILD = Symbol("build");
+const WATCH = Symbol("watch");
 
 //-- Common
 const COMMON_CONFIG = {
 	mode: "none",
 };
 
-const defaultConfig = ({ type, targets, source, destination, syntax, babelPlugins = [] }) => {
+const defaultConfig = ({ type, targets, source, destination, syntax, action, babelPlugins = [] }) => {
 	const isTypeScript = syntax === environment.DISTRIBUTION_SYNTAX_TYPE.typescript;
 
+	const webpackPlugins = [];
 	const transformBabelPlugins = [...babelPlugins];
+
 	if (isTypeScript) {
 		transformBabelPlugins.unshift("@babel/plugin-transform-typescript");
+
+		if (action === BUILD) {
+			webpackPlugins.push(
+				new HookShellScriptPlugin({
+					afterEmit: [
+						[
+							resolveBin.sync("typescript", { executable: "tsc" }),
+							`${source}/*.ts`,
+							"--emitDeclarationOnly",
+							"--declaration",
+							`--declarationDir ${destination}`,
+						].join(" "),
+					],
+				})
+			);
+		}
 	}
 
 	return {
@@ -98,12 +118,13 @@ const defaultConfig = ({ type, targets, source, destination, syntax, babelPlugin
 					],
 				},
 			}),
+			...webpackPlugins,
 		],
 	};
 };
 
 //-- Node.js
-const nodeConfig = (source, destination, syntax, type, target) => {
+const nodeConfig = ({ source, destination, syntax, type, target, action }) => {
 	return merge(
 		COMMON_CONFIG,
 		defaultConfig({
@@ -112,6 +133,7 @@ const nodeConfig = (source, destination, syntax, type, target) => {
 			source,
 			destination,
 			syntax,
+			action,
 			babelPlugins:
 				type === environment.DISTRIBUTION_NODE_TYPE.commonjs ? [[babelTransformModules, { strict: false }]] : [],
 		})
@@ -119,7 +141,7 @@ const nodeConfig = (source, destination, syntax, type, target) => {
 };
 
 //-- Browser module
-const browserModuleConfig = (source, destination, syntax, target) => {
+const browserModuleConfig = ({ source, destination, syntax, target, action }) => {
 	return merge(
 		COMMON_CONFIG,
 		defaultConfig({
@@ -128,6 +150,7 @@ const browserModuleConfig = (source, destination, syntax, target) => {
 			source,
 			destination,
 			syntax,
+			action,
 		})
 	);
 };
@@ -220,20 +243,32 @@ const getDistributionConfig = (
 
 //-- Generate all distributions configs
 const getAllDistributionsConfigs = ({ node, browser, ...options } = {}, action) => {
+	const title = action === BUILD ? "Build distribution for" : "Start watching in";
+
 	const configs = [];
 
 	options.source = options.source || paths.package.sources;
 	options.destination = options.destination || paths.package.distributions;
-	terminal.print(`${action} ${chalk.underline(util.relativizePath(options.source))}`);
+	terminal.print(`${title} ${chalk.underline(util.relativizePath(options.source))}`);
 
 	if (node) {
 		const destination = `${options.destination}/node`;
 		terminal.print(`${figures.pointerSmall} Add Node.js distribution`);
 		configs.push(
-			getDistributionConfig(nodeConfig(options.source, destination, options.syntax, node.type, node.target), {
-				...options,
-				destination,
-			})
+			getDistributionConfig(
+				nodeConfig({
+					source: options.source,
+					destination,
+					syntax: options.syntax,
+					type: node.type,
+					target: node.target,
+					action,
+				}),
+				{
+					...options,
+					destination,
+				}
+			)
 		);
 	}
 
@@ -243,10 +278,19 @@ const getAllDistributionsConfigs = ({ node, browser, ...options } = {}, action) 
 				const destination = `${options.destination}/browser`;
 				terminal.print(`${figures.pointerSmall} Add browser ESM distribution`);
 				configs.push(
-					getDistributionConfig(browserModuleConfig(options.source, destination, options.syntax, target), {
-						...options,
-						destination,
-					})
+					getDistributionConfig(
+						browserModuleConfig({
+							source: options.source,
+							destination,
+							syntax: options.syntax,
+							target,
+							action,
+						}),
+						{
+							...options,
+							destination,
+						}
+					)
 				);
 			}
 

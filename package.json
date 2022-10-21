@@ -77,12 +77,14 @@
     "figures": "^4.0.1",
     "glob": "^8.0.1",
     "jsdoc": "^3.6.10",
+    "hook-shell-script-webpack-plugin": "^0.1.4",
     "lerna": "^4.0.0",
     "minimist": "^1.2.6",
     "node-emoji": "^1.11.0",
     "npm-check": "^5.9.2",
     "pkg-dir": "^6.0.1",
     "remove-files-webpack-plugin": "^1.5.0",
+    "resolve-bin": "^1.0.1",
     "resolve-pkg": "^2.0.0",
     "semver": "^7.3.7",
     "string-length": "^5.0.1",
@@ -92,6 +94,7 @@
   },
   "peerDependencies": {
     "eslint": ">=8.13.0",
-    "prettier": ">=2.6.2"
+    "prettier": ">=2.6.2",
+    "typescript": ">=4.8.4"
   }
 }
