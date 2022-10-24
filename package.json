@@ -28,6 +28,7 @@
   "exports": {
     ".": "./src/index.js"
   },
+  "types": "./src/index.d.ts",
   "scripts": {
     "manager:outdated": "node manager --task=outdated",
     "manager:fix": "node manager --task=fix",
