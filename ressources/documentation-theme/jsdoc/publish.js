@@ -194,7 +194,7 @@ function addSignatureReturns(f) {
     if (source) {
         returnTypes = addNonParamAttributes(source);
     }
-    // Absolunet modification
+    // Valtech_Commerce modification
     // if (returnTypes.length) {
     //    returnTypesString = util.format( ' &rarr; %s{%s}', attribsString, returnTypes.join('|') );
     // }
@@ -356,7 +356,7 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
                 }
                 itemsNav += linktoFn(item.longname, displayName.replace(/\b(module|event):/g, ''));
 
-                // Absolunet modification
+                // Valtech_Commerce modification
                 // if (docdash.static && members.find(function (m) { return m.scope === 'static'; } )) {
                 if (docdash.static) {
                     itemsNav += "<ul class='members'>";
@@ -426,7 +426,7 @@ function linktoExternal(longName, name) {
  */
 
 function buildNav(members) {
-    // Absolunet modification
+    // Valtech_Commerce modification
     var nav = '<h2><a href="index.html">API Home</a></h2>';
     var seen = {};
     var seenTutorials = {};
@@ -680,8 +680,8 @@ exports.publish = function(taffyData, opts, tutorials) {
         : false;
 
 
-    // Absolunet modification
-    var { root, depth } = JSON.parse(process.env['__ABSOLUNET_MANAGER_JSDOC_CONFIG__']);
+    // Valtech_Commerce modification
+    var { root, depth } = JSON.parse(process.env['__VALTECHCOMMERCE_MANAGER_JSDOC_CONFIG__']);
 
     var packageRawConfig = JSON.parse(fs.readFileSync(root + '/package.json', 'utf8'));
     var { domain, user, name } = packageRawConfig.repository.url.match(/^[a-z]+:\/\/(?<domain>[a-z0-9.-]+)\/(?<user>[a-z0-9._-]+)\/(?<name>[a-z0-9._-]+).git$/u).groups;
@@ -707,7 +707,7 @@ exports.publish = function(taffyData, opts, tutorials) {
         root:   urlRoot,
         common: urlRoot + '/assets__',
     };
-    // /Absolunet modification
+    // /Valtech_Commerce modification
 
 
     // add template helpers

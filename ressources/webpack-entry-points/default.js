@@ -1,1 +1,1 @@
-// @absolunet/manager decoy file
+// @valtech-commerce/manager decoy file

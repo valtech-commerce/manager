@@ -11,7 +11,7 @@ import MultiManager from "./managers/MultiManager.js";
 import SingleManager from "./managers/SingleManager.js";
 
 /**
- * Absolunet's npm packages manager.
+ * Valtech_Commerce's npm packages manager.
  *
  * @hideconstructor
  */

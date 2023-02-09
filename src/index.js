@@ -1,5 +1,5 @@
 //--------------------------------------------------------
-//-- @absolunet/manager
+//-- @valtech-commerce/manager
 //--------------------------------------------------------
 import Manager from "./Manager.js";
 
@@ -8,15 +8,15 @@ const manager = new Manager();
 /**
  * Exports a default instance of the manager and also the main class.
  *
- * @module absolunet/manager
+ * @module valtech-commerce/manager
  *
  * @example
- * import { manager } from '@absolunet/manager';
+ * import { manager } from '@valtech-commerce/manager';
  *
  * manager.init(options);
  *
  * @example
- * import { Manager } from '@absolunet/manager';
+ * import { Manager } from '@valtech-commerce/manager';
  *
  * class MyManager extends Manager {
  * 	constructor(options) {

@@ -71,7 +71,7 @@ const defaultConfig = ({ type, targets, source, destination, transformModules = 
 							method: (absoluteItemPath) => {
 								if (/\/main\.js$/u.test(absoluteItemPath)) {
 									const content = fss.readFile(absoluteItemPath, "utf8");
-									if (content.includes("// @absolunet/manager decoy file")) {
+									if (content.includes("// @valtech-commerce/manager decoy file")) {
 										return true;
 									}
 								}

@@ -3,7 +3,7 @@
 // eslint-disable-next-line no-undef
 const fss = require("@absolunet/fss");
 
-const { source, destination } = JSON.parse(process.env.__ABSOLUNET_MANAGER_JSDOC_CONFIG__);
+const { source, destination } = JSON.parse(process.env.__VALTECHCOMMERCE_MANAGER_JSDOC_CONFIG__);
 const readme = fss.realpath(`${source}/../README.md`);
 
 // eslint-disable-next-line no-undef

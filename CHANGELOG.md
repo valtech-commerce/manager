@@ -100,7 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bundle Lerna with the manager
 
 ### Changed
-- Use `@absolunet/brand-guidelines` for documentation styles
+- Use `@valtech-commerce/brand-guidelines` for documentation styles
 - Maintenance updates
 
 ### Fixed
@@ -242,32 +242,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]:    https://github.com/absolunet/node-manager/compare/3.0.0-rc.1...HEAD
-[3.0.0-rc.1]:    https://github.com/absolunet/node-manager/compare/3.0.0-rc.0...3.0.0-rc.1
-[3.0.0-rc.0]:    https://github.com/absolunet/node-manager/compare/3.0.0-beta.6...3.0.0-rc.0
-[3.0.0-beta.6]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.5...3.0.0-beta.6
-[3.0.0-beta.5]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.4...3.0.0-beta.5
-[3.0.0-beta.4]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.3...3.0.0-beta.4
-[3.0.0-beta.3]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.2...3.0.0-beta.3
-[3.0.0-beta.2]:  https://github.com/absolunet/node-manager/compare/3.0.0-beta.1...3.0.0-beta.2
-[3.0.0-beta.1]:  https://github.com/absolunet/node-manager/compare/2.1.0...3.0.0-beta.1
-[2.1.0]:         https://github.com/absolunet/node-manager/compare/2.0.1...2.1.0
-[2.0.1]:         https://github.com/absolunet/node-manager/compare/2.0.0...2.0.1
-[2.0.0]:         https://github.com/absolunet/node-manager/compare/2.0.0-rc.1...2.0.0
-[2.0.0-rc.1]:    https://github.com/absolunet/node-manager/compare/2.0.0-beta.1...2.0.0-rc.1
-[2.0.0-beta.1]:  https://github.com/absolunet/node-manager/compare/2.0.0-alpha.3...2.0.0-beta.1
-[2.0.0-alpha.3]: https://github.com/absolunet/node-manager/compare/2.0.0-alpha.2...2.0.0-alpha.3
-[2.0.0-alpha.2]: https://github.com/absolunet/node-manager/compare/2.0.0-alpha.1...2.0.0-alpha.2
-[2.0.0-alpha.1]: https://github.com/absolunet/node-manager/compare/1.1.0...2.0.0-alpha.1
-[1.1.0]:         https://github.com/absolunet/node-manager/compare/1.0.1...1.1.0
-[1.0.1]:         https://github.com/absolunet/node-manager/compare/1.0.0...1.0.1
-[1.0.0]:         https://github.com/absolunet/node-manager/compare/0.5.1...1.0.0
-[0.5.1]:         https://github.com/absolunet/node-manager/compare/0.5.0...0.5.1
-[0.5.0]:         https://github.com/absolunet/node-manager/compare/0.4.0...0.5.0
-[0.4.0]:         https://github.com/absolunet/node-manager/compare/0.3.0...0.4.0
-[0.3.0]:         https://github.com/absolunet/node-manager/compare/0.2.3...0.3.0
-[0.2.3]:         https://github.com/absolunet/node-manager/compare/0.2.2...0.2.3
-[0.2.2]:         https://github.com/absolunet/node-manager/compare/0.2.1...0.2.2
-[0.2.1]:         https://github.com/absolunet/node-manager/compare/0.2.0...0.2.1
-[0.2.0]:         https://github.com/absolunet/node-manager/compare/0.1.0...0.2.0
-[0.1.0]:         https://github.com/absolunet/node-manager/releases/tag/0.1.0
+[Unreleased]:    https://github.com/valtech-commerce/manager/compare/3.0.0-rc.1...HEAD
+[3.0.0-rc.1]:    https://github.com/valtech-commerce/manager/compare/3.0.0-rc.0...3.0.0-rc.1
+[3.0.0-rc.0]:    https://github.com/valtech-commerce/manager/compare/3.0.0-beta.6...3.0.0-rc.0
+[3.0.0-beta.6]:  https://github.com/valtech-commerce/manager/compare/3.0.0-beta.5...3.0.0-beta.6
+[3.0.0-beta.5]:  https://github.com/valtech-commerce/manager/compare/3.0.0-beta.4...3.0.0-beta.5
+[3.0.0-beta.4]:  https://github.com/valtech-commerce/manager/compare/3.0.0-beta.3...3.0.0-beta.4
+[3.0.0-beta.3]:  https://github.com/valtech-commerce/manager/compare/3.0.0-beta.2...3.0.0-beta.3
+[3.0.0-beta.2]:  https://github.com/valtech-commerce/manager/compare/3.0.0-beta.1...3.0.0-beta.2
+[3.0.0-beta.1]:  https://github.com/valtech-commerce/manager/compare/2.1.0...3.0.0-beta.1
+[2.1.0]:         https://github.com/valtech-commerce/manager/compare/2.0.1...2.1.0
+[2.0.1]:         https://github.com/valtech-commerce/manager/compare/2.0.0...2.0.1
+[2.0.0]:         https://github.com/valtech-commerce/manager/compare/2.0.0-rc.1...2.0.0
+[2.0.0-rc.1]:    https://github.com/valtech-commerce/manager/compare/2.0.0-beta.1...2.0.0-rc.1
+[2.0.0-beta.1]:  https://github.com/valtech-commerce/manager/compare/2.0.0-alpha.3...2.0.0-beta.1
+[2.0.0-alpha.3]: https://github.com/valtech-commerce/manager/compare/2.0.0-alpha.2...2.0.0-alpha.3
+[2.0.0-alpha.2]: https://github.com/valtech-commerce/manager/compare/2.0.0-alpha.1...2.0.0-alpha.2
+[2.0.0-alpha.1]: https://github.com/valtech-commerce/manager/compare/1.1.0...2.0.0-alpha.1
+[1.1.0]:         https://github.com/valtech-commerce/manager/compare/1.0.1...1.1.0
+[1.0.1]:         https://github.com/valtech-commerce/manager/compare/1.0.0...1.0.1
+[1.0.0]:         https://github.com/valtech-commerce/manager/compare/0.5.1...1.0.0
+[0.5.1]:         https://github.com/valtech-commerce/manager/compare/0.5.0...0.5.1
+[0.5.0]:         https://github.com/valtech-commerce/manager/compare/0.4.0...0.5.0
+[0.4.0]:         https://github.com/valtech-commerce/manager/compare/0.3.0...0.4.0
+[0.3.0]:         https://github.com/valtech-commerce/manager/compare/0.2.3...0.3.0
+[0.2.3]:         https://github.com/valtech-commerce/manager/compare/0.2.2...0.2.3
+[0.2.2]:         https://github.com/valtech-commerce/manager/compare/0.2.1...0.2.2
+[0.2.1]:         https://github.com/valtech-commerce/manager/compare/0.2.0...0.2.1
+[0.2.0]:         https://github.com/valtech-commerce/manager/compare/0.1.0...0.2.0
+[0.1.0]:         https://github.com/valtech-commerce/manager/releases/tag/0.1.0

@@ -14,7 +14,7 @@ class EnvironmentHelper {
 	 * @type {string}
 	 */
 	get JSDOC_CLI_KEY() {
-		return "__ABSOLUNET_MANAGER_JSDOC_CONFIG__";
+		return "__VALTECHCOMMERCE_MANAGER_JSDOC_CONFIG__";
 	}
 
 	/**
